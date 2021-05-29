@@ -36,7 +36,6 @@
       ✓ Added support for youtube playlist
       ✓ Renaming of Telegram files support added.
       ✓ Changing rclone destination config on fly (By using `/rclone` in private mode)
-      ✓
       
   # To-Do
   -   [ ] Adding mp3 files support while playlist downloading.
