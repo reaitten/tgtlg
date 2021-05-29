@@ -54,7 +54,7 @@ async def incoming_message_f(client, message):
     user_command = message.command[0]
     g_id = message.from_user.id
     credit = await message.reply_text(
-        f"🧲 Leeching for you <a href='tg://user?id={g_id}'>🤕</a>", parse_mode="html"
+        f"Leeching for you<a href='tg://user?id={g_id}'>!</a>", parse_mode="html"
     )
     i_m_sefg = await message.reply_text("processing...", quote=True)
     # get link from the incoming message
@@ -67,7 +67,7 @@ async def incoming_message_f(client, message):
         LOGGER.info(dl_url)
         cf_name = None
     else:
-        await i_m_sefg.edit("😔 No downloading source provided 🙄")
+        await i_m_sefg.edit("No downloading source provided")
         return
     if dl_url is not None:
         await i_m_sefg.edit_text("extracting links")
@@ -127,7 +127,7 @@ async def incoming_youtube_dl_f(client, message):
     """ /ytdl command """
     current_user_id = message.from_user.id
     credit = await message.reply_text(
-        f"💀 Downloading for you <a href='tg://user?id={current_user_id}'>🤕</a>",
+        f"Downloading for you<a href='tg://user?id={current_user_id}'>!</a>",
         parse_mode="html",
     )
     i_m_sefg = await message.reply_text("processing...", quote=True)
@@ -147,7 +147,7 @@ async def incoming_youtube_dl_f(client, message):
         yt_dl_pass_word = None
         cf_name = None
     else:
-        await i_m_sefg.edit("😔 No downloading source provided 🙄")
+        await i_m_sefg.edit("No downloading source provided")
         return
     if dl_url is not None:
         await i_m_sefg.edit_text("extracting links")
@@ -177,7 +177,7 @@ async def incoming_youtube_dl_f(client, message):
             await i_m_sefg.edit_text(text=text_message, reply_markup=reply_markup)
     else:
         await i_m_sefg.edit_text(
-            "**FCUK**! wat have you entered. \nPlease read /help \n"
+            "What have you entered? \nPlease read /help \n"
             f"<b>API Error</b>: {cf_name}"
         )
 
@@ -198,17 +198,17 @@ async def g_yt_playlist(client, message):
         if user_command == GPYTDL_COMMAND.lower():
             is_cloud = True
     else:
-        await message.reply_text("😔 No downloading source provided 🙄", quote=True)
+        await message.reply_text("No downloading source provided", quote=True)
         return
     if "youtube.com/playlist" in url:
         i_m_sefg = await message.reply_text(
-            f"💀 Downloading for you <a href='tg://user?id={usr_id}'>🤗</a>",
+            f"Downloading for you<a href='tg://user?id={usr_id}'>!</a>",
             parse_mode="html",
         )
         await yt_playlist_downg(message, i_m_sefg, client, is_cloud)
 
     else:
-        await message.reply_text("YouTube playlist link only 🙄", quote=True)
+        await message.reply_text("YouTube playlist link only.", quote=True)
 
 
 #
@@ -235,7 +235,7 @@ async def g_clonee(client, message):
 async def rename_tg_file(client, message):
     usr_id = message.from_user.id
     if not message.reply_to_message:
-        await message.reply("😔 No downloading source provided 🙄", quote=True)
+        await message.reply("No downloading source provided", quote=True)
         return
     if len(message.command) > 1:
         new_name = (
@@ -264,7 +264,7 @@ async def rename_tg_file(client, message):
                 message_id = final_response[key_f_res_se]
                 channel_id = str(message.chat.id)[4:]
                 private_link = f"https://t.me/c/{channel_id}/{message_id}"
-                message_to_send += "👉 <a href='"
+                message_to_send += "<a href='"
                 message_to_send += private_link
                 message_to_send += "'>"
                 message_to_send += local_file_name
@@ -272,12 +272,12 @@ async def rename_tg_file(client, message):
                 message_to_send += "\n"
             if message_to_send != "":
                 mention_req_user = (
-                    f"<a href='tg://user?id={usr_id}'>Your Requested Files</a>\n\n"
+                    f"<a href='tg://user?id={usr_id}'>Your requested files.</a>\n\n"
                 )
                 message_to_send = mention_req_user + message_to_send
                 message_to_send = message_to_send + "\n\n" + "#uploads"
             else:
-                message_to_send = "<i>FAILED</i> to upload files. 😞😞"
+                message_to_send = "<i>FAILED</i> to upload files."
             await message.reply_text(
                 text=message_to_send, quote=True, disable_web_page_preview=True
             )
@@ -286,5 +286,5 @@ async def rename_tg_file(client, message):
 
     else:
         await message.reply_text(
-            "😔 Provide new name of the file with extension 😐", quote=True
+            "Provide new name of the file with extension", quote=True
         )
