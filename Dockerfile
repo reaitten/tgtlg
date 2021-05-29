@@ -37,6 +37,7 @@ RUN chmod 0775 /app/gautam/gclone
 RUN pip3 install -U tgtlg wheel --no-cache-dir
 
 COPY extract .
+COPY start.sh .
 
 RUN chmod +x extract
 
