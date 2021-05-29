@@ -2,6 +2,8 @@
 
   A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.com/pyrogram/pyrogram)
 
+  This is a fork-clone of TorrentLeech-Gdrive, modified for Heroku. See branch main for source code.
+
   # Table of Contents
   
 - [Benefits](#benefits)
@@ -19,7 +21,7 @@
     + [Optional Configuration Variables](#optional-configuration-variables)
     + [Available Commands](#available-commands)
   * [How to Use?](#how-to-use)
-  * [Credits, and Thanks to](#credits-and-thanks-to)
+  * [Credits](#credits)
 
   # Benefits
       ✓ Google Drive link cloning using gclone. (WIP)
@@ -46,25 +48,11 @@
 
   ### Simple Way
 
-  #### Instructions (I did this to avoid the use of same button multiple times)
+  **Modified for use on Heroku, please do not heavily abuse!**
 
-  - You have to fork this repo at first
-
-  - Find `app.jso`.
-
-  - Tap on that.
-
-  - Tap to edit and just add `n` at last of name (Don't touch code).
-
-  - It should look like `app.json`. 
-
-  - Then tap:
-
-**Not tested for use on Heroku, deploy on your own risk!**
+  **Join this Telegram Group if you want support, I will try to help you as much as I can.**
 
   <p><a href="https://heroku.com/deploy?template=https://github.com/reaitten/tgtlg"> <img src="https://img.shields.io/badge/Deploy%20To%20Heroku-blueviolet?style=for-the-badge&logo=heroku" width="200""/></a></p>
-
-  Buy a VPS and follow [this](https://github.com/gautamajay52/TorrentLeech-Gdrive#process-to-run-this-bot-on-vps).
 
   ## Deploy on VPS
 
@@ -257,8 +245,8 @@
   * send any one of the available command, as a reply to a valid link/magnet/torrent.
 
 
-  ## Credits, and Thanks to
-  - [GautamKumar (me)](https://github.com/gautamajay52/TorrentLeech-Gdrive)
+  ## Credits
+  - [GautamKumar](https://github.com/gautamajay52/TorrentLeech-Gdrive) for base repo
   - [SpEcHiDe](https://github.com/SpEcHiDe/PublicLeech) for his wonderful code
   - [cihanvol](https://github.com/cihanvol) for direct_link_generator
   - [Rclone Team](https://rclone.org) for theirs awesome tool
