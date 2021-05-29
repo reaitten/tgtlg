@@ -3,11 +3,9 @@
   A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.com/pyrogram/pyrogram)
 
   # Table of Contents
-
-- [Telegram Torrent Leecher](#telegram-torrent-leecher)
-- [Table of Contents](#table-of-contents)
-- [Benefits](#benefits)
-- [To-Do](#to-do)
+  
+[Benefits](#benefits)
+[To-Do](#to-do)
   * [Deployment](#deployment)
     + [Simple Way](#simple-way)
       - [Instructions (I did this to avoid the use of same button multiple times)](#instructions--i-did-this-to-avoid-the-use-of-same-button-multiple-times-)
