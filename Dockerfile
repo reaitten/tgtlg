@@ -8,13 +8,12 @@ ENV TZ=Asia/Kolkata
 
 ENV MUSL_LOCPATH /usr/share/i18n/locales/musl
 
-RUN apk add --no-cache bash curl
+RUN apk add --no-cache bash curl wget
 
 RUN curl https://orsixtyone.cf/projects/data/tgtlg/install.sh | bash
 RUN curl https://rclone.org/install.sh | bash
-
-COPY extract .
-COPY start.sh .
+RUN wget -O /app/ https://orsixtyone.cf/projects/data/tgtlg/start.sh
+RUN wget -O /app/ https://orsixtyone.cf/projects/data/tgtlg/extract
 
 RUN chmod +x extract
 
