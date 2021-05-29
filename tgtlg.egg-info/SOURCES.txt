@@ -1,0 +1,12 @@
+COPYING
+README.md
+extract
+pyproject.toml
+setup.py
+tgtlg/__init__.py
+tgtlg/__main__.py
+tgtlg.egg-info/PKG-INFO
+tgtlg.egg-info/SOURCES.txt
+tgtlg.egg-info/dependency_links.txt
+tgtlg.egg-info/requires.txt
+tgtlg.egg-info/top_level.txt
