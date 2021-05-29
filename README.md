@@ -80,7 +80,7 @@
   ```
   Install Docker by following the [official docker docs](https://docs.docker.com/engine/install/debian/)
 
-  #### Setup ``config.env``
+  #### Setup `config.env`
   ```
   cp sample_config.env config.env
   ```
@@ -126,7 +126,7 @@
   ### The Legacy Way
   Simply clone the repository and run the main file:
 
-  ```sh
+  ```
   git clone https://github.com/gautamajay52/TorrentLeech-Gdrive
   cd TorrentLeech-Gdrive
   python3 -m venv venv
