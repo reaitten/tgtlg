@@ -12,6 +12,7 @@ import requests
 import aria2p
 from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
+from tgtlg .plugins.call_back_button_handler import button
 from tgtlg import (
     ARIA_TWO_STARTED_PORT,
     AUTH_CHANNEL,
@@ -279,7 +280,7 @@ async def call_apropriate_function(
                     message_to_send += "\n"
                 if message_to_send != "":
                     mention_req_user = (
-                        f"<a href='tg://user?id={update.message.from_user.id}'>{update.message.from_user.first_name}'>Your requested files</a>\n\n"
+                        f"<a href='tg://user?id={update.from_user.id}'>{update.from_user.first_name}</a>'>Your requested files</a>\n\n"
                     )
                     message_to_send = mention_req_user + message_to_send
                     message_to_send = message_to_send + "\n\n" + "#uploads"

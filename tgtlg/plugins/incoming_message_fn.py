@@ -177,7 +177,7 @@ async def incoming_youtube_dl_f(client, message):
             await i_m_sefg.edit_text(text=text_message, reply_markup=reply_markup)
     else:
         await i_m_sefg.edit_text(
-            "What have you entered? \nPlease read /help \n"
+            "What have you entered?\n"
             f"<b>API Error</b>: {cf_name}"
         )
 
@@ -228,7 +228,7 @@ async def g_clonee(client, message):
         await gclone.link_gen_size()
     else:
         await message.reply_text(
-            "You should reply to a message, which format should be [ID of Gdrive file/folder Name of the file/folder]\nOr read Github for detailled information"
+            "You should reply to a message, which format should be [ID of Gdrive file/folder Name of the file/folder]"
         )
 
 
@@ -277,7 +277,7 @@ async def rename_tg_file(client, message):
                 message_to_send = mention_req_user + message_to_send
                 message_to_send = message_to_send + "\n\n" + "#uploads"
             else:
-                message_to_send = "<i>FAILED</i> to upload files."
+                message_to_send = "<i>Failed</i> to upload files."
             await message.reply_text(
                 text=message_to_send, quote=True, disable_web_page_preview=True
             )
