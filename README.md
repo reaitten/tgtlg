@@ -103,9 +103,9 @@
   client_secret = 
   ```
   
-  2 Copy `rclone.conf` file in the root directory (Where `Dockerfile` exists).
+  3. Copy `rclone.conf` file in the root directory (Where `Dockerfile` exists).
 
-  3 Your config can contains multiple drive entries. (Default: First one and change using `/rclone` command)
+  4. Your config can contains multiple drive entries. (Default: First one and change using `/rclone` command)
 
   ### Deploying
 
