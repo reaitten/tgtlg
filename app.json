@@ -4,9 +4,9 @@
   "keywords": [
     "telegram"
   ],
-  "repository": "https://github.com/gautamajay52/TorrentLeech-Gdrive",
-  "success_url": "https://t.me/torrentleechgdrivesupport",
-  "website": "https://github.com/gautamajay52/TorrentLeech-Gdrive",
+  "repository": "https://github.com/reaitten/tgtlg",
+  "success_url": "https://t.me/orsixtyone",
+  "website": "https://github.com/reaitten/tgtlg",
   "env": {
     "ENV": {
       "description": "Setting this to ANYTHING will enable webhooks when in env mode",
@@ -104,11 +104,11 @@
       "required": false
     },
     "DESTINATION_FOLDER": {
-      "description": "Enter your Cloud folder NAME(not ID😅) in which you want to upload/store your files.",
+      "description": "Enter your rclone drive name (not ID) in which you want to upload/store your files.",
       "required": false
     },
     "CUSTOM_FILE_NAME": {
-      "description": "fill with name u want to prefix the file name like ur channel username🙊, keep empty for do nothing, but add to ur config vars even without input.",
+      "description": "fill with name you want to prefix the file name like your channel username, keep empty for do nothing, but add to your config vars even without input.",
       "required": false
     }
   },
