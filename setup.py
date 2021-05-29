@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="tgtlg",
-    version="1.0.1",
+    version="1.0.5",
     author="reaitten",
     author_email="riojosepha@gmail.com",
     description="A Telegram Bot written in Python language to mirror files on the internet to a Cloud Provider via rclone.",
@@ -14,7 +14,6 @@ setuptools.setup(
     },
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: POSIX :: Linux",
         "Development Status :: 5 - Production/Stable"
     ],

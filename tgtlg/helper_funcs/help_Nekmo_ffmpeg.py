@@ -7,7 +7,7 @@ import logging
 import os
 import time
 
-from tgtlg.helper_funcs.copy_similar_file import copy_file
+from tgtlg .helper_funcs.copy_similar_file import copy_file
 from tgtlg import LOGGER
 
 

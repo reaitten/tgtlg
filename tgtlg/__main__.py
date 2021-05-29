@@ -7,6 +7,8 @@ import logging
 import os
 import sys
 import traceback
+import sys
+sys.path.append("..") 
 
 from pyrogram import Client, filters
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
@@ -40,13 +42,13 @@ from tgtlg import (
     GYTDL_COMMAND,
     GPYTDL_COMMAND,
 )
-from tgtlg.helper_funcs.download import down_load_media_f
-from tgtlg.plugins.call_back_button_handler import button
+from tgtlg .helper_funcs.download import down_load_media_f
+from tgtlg .plugins.call_back_button_handler import button
 
 # the logging things
-from tgtlg.plugins.choose_rclone_config import rclone_command_f
-from tgtlg.plugins.custom_thumbnail import clear_thumb_nail, save_thumb_nail
-from tgtlg.plugins.incoming_message_fn import (
+from tgtlg .plugins.choose_rclone_config import rclone_command_f
+from tgtlg .plugins.custom_thumbnail import clear_thumb_nail, save_thumb_nail
+from tgtlg .plugins.incoming_message_fn import (
     g_clonee,
     g_yt_playlist,
     incoming_message_f,
@@ -54,9 +56,9 @@ from tgtlg.plugins.incoming_message_fn import (
     incoming_youtube_dl_f,
     rename_tg_file,
 )
-from tgtlg.plugins.new_join_fn import help_message_f, new_join_f
-from tgtlg.plugins.rclone_size import check_size_g, g_clearme
-from tgtlg.plugins.status_message_fn import (
+from tgtlg .plugins.new_join_fn import help_message_f, new_join_f
+from tgtlg .plugins.rclone_size import check_size_g, g_clearme
+from tgtlg .plugins.status_message_fn import (
     cancel_message_f,
     eval_message_f,
     exec_message_f,

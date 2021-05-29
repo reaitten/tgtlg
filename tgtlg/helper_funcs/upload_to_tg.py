@@ -33,10 +33,10 @@ from tgtlg import (
     UPLOAD_AS_DOC,
     gDict,
 )
-from tgtlg.helper_funcs.copy_similar_file import copy_file
-from tgtlg.helper_funcs.display_progress import humanbytes, Progress
-from tgtlg.helper_funcs.help_Nekmo_ffmpeg import take_screen_shot
-from tgtlg.helper_funcs.split_large_files import split_large_files
+from tgtlg .helper_funcs.copy_similar_file import copy_file
+from tgtlg .helper_funcs.display_progress import humanbytes, Progress
+from tgtlg .helper_funcs.help_Nekmo_ffmpeg import take_screen_shot
+from tgtlg .helper_funcs.split_large_files import split_large_files
 
 # stackoverflow🤐
 

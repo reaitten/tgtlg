@@ -12,12 +12,12 @@ import time
 import traceback
 
 from tgtlg import AUTH_CHANNEL, BOT_START_TIME, LOGGER, MAX_MESSAGE_LENGTH
-from tgtlg.helper_funcs.admin_check import AdminCheck
+from tgtlg .helper_funcs.admin_check import AdminCheck
 
 # the logging things
-from tgtlg.helper_funcs.display_progress import TimeFormatter, humanbytes
-from tgtlg.helper_funcs.download_aria_p_n import aria_start, call_apropriate_function
-from tgtlg.helper_funcs.upload_to_tg import upload_to_tg
+from tgtlg .helper_funcs.display_progress import TimeFormatter, humanbytes
+from tgtlg .helper_funcs.download_aria_p_n import aria_start, call_apropriate_function
+from tgtlg .helper_funcs.upload_to_tg import upload_to_tg
 
 
 async def status_message_f(client, message):

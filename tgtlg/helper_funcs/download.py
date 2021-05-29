@@ -14,9 +14,9 @@ from pathlib import Path
 
 from pyrogram import Client, filters
 from tgtlg import DOWNLOAD_LOCATION, LOGGER, TELEGRAM_LEECH_UNZIP_COMMAND
-from tgtlg.helper_funcs.create_compressed_archive import unzip_me, get_base_name
-from tgtlg.helper_funcs.display_progress import Progress
-from tgtlg.helper_funcs.upload_to_tg import upload_to_gdrive
+from tgtlg .helper_funcs.create_compressed_archive import unzip_me, get_base_name
+from tgtlg .helper_funcs.display_progress import Progress
+from tgtlg .helper_funcs.upload_to_tg import upload_to_gdrive
 
 
 async def down_load_media_f(client, message):

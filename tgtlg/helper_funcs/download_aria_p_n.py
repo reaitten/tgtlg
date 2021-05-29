@@ -21,15 +21,15 @@ from tgtlg import (
     LOGGER,
     MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START,
 )
-from tgtlg.helper_funcs.create_compressed_archive import (
+from tgtlg .helper_funcs.create_compressed_archive import (
     create_archive,
     get_base_name,
     unzip_me,
 )
-from tgtlg.helper_funcs.extract_link_from_message import extract_link
-from tgtlg.helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
-from tgtlg.helper_funcs.direct_link_generator import direct_link_generator
-from tgtlg.helper_funcs.exceptions import DirectDownloadLinkException
+from tgtlg .helper_funcs.extract_link_from_message import extract_link
+from tgtlg .helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
+from tgtlg .helper_funcs.direct_link_generator import direct_link_generator
+from tgtlg .helper_funcs.exceptions import DirectDownloadLinkException
 
 sys.setrecursionlimit(10 ** 4)
 

@@ -9,7 +9,7 @@ import subprocess
 
 import requests
 from tgtlg import DOWNLOAD_LOCATION, LOGGER
-from tgtlg.helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
+from tgtlg .helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
 
 
 async def yt_playlist_downg(message, i_m_sefg, client, G_DRIVE):

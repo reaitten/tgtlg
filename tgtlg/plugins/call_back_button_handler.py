@@ -8,12 +8,12 @@ import shutil
 
 from pyrogram.types import CallbackQuery
 from tgtlg import AUTH_CHANNEL, MAX_MESSAGE_LENGTH, LOGGER, gDict
-from tgtlg.helper_funcs.admin_check import AdminCheck
-from tgtlg.helper_funcs.download_aria_p_n import aria_start
-from tgtlg.helper_funcs.youtube_dl_button import youtube_dl_call_back
-from tgtlg.plugins.choose_rclone_config import rclone_button_callback
-from tgtlg.plugins.status_message_fn import cancel_message_f
-from tgtlg.helper_funcs.display_progress import Progress
+from tgtlg .helper_funcs.admin_check import AdminCheck
+from tgtlg .helper_funcs.download_aria_p_n import aria_start
+from tgtlg .helper_funcs.youtube_dl_button import youtube_dl_call_back
+from tgtlg .plugins.choose_rclone_config import rclone_button_callback
+from tgtlg .plugins.status_message_fn import cancel_message_f
+from tgtlg .helper_funcs.display_progress import Progress
 
 
 async def button(bot, update: CallbackQuery):
