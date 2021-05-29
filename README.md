@@ -133,7 +133,7 @@
   . ./venv/bin/activate
   pip install -r requirements.txt
   # Create config.py appropriately
-  python3 -m bot
+  python3 -m tgtlg
   ```
   ## Variable Explanations
 
