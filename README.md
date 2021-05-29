@@ -65,7 +65,7 @@
 
   Buy a VPS and follow [this](https://github.com/gautamajay52/TorrentLeech-Gdrive#process-to-run-this-bot-on-vps)
 
-  ### Deploy on VPS
+  ## Deploy on VPS
 
   - Clone this repo:
   ```
@@ -80,7 +80,7 @@
   ```
   Install Docker by following the [official docker docs](https://docs.docker.com/engine/install/debian/)
 
-  #### Setup `config.env`
+  ### Setup `config.env`
   ```
   cp sample_config.env config.env
   ```
@@ -90,11 +90,12 @@
 
   If you need more explanation about any variable then read [app.jso](https://github.com/gautamajay52/TorrentLeech-Gdrive/blob/master/app.jso)
 
-  ##### Setup rclone
+  ### Setup rclone
 
-  1. Set rclone locally by following the official repo : https://rclone.org/docs/
+  1. Set rclone locally by following the official repo: https://rclone.org/docs/
   2. Get your `rclone.conf` file.
   will look like this
+  
   ```
   [NAME]
   type = 
@@ -102,13 +103,13 @@
   token =
   client_id = 
   client_secret = 
-
   ```
+  
   2 Copy `rclone.conf` file in the root directory (Where `Dockerfile` exists).
 
   3 Your config can contains multiple drive entries. (Default: First one and change using `/rclone` command)
 
-  #### Deploying
+  ### Deploying
 
   - Start Docker Daemon (skip if already running):
   ```
