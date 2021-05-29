@@ -34,9 +34,10 @@ RUN mkdir /app/gautam
 RUN wget -O /app/gautam/gclone.gz https://git.io/JJMSG && gzip -d /app/gautam/gclone.gz
 RUN chmod 0775 /app/gautam/gclone
 
-COPY . .
+RUN pip3 install -U tgtlg wheel --no-cache-dir
 
-RUN pip3 install -U tgtlg --no-cache-dir
+COPY extract .
+
 RUN chmod +x extract
 
 CMD ["bash","start.sh"]
