@@ -4,9 +4,8 @@
 
   # Table of Contents
   
-[Benefits](#benefits)
-
-[To-Do](#to-do)
+- [Benefits](#benefits)
+- [To-Do](#to-do)
   * [Deployment](#deployment)
     + [Simple Way](#simple-way)
       - [Instructions (I did this to avoid the use of same button multiple times)](#instructions--i-did-this-to-avoid-the-use-of-same-button-multiple-times-)
