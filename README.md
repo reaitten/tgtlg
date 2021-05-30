@@ -258,7 +258,8 @@
   ## Credits, and Thanks to
   - [GautamKumar (me)](https://github.com/gautamajay52/TorrentLeech-Gdrive)
   - [SpEcHiDe](https://github.com/SpEcHiDe/PublicLeech) for his wonderful code
-  - [cihanvol](https://github.com/cihanvol) for direct_link_generator
+  - [cihanvol](https://github.com/cihanvol) for [direct_link_generator](https://github.com/reaitten/tgtlg/blob/main/tgtlg/helper_funcs/direct_link_generator.py)
+  - [AmirulAndalib](https://github.com/cihanvol) for custom [start.sh](https://github.com/AmirulAndalib/TorrentLeechX/blob/d0ae800cf8bc628ab2a38b05eb72cb4eb8f11f48/start.sh)
   - [Rclone Team](https://rclone.org) for theirs awesome tool
   - [Dan Tès](https://telegram.dog/haskell) for his [Pyrogram Library](https://github.com/pyrogram/pyrogram)
   - [Robots](https://telegram.dog/Robots) for their [@UploadBot](https://telegram.dog/UploadBot)
