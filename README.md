@@ -2,8 +2,6 @@
 
   A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.com/pyrogram/pyrogram)
 
-  This is a fork-clone of TorrentLeech-Gdrive, modified for Heroku. See branch main for source code.
-
   # Table of Contents
   
 - [Benefits](#benefits)
@@ -21,7 +19,7 @@
     + [Optional Configuration Variables](#optional-configuration-variables)
     + [Available Commands](#available-commands)
   * [How to Use?](#how-to-use)
-  * [Credits](#credits)
+  * [Credits, and Thanks to](#credits-and-thanks-to)
 
   # Benefits
       ✓ Google Drive link cloning using gclone. (WIP)
@@ -48,11 +46,23 @@
 
   ### Simple Way
 
-  **Modified for use on Heroku, please do not heavily abuse!**
+  #### Instructions (I did this to avoid the use of same button multiple times)
 
-  **Join [this](https://t.me/tgleechsupport) Telegram Group if you want support, I will try to help you as much as I can.**
+  - You have to fork this repo at first
 
-  <p><a href="https://heroku.com/deploy?template=https://github.com/reaitten/tgtlg"> <img src="https://img.shields.io/badge/Deploy%20To%20Heroku-blueviolet?style=for-the-badge&logo=heroku" width="200""/></a></p>
+  - Find `app.jso`.
+
+  - Tap on that.
+
+  - Tap to edit and just add `n` at last of name (Don't touch code).
+
+  - It should look like `app.json`. 
+
+  - Then tap:
+
+  Heroku is no longer supported.
+
+  Buy a VPS and follow [this](https://github.com/gautamajay52/TorrentLeech-Gdrive#process-to-run-this-bot-on-vps).
 
   ## Deploy on VPS
 
@@ -245,10 +255,11 @@
   * send any one of the available command, as a reply to a valid link/magnet/torrent.
 
 
-  ## Credits
-  - [GautamKumar](https://github.com/gautamajay52/TorrentLeech-Gdrive) for base repo
+  ## Credits, and Thanks to
+  - [GautamKumar (me)](https://github.com/gautamajay52/TorrentLeech-Gdrive)
   - [SpEcHiDe](https://github.com/SpEcHiDe/PublicLeech) for his wonderful code
-  - [cihanvol](https://github.com/cihanvol) for direct_link_generator
+  - [cihanvol](https://github.com/cihanvol) for [direct_link_generator](https://github.com/reaitten/tgtlg/blob/main/tgtlg/helper_funcs/direct_link_generator.py)
+  - [AmirulAndalib](https://github.com/cihanvol) for custom [start.sh](https://github.com/AmirulAndalib/TorrentLeechX/blob/d0ae800cf8bc628ab2a38b05eb72cb4eb8f11f48/start.sh)
   - [Rclone Team](https://rclone.org) for theirs awesome tool
   - [Dan Tès](https://telegram.dog/haskell) for his [Pyrogram Library](https://github.com/pyrogram/pyrogram)
   - [Robots](https://telegram.dog/Robots) for their [@UploadBot](https://telegram.dog/UploadBot)
