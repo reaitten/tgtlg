@@ -14,4 +14,4 @@ jobs:
       run: |
        echo "${{ secrets.DOCKERPASS }}" | docker login -u "${{ secrets.DOCKERUSER }}" --password-stdin
        docker build -t docker.pkg.github.com/reaitten/tgtlg/tgtlg:latest .
-       docker push docker.pkg.github.com/reaitten/tgtlg/latest:latest
+       docker push docker.pkg.github.com/reaitten/tgtlg/tgtlg:latest
