@@ -13,5 +13,5 @@ jobs:
     - name: Build the Docker image
       run: |
        echo "${{ secrets.DOCKERPASS }}" | docker login -u "${{ secrets.DOCKERUSER }}" --password-stdin
-       docker build -t reaitten/tgtlg:latest .
-       docker push reaitten/tgtlg:latest
+       docker build -t docker.pkg.github.com/reaitten/tgtlg/tgtlg:latest .
+       docker push docker.pkg.github.com/reaitten/tgtlg/latest:latest
