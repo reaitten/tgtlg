@@ -15,7 +15,6 @@ from tgtlg .plugins.choose_rclone_config import rclone_button_callback
 from tgtlg .plugins.status_message_fn import cancel_message_f
 from tgtlg .helper_funcs.display_progress import Progress
 
-
 async def button(bot, update: CallbackQuery):
     cb_data = update.data
     try:

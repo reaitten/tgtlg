@@ -22,7 +22,6 @@ from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from pyrogram.types import InputMediaAudio, InputMediaDocument, InputMediaVideo
 from requests.utils import requote_uri
-from tgtlg .plugins.call_back_button_handler import button
 from tgtlg import (
     DESTINATION_FOLDER,
     DOWNLOAD_LOCATION,

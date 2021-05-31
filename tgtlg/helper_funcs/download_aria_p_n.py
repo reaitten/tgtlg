@@ -8,12 +8,10 @@ import os
 import sys
 import time
 import requests
-from tgtlg.plugins.call_back_button_handler import button
 
 import aria2p
 from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-
 from tgtlg import (
     ARIA_TWO_STARTED_PORT,
     AUTH_CHANNEL,
@@ -32,7 +30,6 @@ from tgtlg .helper_funcs.extract_link_from_message import extract_link
 from tgtlg .helper_funcs.upload_to_tg import upload_to_gdrive, upload_to_tg
 from tgtlg .helper_funcs.direct_link_generator import direct_link_generator
 from tgtlg .helper_funcs.exceptions import DirectDownloadLinkException
-
 sys.setrecursionlimit(10 ** 4)
 
 def KopyasizListe(string):
