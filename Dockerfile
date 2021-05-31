@@ -1,3 +1,3 @@
-FROM docker.pkg.github.com/reaitten/tgtlg/tgtlg:latest
+FROM reaitten/tgtlg:latest
 WORKDIR /app
 COPY . .
