@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 
+
 class Progress:
     def __init__(self, from_user, client, mess: Message):
         self._from_user = from_user
@@ -119,7 +120,7 @@ def humanbytes(size):
         return ""
     power = 2 ** 10
     n = 0
-    Dic_powerN = {0: " ", 1: "Ki", 2: "Mi", 3: "Gi", 4: "Ti"}
+    Dic_powerN = {0: " ", 1: "K", 2: "M", 3: "G", 4: "Ti"}
     while size > power:
         size /= power
         n += 1

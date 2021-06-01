@@ -8,12 +8,13 @@ import shutil
 
 from pyrogram.types import CallbackQuery
 from tgtlg import AUTH_CHANNEL, MAX_MESSAGE_LENGTH, LOGGER, gDict
-from tgtlg .helper_funcs.admin_check import AdminCheck
-from tgtlg .helper_funcs.download_aria_p_n import aria_start
-from tgtlg .helper_funcs.youtube_dl_button import youtube_dl_call_back
-from tgtlg .plugins.choose_rclone_config import rclone_button_callback
-from tgtlg .plugins.status_message_fn import cancel_message_f
-from tgtlg .helper_funcs.display_progress import Progress
+from tgtlg.helper_funcs.admin_check import AdminCheck
+from tgtlg.helper_funcs.download_aria_p_n import aria_start
+from tgtlg.helper_funcs.youtube_dl_button import youtube_dl_call_back
+from tgtlg.plugins.choose_rclone_config import rclone_button_callback
+from tgtlg.plugins.status_message_fn import cancel_message_f
+from tgtlg.helper_funcs.display_progress import Progress
+
 
 async def button(bot, update: CallbackQuery):
     cb_data = update.data
@@ -32,7 +33,7 @@ async def button(bot, update: CallbackQuery):
         else:
             await bot.answer_callback_query(
                 callback_query_id=update.id,
-                text="not yours.",
+                text="who are you?",
                 show_alert=True,
                 cache_time=0,
             )
@@ -82,7 +83,7 @@ async def button(bot, update: CallbackQuery):
         else:
             await bot.answer_callback_query(
                 callback_query_id=update.id,
-                text="not yours",
+                text="who are you? 🤪🤔🤔🤔",
                 show_alert=True,
                 cache_time=0,
             )
@@ -108,7 +109,7 @@ async def button(bot, update: CallbackQuery):
                 "requirements.txt",
                 "runtime.txt",
                 "start.sh",
-                "tgtlg",
+                "tobrot",
                 "gautam",
                 "tgtlg.txt",
                 "vendor",
@@ -129,11 +130,11 @@ async def button(bot, update: CallbackQuery):
                         shutil.rmtree(f)
                 await update.message.edit_text(f"Deleted {len(g_del_list)} objects.")
             else:
-                await update.message.edit_text("Nothing to clear!")
+                await update.message.edit_text("Nothing to clear.")
         else:
-            await update.message.edit_text("You are not allowed to do that.")
+            await update.message.edit_text("You don't have permission to do that.")
     elif cb_data == "fuckoff":
         await bot.answer_callback_query(
-            update.id, text="trying to cancel...", show_alert=False
+            update.id, text="trying to cancel..", show_alert=False
         )
         await update.message.edit_text("bruh.")

@@ -38,7 +38,7 @@ There are {len(sections)} sections in your rclone.conf file,
 please choose which section you want to use:"""
         ikeyboard = [
             pyrogram.InlineKeyboardButton(
-                "‼️ Cancel ‼️", callback_data=(f"rcloneCancel").encode("UTF-8")
+                "Cancel", callback_data=(f"rcloneCancel").encode("UTF-8")
             )
         ]
         inline_keyboard.append(ikeyboard)
@@ -57,10 +57,10 @@ async def rclone_button_callback(bot, update: CallbackQuery):
         config.read("rclone.conf")
         section = config.sections()[0]
         await update.message.edit_text(
-            f"Opration canceled! \n\nThe default section of rclone config is: **{section}**"
+            f"Operation canceled! \n\nThe default section of rclone config is: **{section}**"
         )
         LOGGER.info(
-            f"Opration canceled! The default section of rclone config is: {section}"
+            f"Operation canceled! The default section of rclone config is: {section}"
         )
     else:
         section = update.data.split("_", maxsplit=1)[1]

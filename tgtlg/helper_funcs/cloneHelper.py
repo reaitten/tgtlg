@@ -2,7 +2,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # (c) gautamajay52
-
+# (c) MaxxRider
 
 import asyncio
 import logging
@@ -132,7 +132,7 @@ class CloneHelper:
                 )
             button_markup = pyrogram.InlineKeyboardMarkup(button)
             msg = await self.lsg.edit_text(
-                f"{_up} cloned successfully in your cloud <a href='tg://user?id={update.from_user.id}'>{update.from_user.first_name}</a>\
+                f"{_up} Cloned successfully in Drive <a href='tg://user?id={self.u_id}'>!</a>\
                 \nInfo: Calculating...",
                 reply_markup=button_markup,
                 parse_mode="html",
@@ -153,14 +153,14 @@ class CloneHelper:
             LOGGER.info(am.decode("utf-8"))
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
             await msg.edit_text(
-                f"{_up} cloned successfully in your Cloud <a href='tg://user?id={update.from_user.id}'>{update.from_user.first_name}</a>\
+                f"{_up} Cloned successfully in your Cloud <a href='tg://user?id={self.u_id}'>!</a>\
                 \nInfo:\n{g_autam}",
                 reply_markup=button_markup,
                 parse_mode="html",
             )
 
     async def gcl(self):
-        self.lsg = await self.mess.reply_text(f"Cloning.. you should wait.")
+        self.lsg = await self.mess.reply_text(f"Cloning.. please be patient.")
         destination = f"{DESTINATION_FOLDER}"
         idd = "{" f"{self.g_id}" "}"
         cmd = [

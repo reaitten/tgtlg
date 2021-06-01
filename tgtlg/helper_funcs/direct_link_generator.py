@@ -17,7 +17,7 @@ from js2py import EvalJs
 import requests
 from bs4 import BeautifulSoup
 
-from tgtlg .helper_funcs.exceptions import DirectDownloadLinkException
+from tgtlg.helper_funcs.exceptions import DirectDownloadLinkException
 
 
 def direct_link_generator(text_url: str):

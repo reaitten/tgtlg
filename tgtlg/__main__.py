@@ -7,8 +7,6 @@ import logging
 import os
 import sys
 import traceback
-import sys
-sys.path.append("..") 
 
 from pyrogram import Client, filters
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
@@ -32,6 +30,7 @@ from tgtlg import (
     LOGGER,
     PYTDL_COMMAND,
     RENEWME_COMMAND,
+    RENAME_COMMAND,
     SAVE_THUMBNAIL,
     STATUS_COMMAND,
     TELEGRAM_LEECH_UNZIP_COMMAND,
@@ -41,14 +40,16 @@ from tgtlg import (
     YTDL_COMMAND,
     GYTDL_COMMAND,
     GPYTDL_COMMAND,
+    TOGGLE_VID,
+    TOGGLE_DOC,
 )
-from tgtlg .helper_funcs.download import down_load_media_f
-from tgtlg .plugins.call_back_button_handler import button
+from tgtlg.helper_funcs.download import down_load_media_f
+from tgtlg.plugins.call_back_button_handler import button
 
 # the logging things
-from tgtlg .plugins.choose_rclone_config import rclone_command_f
-from tgtlg .plugins.custom_thumbnail import clear_thumb_nail, save_thumb_nail
-from tgtlg .plugins.incoming_message_fn import (
+from tgtlg.plugins.choose_rclone_config import rclone_command_f
+from tgtlg.plugins.custom_thumbnail import clear_thumb_nail, save_thumb_nail
+from tgtlg.plugins.incoming_message_fn import (
     g_clonee,
     g_yt_playlist,
     incoming_message_f,
@@ -56,15 +57,17 @@ from tgtlg .plugins.incoming_message_fn import (
     incoming_youtube_dl_f,
     rename_tg_file,
 )
-from tgtlg .plugins.new_join_fn import help_message_f, new_join_f
-from tgtlg .plugins.rclone_size import check_size_g, g_clearme
-from tgtlg .plugins.status_message_fn import (
+from tgtlg.plugins.new_join_fn import new_join_f
+from tgtlg.plugins.rclone_size import check_size_g, g_clearme
+from tgtlg.plugins.status_message_fn import (
     cancel_message_f,
     eval_message_f,
     exec_message_f,
     status_message_f,
     upload_document_f,
     upload_log_file,
+    upload_as_doc,
+    upload_as_video,
 )
 
 if __name__ == "__main__":
@@ -171,7 +174,7 @@ if __name__ == "__main__":
     #
     rename_message_handler = MessageHandler(
         rename_tg_file,
-        filters=filters.command(["rename"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command([f"{RENAME_COMMAND}"]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(rename_message_handler)
     #
@@ -188,23 +191,27 @@ if __name__ == "__main__":
     )
     app.add_handler(upload_log_handler)
     #
+    '''
     help_text_handler = MessageHandler(
         help_message_f,
         filters=filters.command(["help"]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(help_text_handler)
+    '''
     #
     new_join_handler = MessageHandler(
         new_join_f, filters=~filters.chat(chats=AUTH_CHANNEL)
     )
     app.add_handler(new_join_handler)
     #
+    '''
     group_new_join_handler = MessageHandler(
         help_message_f,
         filters=filters.chat(chats=AUTH_CHANNEL) & filters.new_chat_members,
     )
     app.add_handler(group_new_join_handler)
     #
+    '''
     call_back_button_handler = CallbackQueryHandler(button)
     app.add_handler(call_back_button_handler)
     #
@@ -226,5 +233,17 @@ if __name__ == "__main__":
         rclone_command_f, filters=filters.command(["rclone"])
     )
     app.add_handler(rclone_config_handler)
+    #
+    upload_as_doc_handler = MessageHandler(
+        upload_as_doc,
+        filters=filters.command([f"{TOGGLE_DOC}"]) & filters.chat(chats=AUTH_CHANNEL), 
+    )
+    app.add_handler(upload_as_doc_handler)
+    #
+    upload_as_video_handler = MessageHandler(
+        upload_as_video,
+        filters=filters.command([f"{TOGGLE_VID}"]) & filters.chat(chats=AUTH_CHANNEL), 
+    )
+    app.add_handler(upload_as_video_handler)
     #
     app.run()

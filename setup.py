@@ -2,10 +2,10 @@ import setuptools
 
 setuptools.setup(
     name="tgtlg",
-    version="1.1.0",
+    version="1.2.5",
     author="reaitten",
     author_email="riojosepha@gmail.com",
-    description="A Telegram Bot written in Python language to mirror files on the internet to a Cloud Provider via rclone.",
+    description="A Telegram Bot written in Python language to mirror files on the internet to a Cloud Provider using rclone.",
     long_description=open('README.md', 'r', encoding='utf-8').read(),
     long_description_content_type="text/markdown",
     url="https://github.com/reaitten/tgchizu",

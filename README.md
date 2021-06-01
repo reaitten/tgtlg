@@ -19,7 +19,7 @@
     + [Optional Configuration Variables](#optional-configuration-variables)
     + [Available Commands](#available-commands)
   * [How to Use?](#how-to-use)
-  * [Credits, and Thanks to](#credits-and-thanks-to)
+  * [Credits](#credits-and-thanks-to)
 
   # Benefits
       ✓ Google Drive link cloning using gclone. (WIP)
@@ -32,7 +32,7 @@
       ✓ You can also upload files downloaded from /ytdl command to gdrive using `/ytdl gdrive` command.
       ✓ You can also deploy this on your VPS
       ✓ Option to select either video will be uploaded as document or streamable
-      ✓ Added /renewme command to clear the downloads which are not deleted automatically.
+      ✓ Added /rename command to clear the downloads which are not deleted automatically.
       ✓ Added support for youtube playlist
       ✓ Renaming of Telegram files support added.
       ✓ Changing rclone destination config on fly (By using `/rclone` in private mode)
@@ -60,9 +60,11 @@
 
   - Then tap:
 
-  Heroku is no longer supported.
+  **Modified for use on Heroku, please do not heavily abuse!**
 
-  Buy a VPS and follow [this](https://github.com/gautamajay52/TorrentLeech-Gdrive#process-to-run-this-bot-on-vps).
+  **Join [this](https://t.me/tgleechsupport) Telegram Group if you want support, I will try to help you as much as I can.**
+
+  <p><a href="https://heroku.com/deploy?template=https://github.com/reaitten/tgtlg"> <img src="https://img.shields.io/badge/Deploy%20To%20Heroku-blueviolet?style=for-the-badge&logo=heroku" width="200""/></a></p>
 
   ## Deploy on VPS
 
@@ -255,10 +257,11 @@
   * send any one of the available command, as a reply to a valid link/magnet/torrent.
 
 
-  ## Credits, and Thanks to
-  - [GautamKumar (me)](https://github.com/gautamajay52/TorrentLeech-Gdrive)
+  ## Credits
+  - [GautamKumar](https://github.com/gautamajay52/TorrentLeech-Gdrive)
   - [SpEcHiDe](https://github.com/SpEcHiDe/PublicLeech) for his wonderful code
   - [cihanvol](https://github.com/cihanvol) for [direct_link_generator](https://github.com/reaitten/tgtlg/blob/main/tgtlg/helper_funcs/direct_link_generator.py)
+  - [MaxxRider](https://github.com/MaxxRider) for tweeked version of [TorrentLeech-Gdrive](https://github.com/MaxxRider/Leech-Pro)
   - [AmirulAndalib](https://github.com/AmirulAndalib) for custom [start.sh](https://github.com/AmirulAndalib/TorrentLeechX/blob/d0ae800cf8bc628ab2a38b05eb72cb4eb8f11f48/start.sh)
   - [Rclone Team](https://rclone.org) for theirs awesome tool
   - [Dan Tès](https://telegram.dog/haskell) for his [Pyrogram Library](https://github.com/pyrogram/pyrogram)

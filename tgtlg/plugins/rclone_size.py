@@ -13,7 +13,7 @@ from tgtlg import DESTINATION_FOLDER, EDIT_SLEEP_TIME_OUT, LOGGER, RCLONE_CONFIG
 
 async def check_size_g(client, message):
     # await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-    del_it = await message.reply_text("🔊 Checking size...wait!!!")
+    del_it = await message.reply_text("🔊 Checking size.. Please wait..")
     if not os.path.exists("rclone.conf"):
         with open("rclone.conf", "w+", newline="\n", encoding="utf-8") as fole:
             fole.write(f"{RCLONE_CONFIG}")
@@ -34,7 +34,7 @@ async def check_size_g(client, message):
     gautam = gau.decode("utf-8")
     LOGGER.info(gautam)
     await asyncio.sleep(5)
-    await message.reply_text(f"🔊CloudInfo:\n\n{gautam}")
+    await message.reply_text(f"Cloud Info:\n\n{gautam}")
     await del_it.delete()
 
 
@@ -53,7 +53,7 @@ async def g_clearme(client, message):
     inline_keyboard.append(ikeyboard)
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
     await message.reply_text(
-        "Are you sure? This will delete all your downloads locally",
+        "Are you sure? This will delete all your downloads locally!",
         reply_markup=reply_markup,
         quote=True,
     )

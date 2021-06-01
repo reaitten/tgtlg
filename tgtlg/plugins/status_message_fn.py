@@ -11,15 +11,26 @@ import sys
 import time
 import traceback
 
-from tgtlg import AUTH_CHANNEL, BOT_START_TIME, LOGGER, MAX_MESSAGE_LENGTH
-from tgtlg .helper_funcs.admin_check import AdminCheck
+from tgtlg import AUTH_CHANNEL, BOT_START_TIME, LOGGER, MAX_MESSAGE_LENGTH, user_specific_config
+from tgtlg.helper_funcs.admin_check import AdminCheck
 
 # the logging things
-from tgtlg .helper_funcs.display_progress import TimeFormatter, humanbytes
-from tgtlg .helper_funcs.download_aria_p_n import aria_start, call_apropriate_function
-from tgtlg .helper_funcs.upload_to_tg import upload_to_tg
+from tgtlg.helper_funcs.display_progress import TimeFormatter, humanbytes
+from tgtlg.helper_funcs.download_aria_p_n import aria_start, call_apropriate_function
+from tgtlg.helper_funcs.upload_to_tg import upload_to_tg
+from tgtlg.UserDynaConfig import UserDynaConfig
 
 
+async def upload_as_doc(client, message):
+    user_specific_config[message.from_user.id]=UserDynaConfig(message.from_user.id,True)
+    await message.reply_text("**Your files will be uploaded as Document.**")
+
+
+async def upload_as_video(client, message):
+    user_specific_config[message.from_user.id]=UserDynaConfig(message.from_user.id,False)
+    await message.reply_text("**Your files will be uploaded as Streamable.**")
+    
+    
 async def status_message_f(client, message):
     aria_i_p = await aria_start()
     # Show All Downloads
@@ -64,7 +75,7 @@ async def status_message_f(client, message):
         # LOGGER.info(msg)
 
         if msg == "":
-            msg = "No Active, Queued or Paused TORRENTs"
+            msg = "No Active, Queued or Paused Torrents"
 
     hr, mi, se = up_time(time.time() - BOT_START_TIME)
     total, used, free = shutil.disk_usage(".")
@@ -73,7 +84,7 @@ async def status_message_f(client, message):
     free = humanbytes(free)
 
     ms_g = (
-        f"<b>Bot Uptime</b>: <code>{hr} : {mi} : {se}</code>\n"
+        f"<b>Bot Uptime</b>: <code>{hr}h :{mi}min :{se}sec</code>\n"
         f"<b>Total disk space</b>: <code>{total}</code>\n"
         f"<b>Used</b>: <code>{used}</code>\n"
         f"<b>Free</b>: <code>{free}</code>\n"
@@ -106,7 +117,7 @@ async def cancel_message_f(client, message):
             LOGGER.info(downloads.remove(force=True, files=True))
             await i_m_s_e_g.edit_text("Leech Cancelled")
         except Exception as e:
-            await i_m_s_e_g.edit_text("<i>FAILED</i>\n\n" + str(e) + "\n#error")
+            await i_m_s_e_g.edit_text("<b>Failed.</b>\n\n" + str(e) + "\nAn error occured.")
     else:
         await message.delete()
 
@@ -135,7 +146,7 @@ async def exec_message_f(client, message):
         else:
             _o = o.split("\n")
             o = "`\n".join(_o)
-        OUTPUT = f"**QUERY:**\n__Command:__\n`{cmd}` \n__PID:__\n`{process.pid}`\n\n**stderr:** \n`{e}`\n**Output:**\n{o}"
+        OUTPUT = f"**Query:**\n__Command:__\n`{cmd}` \n__PID:__\n`{process.pid}`\n\n**stderr:** \n`{e}`\n**Output:**\n{o}"
 
         if len(OUTPUT) > MAX_MESSAGE_LENGTH:
             with io.BytesIO(str.encode(OUTPUT)) as out_file:
@@ -153,7 +164,7 @@ async def exec_message_f(client, message):
 
 
 async def upload_document_f(client, message):
-    imsegd = await message.reply_text("processing ...")
+    imsegd = await message.reply_text("Processing ...")
     if message.from_user.id in AUTH_CHANNEL:
         if " " in message.text:
             recvd_command, local_file_name = message.text.split(" ", 1)
@@ -200,7 +211,7 @@ async def eval_message_f(client, message):
             evaluation = "Success"
 
         final_output = (
-            "<b>EVAL</b>: <code>{}</code>\n\n<b>OUTPUT</b>:\n<code>{}</code> \n".format(
+            "<b>Eval</b>: <code>{}</code>\n\n<b>Output</b>:\n<code>{}</code> \n".format(
                 cmd, evaluation.strip()
             )
         )
