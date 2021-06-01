@@ -13,4 +13,3 @@ lxml
 requests
 messages
 js2py
-wheel
