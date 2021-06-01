@@ -15,7 +15,8 @@ RUN curl https://rclone.org/install.sh | bash
 RUN wget -O /app/start.sh https://orsixtyone.cf/projects/data/tgtlg/start.sh
 RUN wget -O /app/extract https://orsixtyone.cf/projects/data/tgtlg/extract
 
-RUN pip3 install wheel rust --no-cache-dir
+RUN pip3 install wheel --no-cache-dir
+RUN pip3 install rust --no-cache-dir
 RUN pip3 install tgtlg --no-cache-dir
 RUN chmod +x extract
 
