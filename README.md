@@ -18,8 +18,9 @@
     + [Mandatory Variables](#mandatory-variables)
     + [Optional Configuration Variables](#optional-configuration-variables)
     + [Available Commands](#available-commands)
+  * [Commands to set in @BotFather](#commands-to-set-in-botfather)
   * [How to Use?](#how-to-use)
-  * [Credits, and Thanks to](#credits-and-thanks-to)
+  * [Credits](#credits)
 
   # Benefits
       ✓ Google Drive link cloning using gclone. (WIP)
@@ -251,14 +252,35 @@
 
   the file will be uploaded as `new.txt`.
 
+  ## Commands to set in [@BotFather](https://t.me/BotFather)
+
+  ```
+  leech - Reply to a magnetic link, a torrent link, or a direct link. this command will SPAM the chat and send the downloads a seperate files, if there is more than one file, in   the specified torrent
+  leechzip - Reply to a magnetic link, a torrent link, or a direct link. .tar.gz archive, split into 1024MB due to Telegram limits
+  gleech - Reply to a magnetic link, a torrent link, or a direct link. And this will download the files from the given link or torrent and will upload to the cloud.
+  gleechzip - Compress the folder/file and upload to your cloud.
+  leechunzip -  Unarchive file and dupload to telegram.
+  gleechunzip - Unarchive file and upload to cloud.
+  tleech - Leech Telegram files to your cloud.
+  tleechunzip - Unarchive Telegram file and upload to cloud.
+  ytdl - Download a YouTube video link and upload to Telegram
+  pytdl - Download videos from youtube playlist link and will upload to Telegram.
+  gytdl - Download a YouTube video link and upload to your cloud.
+  gpytdl - Download YouTube playlist and upload to your cloud.
+  rclone - Change your rclone config on fly.
+  log - Get bot logs.
+  getsize - Returns total size of your destination folder in cloud.
+  renewme - Clear all remaining downloads
+  rename - add custom name as prefix of the original file name.
+  ```
 
   ## How to Use?
 
   * send any one of the available command, as a reply to a valid link/magnet/torrent.
 
 
-  ## Credits, and Thanks to
-  - [GautamKumar (me)](https://github.com/gautamajay52/TorrentLeech-Gdrive)
+  ## Credits
+  - [GautamKumar](https://github.com/gautamajay52/TorrentLeech-Gdrive)
   - [SpEcHiDe](https://github.com/SpEcHiDe/PublicLeech) for his wonderful code
   - [cihanvol](https://github.com/cihanvol) for [direct_link_generator](https://github.com/reaitten/tgtlg/blob/main/tgtlg/helper_funcs/direct_link_generator.py)
   - [AmirulAndalib](https://github.com/AmirulAndalib) for custom [start.sh](https://github.com/AmirulAndalib/TorrentLeechX/blob/d0ae800cf8bc628ab2a38b05eb72cb4eb8f11f48/start.sh)
