@@ -1,9 +1,11 @@
+wheel
+rust 
 aiohttp
 aria2p==0.9.1
 hachoir
 Pillow
 pyrogram
-tgcrypto
+TgCrypto
 youtube_dl
 hurry.filesize
 python-dotenv
