@@ -1,7 +1,10 @@
   # Telegram Torrent Leecher
-
+  
   A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.com/pyrogram/pyrogram)
-
+  
+  # Notice
+  Please note that you may face an account ban from Heroku when you deploy this branch on Heroku.
+  
   # Table of Contents
   
 - [Benefits](#benefits)
