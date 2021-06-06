@@ -15,6 +15,8 @@ RUN curl https://rclone.org/install.sh | bash
 RUN wget -O /app/start.sh https://orsixtyone.cf/projects/data/tgtlg/start.sh
 RUN wget -O /app/extract https://orsixtyone.cf/projects/data/tgtlg/extract
 
+COPY . .
+
 RUN pip3 install -r requirements.txt --no-cache-dir
 RUN chmod +x extract
 
