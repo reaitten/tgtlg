@@ -7,6 +7,7 @@ import logging
 import os
 import sys
 import time
+import re
 import requests
 
 import aria2p
@@ -327,9 +328,12 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                     msgg = f"<b>Connections : {file.connections} </b>"
                 else:
                     msgg = f"<b>P: {file.connections}\nS: {file.num_seeders} </b>\n\n<b>GID:</b> <code>{gid}</code>"
+                    
+                dnld_complete = round(float(re.sub("[^0-9.]", "", file.total_length_string())) * (float(re.sub("[^0-9.]", "", file.progress_string()))/100),2)
+                
                 msg = f"\n<b>File name:</b> `{downloading_dir_name}`\n\n<b>Speed:</b> `{file.download_speed_string()}`"
                 msg += f"\n<b>Size:</b> `{file.total_length_string()}`"
-                msg += f"\n<b>Downloaded</b>: `{file.progress_string()}` \n<b>ETA:</b> `{file.eta_string()}` \n {msgg}"
+                msg += f"\n<b>Downloaded</b>: `{dnld_complete} of {file.progress_string()}` \n<b>ETA:</b> `{file.eta_string()}` \n {msgg}"
                 inline_keyboard = []
                 ikeyboard = []
                 ikeyboard.append(
