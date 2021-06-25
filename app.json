@@ -57,10 +57,12 @@
     },
     "FINISHED_PROGRESS_STR": {
       "description": "should be a single character.",
+      "value": "█",
       "required": false
     },
     "UN_FINISHED_PROGRESS_STR": {
       "description": "should be a single character.",
+      "value": "░",
       "required": false
     },
     "TG_OFFENSIVE_API": {
