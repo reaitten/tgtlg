@@ -332,7 +332,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 else:
                     msgg = f"<b>P: {file.connections}\nS: {file.num_seeders} </b>\n\n<b>GID:</b> <code>{gid}</code>"
                     
-                dnld_complete = round(float(re.sub("[^0-9.]", "", file.total_length_string())) * (float(re.sub("[^0-9.]", "", file.progress_string()))/100),2)
+                dnld_complete = convert_size(round(convert_to_bytes(file.total_length_string()) * (float(re.sub("[^0-9.]", "", file.progress_string()))/100),2))
                 percentage = int(file.progress_string(0).split('%')[0])
                 prog = "[{0}{1}]".format("".join([FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),"".join([UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]))
                 
@@ -431,3 +431,33 @@ async def check_metadata(aria2, gid):
     new_gid = file.followed_by_ids[0]
     LOGGER.info("Changing GID " + gid + " to " + new_gid)
     return new_gid
+
+
+# https://www.programcreek.com/python/?CodeExample=convert+bytes, Example 4
+
+def convert_to_bytes(size_str):
+
+    # Converts torrent sizes to a common count in bytes.
+    
+    size_data = size_str.split()
+
+    multipliers = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB']
+
+    size_magnitude = float(size_data[0])
+    multiplier_exp = multipliers.index(size_data[1])
+    size_multiplier = 1024 ** multiplier_exp if multiplier_exp > 0 else 1
+
+    return size_magnitude * size_multiplier
+
+
+#https://stackoverflow.com/a/14822210/15410433
+#Requires, import math
+#convert B to KiB...
+def convert_size(size_bytes):
+   if size_bytes == 0:
+       return "0B"
+   size_name = ("B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB")
+   i = int(math.floor(math.log(size_bytes, 1024)))
+   p = math.pow(1024, i)
+   s = round(size_bytes / p, 2)
+   return "%s %s" % (s, size_name[i])
