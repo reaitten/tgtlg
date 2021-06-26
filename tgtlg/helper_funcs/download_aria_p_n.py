@@ -338,7 +338,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 
                 msg = f"\n<b>File name:</b> `{downloading_dir_name}`\n\n<b>Speed:</b> `{file.download_speed_string()}`"
                 msg += f"\n<b>Size:</b> `{file.total_length_string()}`"
-                msg += f"\n<b>{prog}</b>
+                msg += f"\n<b>{prog}</b>"
                 msg += f"\n<b>Downloaded</b>: `{dnld_complete} of {file.progress_string()}` \n<b>ETA:</b> `{file.eta_string()}` \n {msgg}"
                 inline_keyboard = []
                 ikeyboard = []
