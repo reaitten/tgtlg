@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # (c) Shrimadhav U K | gautamajay52
-<<<<<<< HEAD
 # modified by reaitten/orsixtyone
-=======
->>>>>>> 51884b096fcf588d6fb35e7f2fbb20481ad02caa
 
 import logging
 import math
