@@ -194,14 +194,12 @@ if __name__ == "__main__":
     )
     app.add_handler(upload_log_handler)
     #
-    '''
+
     help_text_handler = MessageHandler(
         help_message_f,
         filters=filters.command(["help"]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(help_text_handler)
-    '''
-    #
     #
     start_text_handler = MessageHandler(
         start_message_f,
