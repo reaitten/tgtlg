@@ -1,0 +1,15 @@
+aiohttp
+aria2p==0.9.1
+hachoir
+Pillow
+pyrogram
+tgcrypto
+youtube_dl
+hurry.filesize
+python-dotenv
+beautifulsoup4>=4.8.2,<4.8.10
+bs4
+lxml
+requests
+messages
+js2py
