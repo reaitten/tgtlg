@@ -1,14 +1,17 @@
   # Telegram Torrent Leecher
-
+  
   A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.com/pyrogram/pyrogram)
-
+  
+  # Notice
+  Please note that you may face an account ban from Heroku when you deploy this branch on Heroku.
+  
   # Table of Contents
   
 - [Benefits](#benefits)
 - [To-Do](#to-do)
   * [Deployment](#deployment)
     + [Simple Way](#simple-way)
-      - [Instructions (I did this to avoid the use of same button multiple times)](#instructions-i-did-this-to-avoid-the-use-of-same-button-multiple-times)
+      - [Instructions](#instructions)
     + [Deploy on VPS](#deploy-on-vps)
       - [Setup `config.env`](#setup-configenv)
         * [Setup rclone](#setup-rclone)
@@ -18,9 +21,8 @@
     + [Mandatory Variables](#mandatory-variables)
     + [Optional Configuration Variables](#optional-configuration-variables)
     + [Available Commands](#available-commands)
-  * [Commands to set in @BotFather](#commands-to-set-in-botfather)
   * [How to Use?](#how-to-use)
-  * [Credits](#credits)
+  * [Credits](#credits-and-thanks-to)
 
   # Benefits
       ✓ Google Drive link cloning using gclone. (WIP)
@@ -33,7 +35,7 @@
       ✓ You can also upload files downloaded from /ytdl command to gdrive using `/ytdl gdrive` command.
       ✓ You can also deploy this on your VPS
       ✓ Option to select either video will be uploaded as document or streamable
-      ✓ Added /renewme command to clear the downloads which are not deleted automatically.
+      ✓ Added /rename command to clear the downloads which are not deleted automatically.
       ✓ Added support for youtube playlist
       ✓ Renaming of Telegram files support added.
       ✓ Changing rclone destination config on fly (By using `/rclone` in private mode)
@@ -47,19 +49,7 @@
 
   ### Simple Way
 
-  #### Instructions (I did this to avoid the use of same button multiple times)
-
-  - You have to fork this repo at first
-
-  - Find `app.jso`.
-
-  - Tap on that.
-
-  - Tap to edit and just add `n` at last of name (Don't touch code).
-
-  - It should look like `app.json`. 
-
-  - Then tap:
+  #### Instructions 
 
   **Modified for use on Heroku, please do not heavily abuse!**
 
@@ -71,8 +61,8 @@
 
   - Clone this repo:
   ```
-  git clone https://github.com/gautamajay52/TorrentLeech-Gdrive torrentleech-gdrive
-  cd torrentleech-gdrive
+  git clone -b main https://github.com/reaitten/tgtlg tgtlg
+  cd tgtlg
   ```
 
   - Install requirements
@@ -90,7 +80,7 @@
 
   Fill those compulsory variables.
 
-  If you need more explanation about any variable then read [app.jso](https://github.com/gautamajay52/TorrentLeech-Gdrive/blob/master/app.jso)
+  If you need more explanation about any variable then read [app.json](https://github.com/reaitten/tgtlg/blob/deploy-main/app.json)
 
   ### Setup rclone
 
@@ -129,7 +119,7 @@
   Simply clone the repository and run the main file:
 
   ```
-  git clone https://github.com/gautamajay52/TorrentLeech-Gdrive
+  git clone -b 4forks https://github.com/reaitten/tgtlg
   cd TorrentLeech-Gdrive
   python3 -m venv venv
   . ./venv/bin/activate
@@ -154,136 +144,97 @@
 
   ### Optional Configuration Variables
 
-  - `DOWNLOAD_LOCATION`
+<details>
+      <summary><b>Click Here for more Details</b></summary>
 
-  - `MAX_FILE_SIZE`
 
-  - `TG_MAX_FILE_SIZE`
-
+  - `DOWNLOAD_LOCATION`: The location you would like the bot to download to locally.
+  - `MAX_FILE_SIZE`:
+  - `TG_MAX_FILE_SIZE`:
   - `FREE_USER_MAX_FILE_SIZE`
-
-  - `MAX_TG_SPLIT_FILE_SIZE`
-
-  - `CHUNK_SIZE`
-
-  - `MAX_MESSAGE_LENGTH`
-
-  - `PROCESS_MAX_TIMEOUT`
-
-  - `ARIA_TWO_STARTED_PORT`
-
-  - `EDIT_SLEEP_TIME_OUT`
-
-  - `MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START`
-
-  - `FINISHED_PROGRESS_STR`
-
-  - `UN_FINISHED_PROGRESS_STR`
-
-  - `TG_OFFENSIVE_API`
-
-  - `CUSTOM_FILE_NAME`
-
-  - `LEECH_COMMAND`
-
-  - `YTDL_COMMAND`
-
-  - `GYTDL_COMMAND`
-
-  - `GLEECH_COMMAND`
-
-  - `TELEGRAM_LEECH_COMMAND`
-
-  - `TELEGRAM_LEECH_UNZIP_COMMAND`
-
-  - `PYTDL_COMMAND`
-
-  - `CLONE_COMMAND_G`
-
-  - `UPLOAD_COMMAND`
-
-  - `RENEWME_COMMAND`
-
-  - `SAVE_THUMBNAIL`
-
-  - `CLEAR_THUMBNAIL`
-
-  - `GET_SIZE_G`
+  - `MAX_TG_SPLIT_FILE_SIZE`:
+  - `CHUNK_SIZE`:
+  - `MAX_MESSAGE_LENGTH`:
+  - `PROCESS_MAX_TIMEOUT`:
+  - `ARIA_TWO_STARTED_PORT`:
+  - `EDIT_SLEEP_TIME_OUT`:
+  - `MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START`:
+  - `FINISHED_PROGRESS_STR`:
+  - `UN_FINISHED_PROGRESS_STR`:
+  - `TG_OFFENSIVE_API`:
+  - `CUSTOM_FILE_NAME`:
+  - `LEECH_COMMAND`:
+  - `YTDL_COMMAND`:
+  - `GYTDL_COMMAND`:
+  - `GLEECH_COMMAND`:
+  - `TELEGRAM_LEECH_COMMAND`:
+  - `TELEGRAM_LEECH_UNZIP_COMMAND`:
+  - `PYTDL_COMMAND`:
+  - `CLONE_COMMAND_G`:
+  - `UPLOAD_COMMAND`:
+  - `RENEWME_COMMAND`:
+  - `SAVE_THUMBNAIL`:
+  - `CLEAR_THUMBNAIL`:
+  - `GET_SIZE_G`:
 
   - `UPLOAD_AS_DOC`: Takes two option True or False. If True file will be uploaded as document. This is for people who wants video files as document instead of streamable.
 
   - `INDEX_LINK`: (Without `/` at last of the link, otherwise u will get error) During creating index, plz fill `Default Root ID` with the id of your `DESTINATION_FOLDER` after creating. Otherwise index will not work properly.
 
-  - `DESTINATION_FOLDER`: Name of your folder in ur respective drive where you want to upload the files using the bot.
+  - `DESTINATION_FOLDER`: Name of your folder in your respective drive where you want to upload the files using the bot.
+
+</details>
 
   ### Available Commands
 
   - `/rclone`: This will change your drive config on fly. (First one will be default)
   - `/gclone`: This command is used to clone gdrive files or folder using gclone.
-        
-        Syntax:- `[ID of the file or folder][one space][name of your folder only(If the id is of file, don't put anything)]` and then reply /gclone to it.
-        
-  - `/log`: This will send you a txt file of the logs.
+
+  - `/help`: To get a list of commands
+
+  - `/leech`: This command should be used as reply to a magnetic link, a torrent link, or a direct link. [this command will SPAM the chat and send the downloads a seperate files if there is more than one file, in the specified torrent]
+  - `/archive`: This command should be used as reply to a magnetic link, a torrent link, or a direct link. [This command will create a .tar.gz file of the output directory, and send the files in the chat, splited into PARTS of 1024MiB each, due to Telegram limitations]
+  - `/extract`: This will unarchive file and upload to telegram.
+
+  - `/gleech`: This command should be used as reply to a magnetic link, a torrent link, or a direct link. And this will download the files from the given link or torrent and will upload to the cloud using rclone.
+  - `/garchive`: This command will compress the folder/file and will upload to your cloud.
+  - `/gextract`: This will unarchive file and upload to cloud.
+  - `/gclone`: This command is used to clone gdrive files or folder using gclone.
+
+Syntax: `[ID of the file or folder][one space][name of your folder only (If the ID is of file, don't put anything)]` and then reply /gclone to it.
+
+  - `/tleech`: This will mirror the telegram files to your respective cloud.
+  - `/textract`: This will unarchive telegram file and upload to cloud.
+
   - `/ytdl`: This command should be used as reply to a [supported link](https://ytdl-org.github.io/youtube-dl/supportedsites.html)
   - `/pytdl`: This command will download videos from youtube playlist link and will upload to telegram.
   - `/gytdl`: This will download and upload to your cloud.
   - `/gpytdl`: This download youtube playlist and upload to your cloud.
-  - `/leech`: This command should be used as reply to a magnetic link, a torrent link, or a direct link. [this command will SPAM the chat and send the downloads a seperate files, if there is more than one file, in the specified torrent]
-  - `/leechzip`: This command should be used as reply to a magnetic link, a torrent link, or a direct link. [This command will create a .tar.gz file of the output directory, and send the files in the chat, splited into PARTS of 1024MiB each, due to Telegram limitations]
-  - `/gleech`: This command should be used as reply to a magnetic link, a torrent link, or a direct link. And this will download the files from the given link or torrent and will upload to the cloud using rclone.
-  - `/gleechzip` This command will compress the folder/file and will upload to your cloud.
-  - `/leechunzip`: This will unarchive file and dupload to telegram.
-  - `/gleechunzip`: This will unarchive file and upload to cloud.
-  - `/tleech`: This will mirror the telegram files to ur respective cloud cloud.
-  - `/tleechunzip`: This will unarchive telegram file and upload to cloud.
   - `/getsize`: This will give you total size of your destination folder in cloud.
   - `/renewme`: This will clear the remains of downloads which are not getting deleted after upload of the file or after /cancel command.
   - `/rename`: To rename the telegram files.
+
+  - `/rclone`: This will change your drive config on fly. (First one will be default)
+  - `/log`: This will send you a txt file of the logs.
+
+Only works with direct link and youtube link for now.
+You can add a custom name as it's prefix to the file. Example: if gk.txt uploaded will be what you add in CUSTOM_FILE_NAME + gk.txt
 
   You can add a custom name as it's prefix of the original file name.
   e.g: if file is `gk.txt` uploaded will be what you added in ``CUSTOM_FILE_NAME`` + ``gk.txt``
   It is like you can add custom name as prefix of the original file name.
   Like if your file name is `gk.txt` uploaded will be what u add in `CUSTOM_FILE_NAME` + `gk.txt`
 
-  Added ability to have custom name like...
-
-  You have to pass link as 
-  `www.download.me/gk.txt | new.txt`
-
-  the file will be uploaded as `new.txt`.
-
-  ## Commands to set in [@BotFather](https://t.me/BotFather)
-
-  ```
-  leech - Reply to a magnetic link, a torrent link, or a direct link. this command will SPAM the chat and send the downloads a seperate files, if there is more than one file, in   the specified torrent
-  leechzip - Reply to a magnetic link, a torrent link, or a direct link. .tar.gz archive, split into 1024MB due to Telegram limits
-  gleech - Reply to a magnetic link, a torrent link, or a direct link. And this will download the files from the given link or torrent and will upload to the cloud.
-  gleechzip - Compress the folder/file and upload to your cloud.
-  leechunzip -  Unarchive file and dupload to telegram.
-  gleechunzip - Unarchive file and upload to cloud.
-  tleech - Leech Telegram files to your cloud.
-  tleechunzip - Unarchive Telegram file and upload to cloud.
-  ytdl - Download a YouTube video link and upload to Telegram
-  pytdl - Download videos from youtube playlist link and will upload to Telegram.
-  gytdl - Download a YouTube video link and upload to your cloud.
-  gpytdl - Download YouTube playlist and upload to your cloud.
-  rclone - Change your rclone config on fly.
-  log - Get bot logs.
-  getsize - Returns total size of your destination folder in cloud.
-  renewme - Clear all remaining downloads
-  rename - add custom name as prefix of the original file name.
-  ```
-
   ## How to Use?
 
-  * send any one of the available command, as a reply to a valid link/magnet/torrent.
+  * send any one of the available commands, as a reply to a valid link/magnet/torrent.
 
 
   ## Credits
   - [GautamKumar](https://github.com/gautamajay52/TorrentLeech-Gdrive)
   - [SpEcHiDe](https://github.com/SpEcHiDe/PublicLeech) for his wonderful code
   - [cihanvol](https://github.com/cihanvol) for [direct_link_generator](https://github.com/reaitten/tgtlg/blob/main/tgtlg/helper_funcs/direct_link_generator.py)
-  - [AmirulAndalib](https://github.com/AmirulAndalib) for custom [start.sh](https://github.com/AmirulAndalib/TorrentLeechX/blob/d0ae800cf8bc628ab2a38b05eb72cb4eb8f11f48/start.sh)
+  - [MaxxRider](https://github.com/MaxxRider) for tweaked version of [TorrentLeech-Gdrive](https://github.com/MaxxRider/Leech-Pro)
   - [Rclone Team](https://rclone.org) for theirs awesome tool
   - [Dan Tès](https://telegram.dog/haskell) for his [Pyrogram Library](https://github.com/pyrogram/pyrogram)
   - [Robots](https://telegram.dog/Robots) for their [@UploadBot](https://telegram.dog/UploadBot)
