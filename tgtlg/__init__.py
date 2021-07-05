@@ -1,22 +1,33 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # (c) Shrimadhav U K | gautamajay52
+<<<<<<< HEAD
 # modified by reaitten/orsixtyone
+=======
+>>>>>>> 51884b096fcf588d6fb35e7f2fbb20481ad02caa
 
 import logging
 import os
 import time
+<<<<<<< HEAD
 import telegram.ext as tg
 from telegram import ParseMode, BotCommand
 
+=======
+>>>>>>> 51884b096fcf588d6fb35e7f2fbb20481ad02caa
 from logging.handlers import RotatingFileHandler
 from collections import defaultdict
 from sys import exit
 
 import dotenv
 
+<<<<<<< HEAD
 if os.path.exists("logs.txt"):
     with open("logs.txt", "r+") as f_d:
+=======
+if os.path.exists("tgtlg.txt"):
+    with open("tgtlg.txt", "r+") as f_d:
+>>>>>>> 51884b096fcf588d6fb35e7f2fbb20481ad02caa
         f_d.truncate(0)
 
 # the logging things
@@ -26,7 +37,11 @@ logging.basicConfig(
     datefmt="%d-%b-%y %H:%M:%S",
     handlers=[
         RotatingFileHandler(
+<<<<<<< HEAD
             "logs.txt", maxBytes=50000000, backupCount=10
+=======
+            "tgtlg.txt", maxBytes=50000000, backupCount=10
+>>>>>>> 51884b096fcf588d6fb35e7f2fbb20481ad02caa
         ),
         logging.StreamHandler(),
     ],
@@ -48,7 +63,11 @@ for imp in ["TG_BOT_TOKEN", "APP_ID", "API_HASH", "OWNER_ID", "AUTH_CHANNEL"]:
         if not value:
             raise KeyError
     except KeyError:
+<<<<<<< HEAD
         LOGGER.critical(f"Oh...{imp}  is missing from config.env ... fill that")
+=======
+        LOGGER.critical(f"Oh...{imp} is missing from config.env ... fill that")
+>>>>>>> 51884b096fcf588d6fb35e7f2fbb20481ad02caa
         exit()
 
 # The Telegram API things

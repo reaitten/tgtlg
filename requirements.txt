@@ -1,3 +1,5 @@
+wheel
+rust 
 aiohttp
 aria2p==0.9.1
 hachoir
@@ -6,6 +8,7 @@ pyrogram
 tgcrypto
 youtube_dl
 hurry.filesize
+python-telegram-bot
 python-dotenv
 beautifulsoup4>=4.8.2,<4.8.10
 bs4
