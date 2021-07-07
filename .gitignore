@@ -129,6 +129,7 @@ dmypy.json
 .pyre/
 
 # session files
-.session/
+.session
+LeechBot.session
 log.txt
 logs.txt

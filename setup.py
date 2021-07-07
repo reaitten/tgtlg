@@ -2,18 +2,20 @@ import setuptools
 
 setuptools.setup(
     name="tgtlg",
-    version="1.2.9",
+    version="1.3.4",
     author="reaitten",
     author_email="wsy0xf2u8@relay.firefox.com",
     description="A Telegram Torrent (and youtube-dl) Leecher based on Pyrogram.",
     long_description=open('README.md', 'r', encoding='utf-8').read(),
     long_description_content_type="text/markdown",
+    include_package_data=True,
+    python_requires=">=3.8.2",
     url="https://github.com/reaitten/tgtlg",
     project_urls={
         "Bug Tracker": "https://github.com/reaitten/tgtlg/issues",
     },
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
         "Operating System :: POSIX :: Linux",
         "Development Status :: 5 - Production/Stable"
     ],
@@ -36,5 +38,9 @@ setuptools.setup(
         'messages', 
         'js2py'],
     scripts=['extract'],
-    python_requires=">=3.8.2",
+    entry_points={
+        "console_scripts":[
+            "tgtlg = tgtlg.__main__:main"
+                ],
+    },
 )

@@ -148,7 +148,73 @@
       <summary><b>Click Here for more Details</b></summary>
 
 
-  - `DOWNLOAD_LOCATION`: The location you would like the bot to download to locally.
+  - `DOWNLOAD_LOCATION`: 
+  The location you would like the bot to download to locally.
+
+  - `BOT_CMD_POSTFIX`:   
+  If you want the bot to respond to you when you send a command along with the bot username. 
+  Usage Example: /command@botusername
+  Example Value: @mybotsusername
+  Defualt Value is "".
+  
+  - `LEECH_COMMAND`:
+  Change the /leech command.
+  Defualt Value is "leech"
+  - `LEECH_UNZIP_COMMAND`:
+   Change the /extract command.
+  Defualt Value is "extract"
+  - `LEECH_ZIP_COMMAND`:
+  Change the /archive command.
+  Defualt Value is "archive" 
+  - `YTDL_COMMAND`:
+  Change the /ytdl command.
+  Defualt Value is "ytdl"
+  - `GYTDL_COMMAND`:
+  Change the /gytdl command.
+  Defualt Value is "gytdl"
+  - `PYTDL_COMMAND`:
+  Change the /pytdl command.
+  Defualt Value is "pytdl"
+  - `GLEECH_COMMAND`:
+  Change the /gleech command.
+  Defualt Value is "gleech"
+  - `TELEGRAM_LEECH_COMMAND`:
+  Change the /tleech command.
+  Defualt Value is "tleech"
+  - `TELEGRAM_LEECH_UNZIP_COMMAND`:
+  Change the /textract command.
+  Defualt Value is "textract"
+  - `CLONE_COMMAND_G`:
+  Change the /gclone command.
+  Defualt Value is "gclone"
+  - `UPLOAD_COMMAND`:
+  Change the /upload command.
+  Defualt Value is "upload"
+  - `RENEWME_COMMAND`:
+  Change the /leech command.
+  Defualt Value is "leech"
+  - `SAVE_THUMBNAIL`:
+  Change the /savethumb command.
+  Defualt Value is "savethumb"
+  - `CLEAR_THUMBNAIL`:
+  Change the /clearthumb command.
+  Defualt Value is "clearthumb"
+  - `GET_SIZE_G`:
+  Change the /clearthumb command.
+  Defualt Value is "clearthumb"
+  - `TOGGLE_VID`:
+  Change the /togglevid command.
+  Defualt Value is "togglevid"
+  - `TOGGLE_DOC`:
+  Change the /toggledoc command.
+  Defualt Value is "toggledoc"
+  - `RENAME_COMMAND`:
+  Change the /rename command.
+  Defualt Value is "rename"
+  - `CANCEL_COMMAND_G`:
+  Change the /cancel command.
+  Defualt Value is "cancel"
+
   - `MAX_FILE_SIZE`:
   - `TG_MAX_FILE_SIZE`:
   - `FREE_USER_MAX_FILE_SIZE`
@@ -163,19 +229,6 @@
   - `UN_FINISHED_PROGRESS_STR`:
   - `TG_OFFENSIVE_API`:
   - `CUSTOM_FILE_NAME`:
-  - `LEECH_COMMAND`:
-  - `YTDL_COMMAND`:
-  - `GYTDL_COMMAND`:
-  - `GLEECH_COMMAND`:
-  - `TELEGRAM_LEECH_COMMAND`:
-  - `TELEGRAM_LEECH_UNZIP_COMMAND`:
-  - `PYTDL_COMMAND`:
-  - `CLONE_COMMAND_G`:
-  - `UPLOAD_COMMAND`:
-  - `RENEWME_COMMAND`:
-  - `SAVE_THUMBNAIL`:
-  - `CLEAR_THUMBNAIL`:
-  - `GET_SIZE_G`:
 
   - `UPLOAD_AS_DOC`: Takes two option True or False. If True file will be uploaded as document. This is for people who wants video files as document instead of streamable.
 

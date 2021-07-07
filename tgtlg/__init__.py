@@ -62,7 +62,7 @@ OWNER_ID = int(os.environ.get("OWNER_ID", "539295917"))
 AUTH_CHANNEL = [int(x) for x in os.environ.get("AUTH_CHANNEL", "539295917").split()]
 
 # the download location, where the HTTP Server runs
-DOWNLOAD_LOCATION = "./DOWNLOADS"
+DOWNLOAD_LOCATION = "./Downloads"
 # Telegram maximum file upload size
 MAX_FILE_SIZE = 50000000
 TG_MAX_FILE_SIZE = 2097152000
@@ -92,6 +92,7 @@ FINISHED_PROGRESS_STR = os.environ.get("FINISHED_PROGRESS_STR", "█")
 UN_FINISHED_PROGRESS_STR = os.environ.get("UN_FINISHED_PROGRESS_STR", "░")
 # add offensive API
 TG_OFFENSIVE_API = os.environ.get("TG_OFFENSIVE_API", None)
+BOT_CMD_POSTFIX = os.environ.get("BOT_CMD_POSTFIX", "")
 CUSTOM_FILE_NAME = os.environ.get("CUSTOM_FILE_NAME", "")
 LEECH_COMMAND = os.environ.get("LEECH_COMMAND", "leech")
 LEECH_UNZIP_COMMAND = os.environ.get("LEECH_UNZIP_COMMAND", "extract")

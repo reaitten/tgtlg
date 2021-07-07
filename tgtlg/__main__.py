@@ -44,6 +44,7 @@ from tgtlg import (
     GPYTDL_COMMAND,
     TOGGLE_VID,
     TOGGLE_DOC,
+    BOT_CMD_POSTFIX,
 )
 from tgtlg.helper_funcs.download import down_load_media_f
 from tgtlg.plugins.call_back_button_handler import button
@@ -90,12 +91,12 @@ if __name__ == "__main__":
         incoming_message_f,
         filters=filters.command(
             [
-                LEECH_COMMAND,
-                LEECH_UNZIP_COMMAND,
-                LEECH_ZIP_COMMAND,
-                GLEECH_COMMAND,
-                GLEECH_UNZIP_COMMAND,
-                GLEECH_ZIP_COMMAND,
+                LEECH_COMMAND + BOT_CMD_POSTFIX,
+                LEECH_UNZIP_COMMAND + BOT_CMD_POSTFIX,
+                LEECH_ZIP_COMMAND + BOT_CMD_POSTFIX,
+                GLEECH_COMMAND + BOT_CMD_POSTFIX,
+                GLEECH_UNZIP_COMMAND + BOT_CMD_POSTFIX,
+                GLEECH_ZIP_COMMAND + BOT_CMD_POSTFIX,
             ]
         )
         & filters.chat(chats=AUTH_CHANNEL),
@@ -104,100 +105,100 @@ if __name__ == "__main__":
     #
     incoming_telegram_download_handler = MessageHandler(
         down_load_media_f,
-        filters=filters.command([TELEGRAM_LEECH_COMMAND, TELEGRAM_LEECH_UNZIP_COMMAND])
+        filters=filters.command([TELEGRAM_LEECH_COMMAND + BOT_CMD_POSTFIX, TELEGRAM_LEECH_UNZIP_COMMAND + BOT_CMD_POSTFIX])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_telegram_download_handler)
     #
     incoming_purge_message_handler = MessageHandler(
         incoming_purge_message_f,
-        filters=filters.command(["purge"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command(["purge" + BOT_CMD_POSTFIX]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_purge_message_handler)
     #
     incoming_clone_handler = MessageHandler(
         g_clonee,
-        filters=filters.command([f"{CLONE_COMMAND_G}"])
+        filters=filters.command([f"{CLONE_COMMAND_G}" + BOT_CMD_POSTFIX])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_clone_handler)
     #
     incoming_size_checker_handler = MessageHandler(
         check_size_g,
-        filters=filters.command([f"{GET_SIZE_G}"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command([f"{GET_SIZE_G}" + BOT_CMD_POSTFIX]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_size_checker_handler)
     #
     incoming_g_clear_handler = MessageHandler(
         g_clearme,
-        filters=filters.command([f"{RENEWME_COMMAND}"])
+        filters=filters.command([f"{RENEWME_COMMAND}" + BOT_CMD_POSTFIX])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_g_clear_handler)
     #
     incoming_youtube_dl_handler = MessageHandler(
         incoming_youtube_dl_f,
-        filters=filters.command([YTDL_COMMAND, GYTDL_COMMAND])
+        filters=filters.command([YTDL_COMMAND + BOT_CMD_POSTFIX, GYTDL_COMMAND + BOT_CMD_POSTFIX])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_youtube_dl_handler)
     #
     incoming_youtube_playlist_dl_handler = MessageHandler(
         g_yt_playlist,
-        filters=filters.command([PYTDL_COMMAND, GPYTDL_COMMAND])
+        filters=filters.command([PYTDL_COMMAND + BOT_CMD_POSTFIX, GPYTDL_COMMAND + BOT_CMD_POSTFIX])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(incoming_youtube_playlist_dl_handler)
     #
     status_message_handler = MessageHandler(
         status_message_f,
-        filters=filters.command([f"{STATUS_COMMAND}"])
+        filters=filters.command([f"{STATUS_COMMAND}" + BOT_CMD_POSTFIX])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(status_message_handler)
     #
     cancel_message_handler = MessageHandler(
         cancel_message_f,
-        filters=filters.command([f"{CANCEL_COMMAND_G}"])
+        filters=filters.command([f"{CANCEL_COMMAND_G}" + BOT_CMD_POSTFIX])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(cancel_message_handler)
     #
     exec_message_handler = MessageHandler(
         exec_message_f,
-        filters=filters.command(["exec"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command(["exec" + BOT_CMD_POSTFIX]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(exec_message_handler)
     #
     eval_message_handler = MessageHandler(
         eval_message_f,
-        filters=filters.command(["eval"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command(["eval" + BOT_CMD_POSTFIX]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(eval_message_handler)
     #
     rename_message_handler = MessageHandler(
         rename_tg_file,
-        filters=filters.command([f"{RENAME_COMMAND}"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command([f"{RENAME_COMMAND}" + BOT_CMD_POSTFIX]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(rename_message_handler)
     #
     upload_document_handler = MessageHandler(
         upload_document_f,
-        filters=filters.command([f"{UPLOAD_COMMAND}"])
+        filters=filters.command([f"{UPLOAD_COMMAND}" + BOT_CMD_POSTFIX])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(upload_document_handler)
     #
     upload_log_handler = MessageHandler(
         upload_log_file,
-        filters=filters.command([f"{LOG_COMMAND}"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command([f"{LOG_COMMAND}" + BOT_CMD_POSTFIX]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(upload_log_handler)
     #
 
     help_text_handler = MessageHandler(
         help_message_f,
-        filters=filters.command(["help"]) & filters.chat(chats=AUTH_CHANNEL),
+        filters=filters.command(["help" + BOT_CMD_POSTFIX]) & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(help_text_handler)
     #
@@ -229,32 +230,32 @@ if __name__ == "__main__":
     #
     save_thumb_nail_handler = MessageHandler(
         save_thumb_nail,
-        filters=filters.command([f"{SAVE_THUMBNAIL}"])
+        filters=filters.command([f"{SAVE_THUMBNAIL}" + BOT_CMD_POSTFIX])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(save_thumb_nail_handler)
     #
     clear_thumb_nail_handler = MessageHandler(
         clear_thumb_nail,
-        filters=filters.command([f"{CLEAR_THUMBNAIL}"])
+        filters=filters.command([f"{CLEAR_THUMBNAIL}" + BOT_CMD_POSTFIX])
         & filters.chat(chats=AUTH_CHANNEL),
     )
     app.add_handler(clear_thumb_nail_handler)
     #
     rclone_config_handler = MessageHandler(
-        rclone_command_f, filters=filters.command(["rclone"])
+        rclone_command_f, filters=filters.command(["rclone" + BOT_CMD_POSTFIX])
     )
     app.add_handler(rclone_config_handler)
     #
     upload_as_doc_handler = MessageHandler(
         upload_as_doc,
-        filters=filters.command([f"{TOGGLE_DOC}"]) & filters.chat(chats=AUTH_CHANNEL), 
+        filters=filters.command([f"{TOGGLE_DOC}" + BOT_CMD_POSTFIX]) & filters.chat(chats=AUTH_CHANNEL), 
     )
     app.add_handler(upload_as_doc_handler)
     #
     upload_as_video_handler = MessageHandler(
         upload_as_video,
-        filters=filters.command([f"{TOGGLE_VID}"]) & filters.chat(chats=AUTH_CHANNEL), 
+        filters=filters.command([f"{TOGGLE_VID}" + BOT_CMD_POSTFIX]) & filters.chat(chats=AUTH_CHANNEL), 
     )
     app.add_handler(upload_as_video_handler)
     #
