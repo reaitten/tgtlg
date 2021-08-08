@@ -1,6 +1,7 @@
 {
   "name": "Telegram Torrent Leecher",
   "description": "A Telegram Torrent (and youtube-dl) Leecher based on Pyrogram.",
+  "logo": "https://telegra.ph/file/ff4fc5a2710b998cbd393.jpg",
   "keywords": [
     "telegram"
   ],
