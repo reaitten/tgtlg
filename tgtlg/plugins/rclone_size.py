@@ -45,15 +45,15 @@ async def g_clearme(client, message):
     inline_keyboard = []
     ikeyboard = []
     ikeyboard.append(
-        InlineKeyboardButton("Yes", callback_data=("fuckingdo").encode("UTF-8"))
+        InlineKeyboardButton("Yes 🚫", callback_data=("fuckingdo").encode("UTF-8"))
     )
     ikeyboard.append(
-        InlineKeyboardButton("No", callback_data=("fuckoff").encode("UTF-8"))
+        InlineKeyboardButton("No 🤗", callback_data=("fuckoff").encode("UTF-8"))
     )
     inline_keyboard.append(ikeyboard)
     reply_markup = InlineKeyboardMarkup(inline_keyboard)
     await message.reply_text(
-        "Are you sure? This will delete all your downloads locally!",
+        "Are you sure? 🚫 This will delete all your downloads locally 🚫",
         reply_markup=reply_markup,
         quote=True,
     )
