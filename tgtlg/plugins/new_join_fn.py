@@ -11,7 +11,8 @@ async def new_join_f(client, message):
     chat_type = message.chat.type
     if chat_type != "private":
         await message.reply_text(
-            f"""<b>Not Authorized to be here.</b>\n\n<b>Current Chat ID: <code>{message.chat.id}</code>""", parse_mode="html")
+            f"""<b>🙋🏻‍♂️ Hello dear!\n\n Welcome to Leech Group</b>\n\n<b>Current CHAT ID: <code>{message.chat.id}</code>""",
+            parse_mode="html",
         # leave chat
         await client.leave_chat(chat_id=message.chat.id, delete=True)
     # delete all other messages, except for AUTH_CHANNEL
