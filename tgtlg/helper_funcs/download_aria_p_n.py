@@ -118,7 +118,7 @@ def add_magnet(aria_instance, magnetic_link, c_file_name):
     except Exception as e:
         return (
             False,
-            "**Failed.** \n" + str(e) + " \n<b>Your torrent is dead.</b>",
+            "**Failed.** \n" + str(e) + " \n<b>Your link is Dead 🐈</b>",
         )
     else:
         return True, "" + download.gid + ""
@@ -143,7 +143,7 @@ def add_torrent(aria_instance, torrent_file_path):
                 False,
                 "**Failed.** \n"
                 + str(e)
-                + " \n<b>Your torrent is dead.</b>",
+                + " \n<b>Your link is Dead 🐈</b>",
             )
         else:
             return True, "" + download.gid + ""
@@ -290,12 +290,12 @@ async def call_apropriate_function(
                     message_to_send += "\n"
                 if message_to_send != "":
                     mention_req_user = (
-                        f"<b><a href='tg://user?id={user_id}'>Your requested files:</a></b>\n\n"
+                        f"<b><a href='tg://user?id={user_id}'>📁 Your Requested Files</a></b>\n\n"
                     )
                     message_to_send = mention_req_user + message_to_send
-                    message_to_send = message_to_send + "\n" + "<b>Enjoy!</b>"
+                    message_to_send = message_to_send + "\n\n" + "#uploaded\n\n<b>💫 Powered By : @TG_TORBOTS</b>"
                 else:
-                    message_to_send = "<b>Failed</b> to upload files."
+                    message_to_send = "<b>Failed</b>to upload files. 😞😞"
                 await user_message.reply_text(
                     text=message_to_send, quote=True, disable_web_page_preview=True
                 )
@@ -329,25 +329,26 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                     pass
                 #
                 if is_file is None:
-                    msgg = f"<b>Connections: {file.connections} </b>"
+                    msgg = f"<b>🔥➺ Connections: {file.connections} </b>"
                 else:
-                    msgg = f"<b>P: {file.connections} | S: {file.num_seeders} </b>\n\n<b>GID:</b> <code>{gid}</code>"
+                    msgg = f"<b>🔥➺ Info :- P: {file.connections} | S: {file.num_seeders} </b>\n\n<b>🗑️ GID:</b> <code>{gid}</code>"
                     
                 dnld_complete = convert_size(round(convert_to_bytes(file.total_length_string()) * (float(re.sub("[^0-9.]", "", file.progress_string()))/100),2))
                 percentage = int(file.progress_string(0).split('%')[0])
                 prog = "[{0}{1}]".format("".join([FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),"".join([UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]))
                 
-                msg = f"\n<b>Filename:</b> `{downloading_dir_name}`\n\n"
-                msg += f"\n<b>{prog}</b> `{file.progress_string()}`"
-                msg += f"\n<b>Downloaded</b>: `{dnld_complete} of {file.total_length_string()}`"
-                msg += f"\n<b>Speed:</b> `{file.download_speed_string()}`"
-                msg += f"\n<b>ETA:</b> `{file.eta_string()}`"
+                msg = f"\n<b>🔥➺ 📒Filename:</b> `{downloading_dir_name}`\n\n"
+                msg += f"\n<b>🔥➺ {prog}</b> `{file.progress_string()}`"
+                msg += f"\n<b>🔥➺ Downloaded 📥</b>: `{dnld_complete} of {file.total_length_string()}`"
+                msg += f"\n<b>🔥➺ Size :</b> `{file.total_length_string()}`"
+                msg += f"\n<b>🔥➺ Speed🚀:</b> `{file.download_speed_string()}`"
+                msg += f"\n<b>🔥➺ ETA⏳:</b> `{file.eta_string()}`"
                 msg += f"\n\n{msgg}"
                 inline_keyboard = []
                 ikeyboard = []
                 ikeyboard.append(
                     InlineKeyboardButton(
-                        "Cancel.", callback_data=(f"cancel {gid}").encode("UTF-8")
+                        " 🗑️ Cancel Process.", callback_data=(f"cancel {gid}").encode("UTF-8")
                     )
                 )
                 inline_keyboard.append(ikeyboard)
@@ -386,7 +387,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
             )
             await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
             await event.edit(
-                f"<b>Downloaded successfully</b>:\n\n <b>File name</b>: \n`{file.name}`\n\n <b>Total Size</b>: `〘{file.total_length_string()}〙`"
+                f"<b>Downloaded successfully</b>:\n\n📙 <b>File name</b>: \n`{file.name}`\n\n <b>Total Size</b>: `〘{file.total_length_string()}〙`"
             )
             return True
     except aria2p.client.ClientException:
@@ -404,7 +405,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
         file.remove(force=True, files=True)
         await event.edit(
             "*Download automatically canceled. Reason:**\n\n"
-            "`Your torrent/link is dead.`".format(file.name)
+            "`Your Torrent/Link is Dead.`👺`".format(file.name)
         )
         return False
     except Exception as e:
