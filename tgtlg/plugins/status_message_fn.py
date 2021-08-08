@@ -24,12 +24,12 @@ from tgtlg.UserDynaConfig import UserDynaConfig
 
 async def upload_as_doc(client, message):
     user_specific_config[message.from_user.id]=UserDynaConfig(message.from_user.id,True)
-    await message.reply_text("**Your files will be uploaded as Document.**")
+    await message.reply_text("**🗞 Your Files Will Be Uploaded As Document 📁**")
 
 
 async def upload_as_video(client, message):
     user_specific_config[message.from_user.id]=UserDynaConfig(message.from_user.id,False)
-    await message.reply_text("**Your files will be uploaded as Streamable.**")
+    await message.reply_text("**🗞 Your Files Will Be Uploaded As Streamable 🎞**")
     
     
 async def status_message_f(client, message):
@@ -76,7 +76,7 @@ async def status_message_f(client, message):
         # LOGGER.info(msg)
 
         if msg == "":
-            msg = "No Active, Queued or Paused Torrents."
+            msg = "🤷‍♂️ No Active, Queued or Paused TORRENTs"
 
     hr, mi, se = up_time(time.time() - BOT_START_TIME)
     total, used, free = shutil.disk_usage(".")
