@@ -52,7 +52,7 @@ class Progress:
             [
                 [
                     InlineKeyboardButton(
-                        "Cancel",
+                        "Cancel 🚫",
                         callback_data=(
                             f"gUPcancel/{chat_id}/{mes_id}/{from_user}"
                         ).encode("UTF-8"),
@@ -63,7 +63,7 @@ class Progress:
         if self.is_cancelled:
             LOGGER.info("stopping ")
             await self._mess.edit(
-                f"Cancelled/ERROR: `{ud_type}` ({humanbytes(total)})"
+                f"😌 Cancelled/ERROR: `{ud_type}` ({humanbytes(total)})"
             )
             await self._client.stop_transmission()
 
@@ -78,19 +78,19 @@ class Progress:
             elapsed_time = TimeFormatter(milliseconds=elapsed_time)
             estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
 
-            progress = "[{0}{1}] \nP: {2}%\n".format(
-                "".join(
-                    [FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]
-                ),
-                "".join(
-                    [
-                        UN_FINISHED_PROGRESS_STR
-                        for i in range(20 - math.floor(percentage / 5))
-                    ]
-                ),
-                round(percentage, 2),
+            progress = "<b>🔥➺  ⌊__UploadinG: 〘{2}%〙 📤__⌉</b>\n│ \n<b>🔥➺〖{0}{1}〗</b>\n".format(
+                ''.join([FINISHED_PROGRESS_STR for i in range(math.floor(percentage / 5))]),
+                ''.join([UN_FINISHED_PROGRESS_STR for i in range(20 - math.floor(percentage / 5))]),
+                round(percentage, 2))
+            #cpu = "{psutil.cpu_percent()}%"
+            tmp = progress +"│" + "\n**🔥➺ Total 📀:**   〘<code>{1}</code>〙\n**🔥➺ Done ✓ :** 〘<code>{0}</code>〙\n**🔥➺ Speed** 🚀 :  〘<code>{2}/s</code>〙\n**🔥➺ ETA** ⏳ :  〘<code>{3}</code>〙\n**│**\n**🔥➺ ⌊ @TG_TORBOTS ⌉**".format(
+                humanbytes(current),
+                humanbytes(total),
+                humanbytes(speed),
+                # elapsed_time if elapsed_time != '' else "0 s",
+                estimated_total_time if estimated_total_time != "" else "0 s",
+            #tmp += "\n│"+"\n🔥➺  ⌊ @TG_TORBOTS ⌉"
             )
-
             tmp = progress + "{0} of {1}\nSpeed: {2}/s\nETA: {3}\n".format(
                 humanbytes(current),
                 humanbytes(total),
