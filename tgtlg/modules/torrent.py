@@ -98,9 +98,9 @@ async def init_search(client, message, query, sukebei):
         ]))
         message_info[(reply.chat.id, reply.message_id)] = message.from_user.id, ttl, query, 1, pages, sukebei
 
-#@app.on_callback_query(custom_filters.callback_data('nyaa_nop'))
-#async def nyaa_nop(client, callback_query):
-#    await callback_query.answer(cache_time=3600)
+@app.on_callback_query(custom_filters.callback_data('nyaa_nop'))
+async def nyaa_nop(client, callback_query):
+    await callback_query.answer(cache_time=3600)
 
 callback_lock = asyncio.Lock()
 @app.on_callback_query(custom_filters.callback_data(['nyaa_back', 'nyaa_next']))
@@ -332,7 +332,3 @@ async def searchhelp(client, message):
 • /ts <i>[search query]</i>
 '''
     await message.reply_text(help_string, quote=True)
-    
-    
-'''SEARCHHELP_HANDLER = CommandHandler(BotCommands.TsHelpCommand, searchhelp, filters=(CustomFilters.authorized_chat | CustomFilters.authorized_user) & CustomFilters.mirror_owner_filter, run_async=True)
-dispatcher.add_handler(SEARCHHELP_HANDLER)'''

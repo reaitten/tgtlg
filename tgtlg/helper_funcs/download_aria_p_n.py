@@ -33,7 +33,7 @@ from tgtlg.bot_utils.create_compressed_archive import (
 )
 from tgtlg.helper_funcs.extract_link_from_message import extract_link
 from tgtlg.helper_funcs.uploader import upload_to_gdrive, upload_to_tg
-from tgtlg.helper_funcs.direct_link_generator import direct_link_generator
+from tgtlg.helper_funcs.direct_link_generator import direct_link_generator, dl_list
 from tgtlg.helper_funcs.exceptions import DirectDownloadLinkException
 from tgtlg.helper_funcs.download import download_tg
 from ..bot_utils.conversion import convert_size, convert_to_bytes
@@ -95,7 +95,7 @@ async def aria_start():
         f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}"
     )
     LOGGER.info("Started aria2c process.")
-    LOGGER.DEBUG(aria2_daemon_start_cmd)
+    LOGGER.debug(aria2_daemon_start_cmd)
     process = await asyncio.create_subprocess_exec(
         *aria2_daemon_start_cmd,
         stdout=asyncio.subprocess.PIPE,
@@ -107,7 +107,7 @@ async def aria_start():
         aria2p.Client(host="http://localhost",
                       port=ARIA_TWO_STARTED_PORT, secret="")
     )
-    LOGGER.DEBUG(aria2)
+    LOGGER.debug(aria2)
     return aria2
 
 def add_magnet(aria_instance, magnetic_link, c_file_name):
@@ -156,6 +156,7 @@ def add_torrent(aria_instance, torrent_file_path):
 
 def add_url(aria_instance, text_url, c_file_name):
     options = None
+    # file selection?
     # if c_file_name is not None:
     #     options = {
     #         "dir": c_file_name
@@ -163,31 +164,43 @@ def add_url(aria_instance, text_url, c_file_name):
     #
     # or "cloud.mail.ru" in text_url \  doesnt work.
     # or "github.com" in text_url \   doesnt work.
-    #
-    # add from new_direct_link_generator.py!!
-    if "zippyshare.com" in text_url \
-        or "osdn.net" in text_url \
-        or "mediafire.com" in text_url \
-        or "yadi.sk" in text_url  \
-        or "racaty.net" in text_url:
-            try:
-                urisitring = direct_link_generator(text_url)
-                uris = [urisitring]
-            except DirectDownloadLinkException as e:
-                LOGGER.info(f'{text_url}: {e}')
+
+    #LOGGER.debug(text_url)
+# moved to tgtlg/helper_funcs/direct_link_generator.py > dl_list
+#    if "zippyshare.com" in text_url \
+#        or "osdn.net" in text_url \
+#        or "mediafire.com" in text_url \
+#        or "yadi.sk" in text_url  \
+#        or "racaty.net" in text_url:
+#            try:
+#                urisitring = direct_link_generator(text_url)
+#                uris = [urisitring]
+#            except DirectDownloadLinkException as e:
+#                LOGGER.info(f'{text_url}: {e}')
+
+    # check link with direct link generator
+    # would be more efficient if used direct_link_generator(text_url) but needs more testing
+    # to do: handle DirectDownloadLinkException to telegram message.
+    if dl_list(text_url):
+        try:
+            urisitring = direct_link_generator(text_url)
+            uris = [urisitring]
+        except DirectDownloadLinkException as e:
+            LOGGER.info(f'{text_url}: {e}')
     else:
         uris = [text_url]
+
     # Add URL Into Queue
     try:
         download = aria_instance.add_uris(uris, options=options)
     except Exception as e:
+        LOGGER.error(e)
         return (
             False,
             "**Failed.** \n" + str(e) + " \nTry again later.",
         )
     else:
         return True, "" + download.gid + ""
-
 
 async def call_apropriate_function(
     aria_instance,
@@ -228,7 +241,7 @@ async def call_apropriate_function(
                     aria_instance, err_message, sent_message_to_update_tg_p, None
                 )
             else:
-                return False, "can't get metadata \n\n#MetaDataError"
+                return False, "Unable to get metadata. \n\n#MetaDataError"
         await asyncio.sleep(1)
         try:
             file = aria_instance.get_download(err_message)
@@ -281,6 +294,10 @@ async def call_apropriate_function(
     #
     response = {}
     user_id = user_message.from_user.id
+    if user_message.from_user.username:
+        uname = f"@{user_message.from_user.username}"
+    else:
+        uname = f'<a href="tg://user?id={user_message.from_user.id}">{user_message.from_user.first_name}</a>'
     if com_g:
         if is_cloud:
             await upload_to_gdrive(
@@ -307,7 +324,7 @@ async def call_apropriate_function(
                     message_to_send += "\n"
                 if message_to_send != "":
                     mention_req_user = (
-                        f"<b><a href='tg://user?id={user_id}'>Your requested files:</a></b>\n\n"
+                        f"<b><a href='tg://user?id={user_id}'>{uname}</a>\nYour requested files:</b>\n\n"
                     )
                     message_to_send = mention_req_user + message_to_send
                     message_to_send = message_to_send + "\n" + "<b>Enjoy!</b>"

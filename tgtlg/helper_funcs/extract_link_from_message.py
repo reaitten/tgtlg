@@ -35,6 +35,11 @@ async def extract_link(message, type_o_request):
         if message.text.lower().startswith("magnet:"):
             url = message.text.strip()
 
+        # message > ends with ".torrent", url value = torrent link
+        # Download torrent, find filepath, and output that to download_aria, add_torrent
+        # if message.text.lower().endswith(".torrent"):
+        #     url = 
+
         elif "|" in message.text:
             url_parts = message.text.split("|")
             if len(url_parts) == 2:

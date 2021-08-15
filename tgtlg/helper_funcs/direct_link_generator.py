@@ -33,85 +33,116 @@ from ..bot_utils.bot_cmds import BotCommands
 from ..helper_funcs.exceptions import DirectDownloadLinkException
 
 
-def direct_link_generator(link: str):
+def direct_link_generator(text_url: str):
     """ direct links generator """
-    if not link:
-        raise DirectDownloadLinkException("No links found!")
-    elif 'youtube.com' in link or 'youtu.be' in link:
-        raise DirectDownloadLinkException(f"Use /{BotCommands.WatchCommand} to mirror Youtube link\nUse /{BotCommands.TarWatchCommand} to make tar of Youtube playlist")
-    elif 'zippyshare.com' in link:
-        return zippy_share(link)
-    elif 'yadi.sk' in link:
-        return yandex_disk(link)
-    elif 'mediafire.com' in link:
-        return mediafire(link)
-    elif 'uptobox.com' in link:
-        return uptobox(link)
-    elif 'osdn.net' in link:
-        return osdn(link)
-    elif 'github.com' in link:
-        return github(link)
-    elif 'hxfile.co' in link:
-        return hxfile(link)
-    elif 'anonfiles.com' in link:
-        return anonfiles(link)
-    elif 'letsupload.io' in link:
-        return letsupload(link)
-    elif 'fembed.net' in link:
-        return fembed(link)
-    elif 'fembed.com' in link:
-        return fembed(link)
-    elif 'femax20.com' in link:
-        return fembed(link)
-    elif 'fcdn.stream' in link:
-        return fembed(link)
-    elif 'feurl.com' in link:
-        return fembed(link)
-    elif 'naniplay.nanime.in' in link:
-        return fembed(link)
-    elif 'naniplay.nanime.biz' in link:
-        return fembed(link)
-    elif 'naniplay.com' in link:
-        return fembed(link)
-    elif 'layarkacaxxi.icu' in link:
-        return fembed(link)
-    elif 'sbembed.com' in link:
-        return sbembed(link)
-    elif 'streamsb.net' in link:
-        return sbembed(link)
-    elif 'sbplay.org' in link:
-        return sbembed(link)
-    elif '1drv.ms' in link:
-        return onedrive(link)
-    elif 'pixeldrain.com' in link:
-        return pixeldrain(link)
-    elif 'antfiles.com' in link:
-        return antfiles(link)
-    elif 'streamtape.com' in link:
-        return streamtape(link)
-    elif 'bayfiles.com' in link:
-        return anonfiles(link)
-    elif 'racaty.net' in link:
-        return racaty(link)
-    elif '1fichier.com' in link:
-        return fichier(link)
-    elif 'solidfiles.com' in link:
-        return solidfiles(link)
+#    if not text_url:
+#        raise DirectDownloadLinkException("No links found!")
+#    elif 'youtube.com' in text_url or 'youtu.be' in text_url:
+#        raise DirectDownloadLinkException(f"Use /{BotCommands.YoutubeDownloaderCommand} to leech YouTube link.\nUse /{BotCommands.PlaylistYoutubeDownloaderCommand} to leech YouTube playlist.")
+    if 'zippyshare.com' in text_url:
+        return zippy_share(text_url)
+    elif 'yadi.sk' in text_url:
+        return yandex_disk(text_url)
+    elif 'mediafire.com' in text_url:
+        return mediafire(text_url)
+    elif 'uptobox.com' in text_url:
+        return uptobox(text_url)
+    elif 'osdn.net' in text_url:
+        return osdn(text_url)
+    elif 'github.com' in text_url:
+        return github(text_url)
+    elif 'hxfile.co' in text_url:
+        return hxfile(text_url)
+    elif 'anonfiles.com' in text_url:
+        return anonfiles(text_url)
+    elif 'letsupload.io' in text_url:
+        return letsupload(text_url)
+    elif 'fembed.net' in text_url:
+        return fembed(text_url)
+    elif 'fembed.com' in text_url:
+        return fembed(text_url)
+    elif 'femax20.com' in text_url:
+        return fembed(text_url)
+    elif 'fcdn.stream' in text_url:
+        return fembed(text_url)
+    elif 'feurl.com' in text_url:
+        return fembed(text_url)
+    elif 'naniplay.nanime.in' in text_url:
+        return fembed(text_url)
+    elif 'naniplay.nanime.biz' in text_url:
+        return fembed(text_url)
+    elif 'naniplay.com' in text_url:
+        return fembed(text_url)
+    elif 'layarkacaxxi.icu' in text_url:
+        return fembed(text_url)
+    elif 'sbembed.com' in text_url:
+        return sbembed(text_url)
+    elif 'streamsb.net' in text_url:
+        return sbembed(text_url)
+    elif 'sbplay.org' in text_url:
+        return sbembed(text_url)
+    elif '1drv.ms' in text_url:
+        return onedrive(text_url)
+    elif 'pixeldrain.com' in text_url:
+        return pixeldrain(text_url)
+    elif 'antfiles.com' in text_url:
+        return antfiles(text_url)
+    elif 'streamtape.com' in text_url:
+        return streamtape(text_url)
+    elif 'bayfiles.com' in text_url:
+        return anonfiles(text_url)
+    elif 'racaty.net' in text_url:
+        return racaty(text_url)
+    elif '1fichier.com' in text_url:
+        return fichier(text_url)
+    elif 'solidfiles.com' in text_url:
+        return solidfiles(text_url)
     else:
-        raise DirectDownloadLinkException(f'No Direct link function found for {link}')
+        raise DirectDownloadLinkException(f'No Direct link function found for {text_url}')
 
+def dl_list(text_url):    
+    dll = "zippyshare.com" in text_url \
+    or 'yadi.sk' in text_url \
+    or 'mediafire.com' in text_url \
+    or 'uptobox.com' in text_url \
+    or 'osdn.net' in text_url \
+    or 'github.com' in text_url \
+    or 'hxfile.co' in text_url \
+    or 'anonfiles.com' in text_url \
+    or 'letsupload.io' in text_url \
+    or 'fembed.net' in text_url \
+    or 'fembed.com' in text_url \
+    or 'femax20.com' in text_url \
+    or 'fcdn.stream' in text_url \
+    or 'feurl.com' in text_url \
+    or 'naniplay.nanime.in' in text_url \
+    or 'naniplay.nanime.biz' in text_url \
+    or 'naniplay.com' in text_url \
+    or 'layarkacaxxi.icu' in text_url \
+    or 'streamsb.net' in text_url \
+    or 'sbplay.org' in text_url \
+    or '1drv.ms' in text_url \
+    or 'pixeldrain.com' in text_url \
+    or 'antfiles.com' in text_url \
+    or 'streamtape.com' in text_url \
+    or 'bayfiles.com' in text_url \
+    or 'racaty.net' in text_url \
+    or '1fichier.com' in text_url \
+    or 'solidfiles.com' in text_url
+
+    return dll
 
 def zippy_share(url: str) -> str:
     """ ZippyShare direct links generator
     Based on https://github.com/KenHV/Mirror-Bot
              https://github.com/jovanzers/WinTenCermin """
     try:
-        link = re.findall(r'\bhttps?://.*zippyshare\.com\S+', url)[0]
+        text_url = re.findall(r'\bhttps?://.*zippyshare\.com\S+', url)[0]
     except IndexError:
         raise DirectDownloadLinkException("No Zippyshare links found")
     try:
-        base_url = re.search('http.+.zippyshare.com', link).group()
-        response = requests.get(link).content
+        base_url = re.search('http.+.zippyshare.com', text_url).group()
+        response = requests.get(text_url).content
         pages = BeautifulSoup(response, "lxml")
         try:
             js_script = pages.find("div", {"class": "center"}).find_all("script")[1]
@@ -407,7 +438,6 @@ def solidfiles(url: str) -> str:
     mainOptions = str(re.search(r'viewerOptions\'\,\ (.*?)\)\;', pageSource).group(1))
     dl_url = json.loads(mainOptions)["downloadUrl"]
     return dl_url
-
 
 def useragent():
     """

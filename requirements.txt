@@ -1,5 +1,6 @@
 aiohttp
 aria2p
+cloudscrape
 hachoir
 messages
 Pillow
@@ -7,7 +8,6 @@ pyrogram
 tgcrypto
 youtube_dl
 hurry.filesize
-python-telegram-bot
 python-dotenv
 psutil
 beautifulsoup4
@@ -16,3 +16,4 @@ js2py
 psutil
 feedparser
 natsort
+lk21

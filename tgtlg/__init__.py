@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 # (c) Shrimadhav U K | gautamajay52
 # modified by reaitten/orsixtyone
-# about cmd to do
-__version__ = "1.4.0 - dev"
+
 import logging
 import os
 import time
@@ -18,13 +17,16 @@ from pyrogram.raw.base import BotCommand
 
 from tgtlg.bot_utils.bot_cmds import BotCommands
 
+# about cmd to do
+__version__ = "1.4.0 - dev"
+
 if os.path.exists("log.txt"):
     with open("log.txt", "r+") as f_d:
         f_d.truncate(0)
 
 # the logging things
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.DEBUG, # change to info if you don't want to see the detailed statistics
     format="%(asctime)s - %(levelname)s - %(message)s [%(filename)s:%(lineno)d]",
     datefmt="%d-%b-%y %H:%M:%S",
     handlers=[
@@ -51,7 +53,7 @@ for imp in ["TG_BOT_TOKEN", "APP_ID", "API_HASH", "OWNER_ID", "AUTH_CHANNEL"]:
         if not value:
             raise KeyError
     except KeyError:
-        LOGGER.critical(f"Oh...{imp}  is missing from config.env ... fill that")
+        LOGGER.critical(f"{imp} is missing from enviorment variable and/or config.env.")
         exit()
 
 # The Telegram API things
@@ -76,7 +78,7 @@ AUTH_CHANNEL.append(OWNER_ID)
 CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE", "128"))
 # default thumbnail to be used in the videos
 DEF_THUMB_NAIL_VID_S = os.environ.get(
-    "DEF_THUMB_NAIL_VID_S", "https://orsixtyone.cf/images/cover.png"
+    "DEF_THUMB_NAIL_VID_S", "https://telegra.ph/file/a4bf864c890f7d9016662.jpg"
 )
 # maximum message length in Telegram
 MAX_MESSAGE_LENGTH = 4096
@@ -125,6 +127,7 @@ RENAME_COMMAND = os.environ.get("RENAME_COMMAND", "rename")
 '''
 # here
 RCLONE_CONFIG = os.environ.get("RCLONE_CONFIG", "")
+UPTOBOX_TOKEN = os.environ.get("UPTOBOX_TOKEN", None)
 DESTINATION_FOLDER = os.environ.get("DESTINATION_FOLDER", "")
 INDEX_LINK = os.environ.get("INDEX_LINK", "")
 UPLOAD_AS_DOC = os.environ.get("UPLOAD_AS_DOC", "False")
@@ -155,36 +158,37 @@ def multi_rclone_init():
         LOGGER.info("rclone.conf backuped to rclone_bak.conf!")
 
 def bcmds(app):
+    tBC = types.BotCommand
     botcmds = [
-    types.BotCommand(command=f'{BotCommands.StartCommand}', description='Get Start Msg'),
-    types.BotCommand(command=f'{BotCommands.HelpCommand}', description='Get Detailed Help'),
-    types.BotCommand(command=f'{BotCommands.LeechCommand}', description='Start Leeching'),
-    types.BotCommand(command=f'{BotCommands.ArchiveCommand}', description='Archive Leech'),
-    types.BotCommand(command=f'{BotCommands.ExtractCommand}', description='Extract Leech'),
-    types.BotCommand(command=f'{BotCommands.RcloneLeechCommand}', description='Leech & Upload to Drive'),
-    types.BotCommand(command=f'{BotCommands.RcloneLeechArchiveCommand}', description='Leech, Archive, & Upload to Drive'),
-    types.BotCommand(command=f'{BotCommands.RcloneLeechExtractCommand}', description='Leech, Extract, & Upload to Drive'),
-    types.BotCommand(command=f'{BotCommands.CloneCommand}', description='Clone GDrive Files'),
-    types.BotCommand(command=f'{BotCommands.TelegramLeechCommand}', description='Leech Telegram Files & Upload to Drive'),
-    types.BotCommand(command=f'{BotCommands.TelegramLeechExtractCommand}', description='Leech Telegram Files, Extract, & Upload to Drive'),
-    types.BotCommand(command=f'{BotCommands.CancelCommand}', description='Cancel Leech'),
-    types.BotCommand(command=f'{BotCommands.YoutubeDownloaderCommand}', description='Leech YT Videos, & supported Links'),
-    types.BotCommand(command=f'{BotCommands.PlaylistYoutubeDownloaderCommand}', description='Leech YT Playlists'),
-    types.BotCommand(command=f'{BotCommands.RcloneYoutubeDownloaderCommand}', description='Leech YT Videos, supported Links, and Upload to Drive'),
-    types.BotCommand(command=f'{BotCommands.RclonePlaylistYoutubeDownloaderCommand}', description='Leech YT Playlists, and Upload to Drive'),
-    types.BotCommand(command=f'{BotCommands.StatusCommand}', description='Check Status'),
-    types.BotCommand(command=f'{BotCommands.SaveThumbnailCommand}', description='Save Image for Thumbnail'),
-    types.BotCommand(command=f'{BotCommands.ClearThumbnailCommand}', description='Clear Saved Thumbnail'),
-    types.BotCommand(command=f'{BotCommands.RenameCommand}', description='Rename Telegram Files'),
-    types.BotCommand(command=f'{BotCommands.ReNewMeCommand}', description='Clear bugged downloads'),
-    types.BotCommand(command=f'{BotCommands.SearchHelpCommand}', description='Search for Torrents'),
-    types.BotCommand(command=f'{BotCommands.NyaasiCommand}', description='Search On Nyaa.si'),
-    types.BotCommand(command=f'{BotCommands.SukebeiCommand}', description='Search On Sukebei (+18)'),
-    types.BotCommand(command=f'{BotCommands.ToggleVideoCommand}', description='Upload as a Video'),
-    types.BotCommand(command=f'{BotCommands.ToggleDocumentCommand}', description='Upload as a Document'),
-    types.BotCommand(command=f'{BotCommands.RcloneConfigCommand}', description='Change rclone Config'),
-    types.BotCommand(command=f'{BotCommands.GetRcloneSizeCommand}', description='Get Rclone Destination Folder Size'),
-    types.BotCommand(command=f'{BotCommands.LogCommand}', description='Get Logs')
+    tBC(command=f'{BotCommands.StartCommand}', description='Get Start Msg'),
+    tBC(command=f'{BotCommands.HelpCommand}', description='Get Detailed Help'),
+    tBC(command=f'{BotCommands.LeechCommand}', description='Start Leeching'),
+    tBC(command=f'{BotCommands.ArchiveCommand}', description='Archive Leech'),
+    tBC(command=f'{BotCommands.ExtractCommand}', description='Extract Leech'),
+    tBC(command=f'{BotCommands.RcloneLeechCommand}', description='Leech & Upload to Drive'),
+    tBC(command=f'{BotCommands.RcloneLeechArchiveCommand}', description='Leech, Archive, & Upload to Drive'),
+    tBC(command=f'{BotCommands.RcloneLeechExtractCommand}', description='Leech, Extract, & Upload to Drive'),
+    tBC(command=f'{BotCommands.CloneCommand}', description='Clone GDrive Files'),
+    tBC(command=f'{BotCommands.TelegramLeechCommand}', description='Leech Telegram Files & Upload to Drive'),
+    tBC(command=f'{BotCommands.TelegramLeechExtractCommand}', description='Leech Telegram Files, Extract, & Upload to Drive'),
+    tBC(command=f'{BotCommands.CancelCommand}', description='Cancel Leech'),
+    tBC(command=f'{BotCommands.YoutubeDownloaderCommand}', description='Leech YT Videos, & supported Links'),
+    tBC(command=f'{BotCommands.PlaylistYoutubeDownloaderCommand}', description='Leech YT Playlists'),
+    tBC(command=f'{BotCommands.RcloneYoutubeDownloaderCommand}', description='Leech YT Videos, supported Links, and Upload to Drive'),
+    tBC(command=f'{BotCommands.RclonePlaylistYoutubeDownloaderCommand}', description='Leech YT Playlists, and Upload to Drive'),
+    tBC(command=f'{BotCommands.StatusCommand}', description='Check Status'),
+    tBC(command=f'{BotCommands.SaveThumbnailCommand}', description='Save Image for Thumbnail'),
+    tBC(command=f'{BotCommands.ClearThumbnailCommand}', description='Clear Saved Thumbnail'),
+    tBC(command=f'{BotCommands.RenameCommand}', description='Rename Telegram Files'),
+    tBC(command=f'{BotCommands.ReNewMeCommand}', description='Clear bugged downloads'),
+    tBC(command=f'{BotCommands.SearchHelpCommand}', description='Search for Torrents'),
+    tBC(command=f'{BotCommands.NyaasiCommand}', description='Search On Nyaa.si'),
+    tBC(command=f'{BotCommands.SukebeiCommand}', description='Search On Sukebei (+18)'),
+    tBC(command=f'{BotCommands.ToggleVideoCommand}', description='Upload as a Video'),
+    tBC(command=f'{BotCommands.ToggleDocumentCommand}', description='Upload as a Document'),
+    tBC(command=f'{BotCommands.RcloneConfigCommand}', description='Change rclone Config'),
+    tBC(command=f'{BotCommands.GetRcloneSizeCommand}', description='Get Rclone Destination Folder Size'),
+    tBC(command=f'{BotCommands.LogCommand}', description='Get Logs')
     ]
     app.send(functions.bots.SetBotCommands(commands=botcmds))
     LOGGER.info("Added Bot CMDS!")

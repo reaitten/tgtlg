@@ -109,6 +109,7 @@ async def incoming_message_f(client, message):
             aria_i_p = await aria_start()
             # LOGGER.info(aria_i_p)
 
+        # reaitten to do: send the /status message along with i_m_sefg
         await i_m_sefg.edit_text("<b>Added to Queue..\nSend /status for more info.</b>")
         # try to download the "link"
         is_zip = False

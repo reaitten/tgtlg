@@ -132,4 +132,8 @@ dmypy.json
 .session
 LeechBot.session
 log.txt
-log.txt
+
+# defualt download location
+Downloads/
+# rclone
+rclone.conf
