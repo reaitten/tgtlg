@@ -220,7 +220,7 @@ class TorrentSearch:
 
     async def find(self, client, message):
         if len(message.command) < 2:
-            await message.reply_text(f"Usage: /{self.command} query")
+            await message.reply_text(f"Usage: /{self.command} <i><query></i>")
             return
 
         query = urlencode(message.text.split(None, 1)[1])
