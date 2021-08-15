@@ -1,8 +1,7 @@
-wheel
-rust 
 aiohttp
-aria2p==0.9.1
+aria2p
 hachoir
+messages
 Pillow
 pyrogram
 tgcrypto
@@ -10,13 +9,10 @@ youtube_dl
 hurry.filesize
 python-telegram-bot
 python-dotenv
-beautifulsoup4>=4.8.2,<4.8.10
+psutil
+beautifulsoup4
 bs4
-lxml
-requests
-messages
 js2py
 psutil
 feedparser
 natsort
-aiohttp
