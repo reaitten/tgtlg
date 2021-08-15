@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 # (c) Shrimadhav U K | gautamajay52
 # modified by reaitten/orsixtyone
-
+# about cmd to do
+__version__ = "1.4.0 - dev"
 import logging
 import os
 import time

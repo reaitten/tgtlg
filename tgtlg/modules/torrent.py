@@ -180,7 +180,7 @@ class TorrentSearch:
         string = self.RESULT_STR.format(**values)
         extra = ""
         if "Files" in values:
-            tmp_str = "➲[{Quality} - {Type} ({Size})]({Torrent}): `{magnet}`"
+            tmp_str = "[{Quality} - {Type} ({Size})]({Torrent}): `{magnet}`"
             extra += "\n".join(
                 tmp_str.format(**f, magnet=self.format_magnet(f['Magnet']))
                 for f in values['Files']
@@ -188,7 +188,7 @@ class TorrentSearch:
         else:
             magnet = values.get('magnet', values.get('Magnet'))  # Avoid updating source dict
             if magnet:
-                extra += f"➲Magnet: `{self.format_magnet(magnet)}`"
+                extra += f"Magnet: `{self.format_magnet(magnet)}`"
         if (extra):
             string += "\n" + extra
         return string
@@ -224,12 +224,12 @@ class TorrentSearch:
             return
 
         query = urlencode(message.text.split(None, 1)[1])
-        self.message = await message.reply_text("Searching")
+        self.message = await message.reply_text("<b>Searching..</b>")
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(f"{self.source}/{query}") as resp:
                     if (resp.status != 200):
-                        raise Exception('unsuccessful request')
+                        raise Exception('unsuccessful request.')
                     result = await resp.json()
                     if (result and isinstance(result[0], list)):
                         result = list(itertools.chain(*result))
@@ -259,46 +259,46 @@ class TorrentSearch:
 RESULT_STR_1337 = (
     "Name: `{Name}`\n"
     "Size: {Size}\n"
-    "Seeders: {Seeders} || ➲Leechers: {Leechers}"
+    "Seeders: {Seeders} || Leechers: {Leechers}"
 )
 RESULT_STR_PIRATEBAY = (
-    "➲Name: `{Name}`\n"
-    "➲Size: {Size}\n"
-    "➲Seeders: {Seeders} || ➲Leechers: {Leechers}"
+    "Name: `{Name}`\n"
+    "Size: {Size}\n"
+    "Seeders: {Seeders} || Leechers: {Leechers}"
 )
 RESULT_STR_TGX = (
-    "➲Name: `{Name}`\n" 
-    "➲Size: {Size}\n"
-    "➲Seeders: {Seeders} || ➲Leechers: {Leechers}"
+    "Name: `{Name}`\n" 
+    "Size: {Size}\n"
+    "Seeders: {Seeders} || Leechers: {Leechers}"
 )
 RESULT_STR_YTS = (
-    "➲Name: `{Name}`\n"
-    "➲Released on: {ReleasedDate}\n"
-    "➲Genre: {Genre}\n"
-    "➲Rating: {Rating}\n"
-    "➲Likes: {Likes}\n"
-    "➲Duration: {Runtime}\n"
-    "➲Language: {Language}"
+    "Name: `{Name}`\n"
+    "Released on: {ReleasedDate}\n"
+    "Genre: {Genre}\n"
+    "Rating: {Rating}\n"
+    "Likes: {Likes}\n"
+    "Duration: {Runtime}\n"
+    "Language: {Language}"
 )
 RESULT_STR_EZTV = (
-    "➲Name: `{Name}`\n"
-    "➲Size: {Size}\n"
-    "➲Seeders: {Seeders}"
+    "Name: `{Name}`\n"
+    "Size: {Size}\n"
+    "Seeders: {Seeders}"
 )
 RESULT_STR_TORLOCK = (
-    "➲Name: `{Name}`\n"
-    "➲Size: {Size}\n"
-    "➲Seeders: {Seeders} || ➲Leechers: {Leechers}"
+    "Name: `{Name}`\n"
+    "Size: {Size}\n"
+    "Seeders: {Seeders} || Leechers: {Leechers}"
 )
 RESULT_STR_RARBG = (
-    "➲Name: `{Name}`\n"
-    "➲Size: {Size}\n"
-    "➲Seeders: {Seeders} || ➲Leechers: {Leechers}"
+    "Name: `{Name}`\n"
+    "Size: {Size}\n"
+    "Seeders: {Seeders} || Leechers: {Leechers}"
 )
 RESULT_STR_ALL = (
-    "➲Name: `{Name}`\n"
-    "➲Size: {Size}\n"
-    "➲Seeders: {Seeders} || ➲Leechers: {Leechers}"
+    "Name: `{Name}`\n"
+    "Size: {Size}\n"
+    "Seeders: {Seeders} || Leechers: {Leechers}"
 )
 
 torrents_dict = {
@@ -331,7 +331,7 @@ async def searchhelp(client, message):
 • /rarbg <i>[search query]</i>
 • /ts <i>[search query]</i>
 '''
-    message.reply_text(help_string, quote=True)
+    await message.reply_text(help_string, quote=True)
     
     
 '''SEARCHHELP_HANDLER = CommandHandler(BotCommands.TsHelpCommand, searchhelp, filters=(CustomFilters.authorized_chat | CustomFilters.authorized_user) & CustomFilters.mirror_owner_filter, run_async=True)
