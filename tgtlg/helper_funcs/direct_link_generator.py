@@ -163,13 +163,13 @@ def yandex_disk(url: str) -> str:
     """ Yandex.Disk direct links generator
     Based on https://github.com/wldhx/yadisk-direct """
     try:
-        link = re.findall(r'\bhttps?://.*yadi\.sk\S+', url)[0]
+        text_url = re.findall(r'\bhttps?://.*yadi\.sk\S+', url)[0]
     except IndexError:
         reply = "No Yandex.Disk links found\n"
         return reply
     api = 'https://cloud-api.yandex.net/v1/disk/public/resources/download?public_key={}'
     try:
-        dl_url = requests.get(api.format(link)).json()['href']
+        dl_url = requests.get(api.format(text_url)).json()['href']
         return dl_url
     except KeyError:
         raise DirectDownloadLinkException("ERROR: File not found/Download limit reached\n")
@@ -179,16 +179,16 @@ def uptobox(url: str) -> str:
     """ Uptobox direct links generator
     based on https://github.com/jovanzers/WinTenCermin """
     try:
-        link = re.findall(r'\bhttps?://.*uptobox\.com\S+', url)[0]
+        text_url = re.findall(r'\bhttps?://.*uptobox\.com\S+', url)[0]
     except IndexError:
         raise DirectDownloadLinkException("No Uptobox links found\n")
     if UPTOBOX_TOKEN is None:
         LOGGER.error('UPTOBOX_TOKEN not provided!')
-        dl_url = link
+        dl_url = text_url
     else:
         try:
-            link = re.findall(r'\bhttp?://.*uptobox\.com/dl\S+', url)[0]
-            dl_url = link
+            text_url = re.findall(r'\bhttp?://.*uptobox\.com/dl\S+', url)[0]
+            dl_url = text_url
         except:
             file_id = re.findall(r'\bhttps?://.*uptobox\.com/(\w+)', url)[0]
             file_link = 'https://uptobox.com/api/link?token=%s&file_code=%s' % (UPTOBOX_TOKEN, file_id)
@@ -201,10 +201,10 @@ def uptobox(url: str) -> str:
 def mediafire(url: str) -> str:
     """ MediaFire direct links generator """
     try:
-        link = re.findall(r'\bhttps?://.*mediafire\.com\S+', url)[0]
+        text_url = re.findall(r'\bhttps?://.*mediafire\.com\S+', url)[0]
     except IndexError:
         raise DirectDownloadLinkException("No MediaFire links found\n")
-    page = BeautifulSoup(requests.get(link).content, 'lxml')
+    page = BeautifulSoup(requests.get(text_url).content, 'lxml')
     info = page.find('a', {'aria-label': 'Download file'})
     dl_url = info.get('href')
     return dl_url
@@ -220,12 +220,12 @@ def osdn(url: str) -> str:
     page = BeautifulSoup(
         requests.get(link, allow_redirects=True).content, 'lxml')
     info = page.find('a', {'class': 'mirror_link'})
-    link = urllib.parse.unquote(osdn_link + info['href'])
+    text_url = urllib.parse.unquote(osdn_link + info['href'])
     mirrors = page.find('form', {'id': 'mirror-select-form'}).findAll('tr')
     urls = []
     for data in mirrors[1:]:
         mirror = data.find('input')['value']
-        urls.append(re.sub(r'm=(.*)&f', f'm={mirror}&f', link))
+        urls.append(re.sub(r'm=(.*)&f', f'm={mirror}&f', text_url))
     return urls[0]
 
 
@@ -240,11 +240,11 @@ def github(url: str) -> str:
         dl_url = download.headers["location"]
         return dl_url
     except KeyError:
-        raise DirectDownloadLinkException("ERROR: Can't extract the link\n")
+        raise DirectDownloadLinkException("ERROR: Can't extract the link.\n")
 
 
 def hxfile(url: str) -> str:
-    """ Hxfile direct link generator
+    """ Hxfile direct links generator
     Based on https://github.com/zevtyardt/lk21
              https://github.com/breakdowns/slam-mirrorbot """
     bypasser = lk21.Bypass()
@@ -253,7 +253,7 @@ def hxfile(url: str) -> str:
 
 
 def anonfiles(url: str) -> str:
-    """ Anonfiles direct link generator
+    """ Anonfiles direct links generator
     Based on https://github.com/zevtyardt/lk21
              https://github.com/breakdowns/slam-mirrorbot """
     bypasser = lk21.Bypass()
@@ -262,25 +262,25 @@ def anonfiles(url: str) -> str:
 
 
 def letsupload(url: str) -> str:
-    """ Letsupload direct link generator
+    """ Letsupload direct links generator
     Based on https://github.com/zevtyardt/lk21
              https://github.com/breakdowns/slam-mirrorbot """
     dl_url = ''
     try:
-        link = re.findall(r'\bhttps?://.*letsupload\.io\S+', url)[0]
+        text_url = re.findall(r'\bhttps?://.*letsupload\.io\S+', url)[0]
     except IndexError:
         raise DirectDownloadLinkException("No Letsupload links found\n")
     bypasser = lk21.Bypass()
-    dl_url=bypasser.bypass_url(link)
+    dl_url=bypasser.bypass_url(text_url)
     return dl_url
 
 
-def fembed(link: str) -> str:
-    """ Fembed direct link generator
+def fembed(text_url: str) -> str:
+    """ Fembed direct text_url generator
     Based on https://github.com/zevtyardt/lk21
              https://github.com/breakdowns/slam-mirrorbot """
     bypasser = lk21.Bypass()
-    dl_url=bypasser.bypass_fembed(link)
+    dl_url=bypasser.bypass_fembed(text_url)
     lst_link = []
     count = len(dl_url)
     for i in dl_url:
@@ -288,12 +288,12 @@ def fembed(link: str) -> str:
     return lst_link[count-1]
 
 
-def sbembed(link: str) -> str:
-    """ Sbembed direct link generator
+def sbembed(text_url: str) -> str:
+    """ Sbembed direct text_url generator
     Based on https://github.com/zevtyardt/lk21
              https://github.com/breakdowns/slam-mirrorbot """
     bypasser = lk21.Bypass()
-    dl_url=bypasser.bypass_sbembed(link)
+    dl_url=bypasser.bypass_sbembed(text_url)
     lst_link = []
     count = len(dl_url)
     for i in dl_url:
@@ -301,10 +301,10 @@ def sbembed(link: str) -> str:
     return lst_link[count-1]
 
 
-def onedrive(link: str) -> str:
-    """ Onedrive direct link generator
+def onedrive(text_url: str) -> str:
+    """ Onedrive direct links generator
     Based on https://github.com/UsergeTeam/Userge """
-    link_without_query = urlparse(link)._replace(query=None).geturl()
+    link_without_query = urlparse(text_url)._replace(query=None).geturl()
     direct_link_encoded = str(standard_b64encode(bytes(link_without_query, "utf-8")), "utf-8")
     direct_link1 = f"https://api.onedrive.com/v1.0/shares/u!{direct_link_encoded}/root/content"
     resp = requests.head(direct_link1)
@@ -330,7 +330,7 @@ def pixeldrain(url: str) -> str:
 
 
 def antfiles(url: str) -> str:
-    """ Antfiles direct link generator
+    """ Antfiles direct text_url generator
     Based on https://github.com/zevtyardt/lk21
              https://github.com/breakdowns/slam-mirrorbot """
     bypasser = lk21.Bypass()
@@ -339,7 +339,7 @@ def antfiles(url: str) -> str:
 
 
 def streamtape(url: str) -> str:
-    """ Streamtape direct link generator
+    """ Streamtape direct text_url generator
     Based on https://github.com/zevtyardt/lk21
              https://github.com/breakdowns/slam-mirrorbot """
     bypasser = lk21.Bypass()
@@ -366,20 +366,20 @@ def racaty(url: str) -> str:
     return dl_url
 
 
-def fichier(link: str) -> str:
+def fichier(text_url: str) -> str:
     """ 1Fichier direct links generator
     Based on https://github.com/Maujar
              https://github.com/breakdowns/slam-mirrorbot """
     regex = r"^([http:\/\/|https:\/\/]+)?.*1fichier\.com\/\?.+"
-    gan = re.match(regex, link)
+    gan = re.match(regex, text_url)
     if not gan:
-      raise DirectDownloadLinkException("ERROR: The link you entered is wrong!")
-    if "::" in link:
-      pswd = link.split("::")[-1]
-      url = link.split("::")[-2]
+      raise DirectDownloadLinkException("ERROR: The link you entered is invalid!")
+    if "::" in text_url:
+      pswd = text_url.split("::")[-1]
+      url = text_url.split("::")[-2]
     else:
       pswd = None
-      url = link
+      url = text_url
     try:
       if pswd is None:
         req = requests.post(url)
@@ -389,12 +389,12 @@ def fichier(link: str) -> str:
     except:
       raise DirectDownloadLinkException("ERROR: Unable to reach 1fichier server!")
     if req.status_code == 404:
-      raise DirectDownloadLinkException("ERROR: File not found/The link you entered is wrong!")
+      raise DirectDownloadLinkException("ERROR: File not found/The link you entered is invaild!")
     soup = BeautifulSoup(req.content, 'lxml')
     if soup.find("a", {"class": "ok btn-general btn-orange"}) is not None:
       dl_url = soup.find("a", {"class": "ok btn-general btn-orange"})["href"]
       if dl_url is None:
-        raise DirectDownloadLinkException("ERROR: Unable to generate Direct Link 1fichier!")
+        raise DirectDownloadLinkException("ERROR: Unable to generate Direct Link for 1fichier!")
       else:
         return dl_url
     else:
