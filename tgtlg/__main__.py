@@ -19,6 +19,7 @@ from tgtlg import (
     DOWNLOAD_LOCATION,
     LOGGER,
     app,
+    buname
 )
 
 from tgtlg import bcmds
@@ -67,11 +68,11 @@ if __name__ == "__main__":
     if not os.path.isdir(DOWNLOAD_LOCATION):
         os.makedirs(DOWNLOAD_LOCATION)
     # start app
-    app.start()
+    # app.start()
     # set bot cmds in __init__.py
     bcmds(app)
     # grab bot username from logged in user (app)
-    buname = "@" + app.get_me().username
+    # buname = "@" + app.get_me().username
     # for main leech
     incoming_message_handler = MessageHandler(
         incoming_message_f,

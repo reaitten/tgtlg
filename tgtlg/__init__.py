@@ -168,3 +168,7 @@ def bcmds(app):
     LOGGER.info("Added Bot CMDS!")
 
 multi_rclone_init()
+# start app (weird place right?)
+app.start()
+# get bot username and set it as a local variable (because don't wanna use ptb)
+buname = "@" + app.get_me().username

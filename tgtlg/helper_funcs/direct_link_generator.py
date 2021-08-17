@@ -38,7 +38,6 @@ def direct_link_generator(text_url: str):
     if not text_url:
         raise DirectDownloadLinkException("No links found!")
     elif 'youtube.com' in text_url or 'youtu.be' in text_url:
-    #    raise DirectDownloadLinkException(f"Can't this way.")
         raise DirectDownloadLinkException(f"Use /{BotCommands.YoutubeDownloaderCommand} to leech YouTube link.\nUse /{BotCommands.PlaylistYoutubeDownloaderCommand} to leech YouTube playlist.")
     elif 'zippyshare.com' in text_url:
         return zippy_share(text_url)
@@ -100,71 +99,6 @@ def direct_link_generator(text_url: str):
         return solidfiles(text_url)
     else:
         raise DirectDownloadLinkException(f'No Direct link function found for {text_url}')
-
-'''def dl_list(text_url):    
-    dll = "zippyshare.com" in text_url \
-    or 'yadi.sk' in text_url \
-    or 'mediafire.com' in text_url \
-    or 'uptobox.com' in text_url \
-    or 'osdn.net' in text_url \
-    or 'github.com' in text_url \
-    or 'hxfile.co' in text_url \
-    or 'anonfiles.com' in text_url \
-    or 'letsupload.io' in text_url \
-    or 'fembed.net' in text_url \
-    or 'fembed.com' in text_url \
-    or 'femax20.com' in text_url \
-    or 'fcdn.stream' in text_url \
-    or 'feurl.com' in text_url \
-    or 'naniplay.nanime.in' in text_url \
-    or 'naniplay.nanime.biz' in text_url \
-    or 'naniplay.com' in text_url \
-    or 'layarkacaxxi.icu' in text_url \
-    or 'streamsb.net' in text_url \
-    or 'sbplay.org' in text_url \
-    or '1drv.ms' in text_url \
-    or 'pixeldrain.com' in text_url \
-    or 'antfiles.com' in text_url \
-    or 'streamtape.com' in text_url \
-    or 'bayfiles.com' in text_url \
-    or 'racaty.net' in text_url \
-    or '1fichier.com' in text_url \
-    or 'solidfiles.com' in text_url
-
-    return dll'''
-
-'''def dl_list(text_url):    
-    dll = [
-    "zippyshare.com",
-    'yadi.sk',
-    'mediafire.com',
-    'uptobox.com',
-    'osdn.net',
-    'github.com',
-    'hxfile.co',
-    'anonfiles.com',
-    'letsupload.io',
-    'fembed.net',
-    'fembed.com',
-    'femax20.com',
-    'fcdn.stream',
-    'feurl.com',
-    'naniplay.nanime.in',
-    'naniplay.nanime.biz',
-    'naniplay.com',
-    'layarkacaxxi.icu',
-    'streamsb.net',
-    'sbplay.org',
-    '1drv.ms',
-    'pixeldrain.com',
-    'antfiles.com',
-    'streamtape.com',
-    'bayfiles.com',
-    'racaty.net',
-    '1fichier.com',
-    'solidfiles.com'
-    ]
-    return dll'''
 
 def zippy_share(url: str) -> str:
     """ ZippyShare direct links generator
@@ -419,7 +353,7 @@ def fichier(text_url: str) -> str:
         req = requests.post(url)
       else:
         pw = {"pass": pswd}
-        req = requests.post(url, data=pe)
+        req = requests.post(url, data=pw)
     except:
       raise DirectDownloadLinkException("ERROR: Unable to reach 1fichier server!")
     if req.status_code == 404:

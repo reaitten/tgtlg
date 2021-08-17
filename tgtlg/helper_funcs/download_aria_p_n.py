@@ -138,7 +138,7 @@ def add_torrent(aria_instance, torrent_file_path):
             False,
             "**Failed.** \n"
             + str(e)
-            + " \nsomething went wrong when trying to add <u>torrent</u> file.",
+            + " \nsomething went wrong when trying to add the <u>torrent</u> file.",
         )
     if os.path.exists(torrent_file_path):
         # Add Torrent Into Queue

@@ -18,7 +18,7 @@ from pyrogram.parser import html as pyrogram_html
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
 
-from tgtlg import app, LOGGER
+from tgtlg import app, buname, LOGGER
 from ..bot_utils.bot_cmds import BotCommands
 from tgtlg.bot_utils.filters import custom_filters
 
@@ -161,14 +161,15 @@ class TorrentSearch:
 
     RESULT_LIMIT = 4
     RESULT_STR = None
+    tbuname = buname
 
-    def __init__(self, command, source: str, result_str: str):
+    def __init__(self, command: str, source: str, result_str: str):
         self.command = command
         self.source = source.rstrip('/')
         self.RESULT_STR = result_str
 
-        #app.add_handler(MessageHandler(self.find, filters.command([command], f"{self.command}{buname}")))
-        app.add_handler(MessageHandler(self.find, filters.command([command])))
+        # unsure why this first app.add_handler doesn't want buname 
+        # app.add_handler(MessageHandler(self.find, filters.command([command], f"{self.command}{buname}/")))
         app.add_handler(CallbackQueryHandler(self.previous, filters.regex(f"{self.command}_previous")))
         app.add_handler(CallbackQueryHandler(self.delete, filters.regex(f"{self.command}_delete")))
         app.add_handler(CallbackQueryHandler(self.next, filters.regex(f"{self.command}_next")))
@@ -315,7 +316,10 @@ torrents_dict = {
     'ts': {'source': "https://torrenter-api.herokuapp.com/api/all/", 'result_str': RESULT_STR_ALL}
 }
 
-#@app.on_message(filters.command(['tshelp', f'tshelp{buname}']))
+torrent_handlers = []
+for command, value in torrents_dict.items():
+    torrent_handlers.append(TorrentSearch(command, value['source'], value['result_str']))
+
 async def searchhelp(client, message):
     help_string = '''
 <b>Torrent Search</b>
