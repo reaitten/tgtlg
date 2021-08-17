@@ -47,57 +47,62 @@ user_specific_config=dict()
 
 dotenv.load_dotenv("config.env")
 
-# checking compulsory variable
+# checking compulsory variables
 for imp in ["TG_BOT_TOKEN", "APP_ID", "API_HASH", "OWNER_ID", "AUTH_CHANNEL"]:
     try:
         value = os.environ[imp]
         if not value:
             raise KeyError
     except KeyError:
-        LOGGER.critical(f"{imp} is missing from enviorment variable and/or config.env.")
+        LOGGER.critical(f"{imp} is missing from enviorment variables and/or config.env.")
         exit()
 
 # The Telegram API things
 TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")
-APP_ID = int(os.environ.get("APP_ID", ""))
+APP_ID = int(os.environ.get("APP_ID"))
 API_HASH = os.environ.get("API_HASH")
-OWNER_ID = int(os.environ.get("OWNER_ID", "539295917"))
+OWNER_ID = int(os.environ.get("OWNER_ID"))
 
 # Get these values from my.telegram.org
 # to store the channel ID who are authorized to use the bot
-AUTH_CHANNEL = [int(x) for x in os.environ.get("AUTH_CHANNEL", "539295917").split()]
+AUTH_CHANNEL = [int(x) for x in os.environ.get("AUTH_CHANNEL", "").split()]
 
 # the download location, where the HTTP Server runs
-DOWNLOAD_LOCATION = "./Downloads"
+DOWNLOAD_LOCATION = os.environ.get("DOWNLOAD_LOCATION", "./Downloads")
+
 # Telegram maximum file upload size
-MAX_FILE_SIZE = 50000000
-TG_MAX_FILE_SIZE = 2097152000
-FREE_USER_MAX_FILE_SIZE = 50000000
-AUTH_CHANNEL.append(539295917)
+MAX_FILE_SIZE = int(os.environ.get("MAX_FILE_SIZE", 50000000))
+TG_MAX_FILE_SIZE = int(os.environ.get("TG_MAX_FILE_SIZE", 2097152000))
+FREE_USER_MAX_FILE_SIZE = int(os.environ.get("FREE_USER_MAX_FILE_SIZE", 50000000))
+
+# adds OWNER_ID to AUTH_CHANNEL, doesn't check if OWNER_ID is already in AUTH_CHANNEL
 AUTH_CHANNEL.append(OWNER_ID)
+
 # chunk size that should be used with requests
-CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE", "128"))
+CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE", 128))
+
 # default thumbnail to be used in the videos
-DEF_THUMB_NAIL_VID_S = os.environ.get(
-    "DEF_THUMB_NAIL_VID_S", "https://telegra.ph/file/a4bf864c890f7d9016662.jpg"
-)
+DEF_THUMB_NAIL_VID_S = os.environ.get("DEF_THUMB_NAIL_VID_S", "https://telegra.ph/file/a4bf864c890f7d9016662.jpg")
 # maximum message length in Telegram
-MAX_MESSAGE_LENGTH = 4096
+MAX_MESSAGE_LENGTH = int(os.environ.get("MAX_MESSAGE_LENGTH", 4096))
+
 # set timeout for subprocess
-PROCESS_MAX_TIMEOUT = 3600
-#
+PROCESS_MAX_TIMEOUT = int(os.environ.get("PROCESS_MAX_TIMEOUT", 3600))
+
+# touch if you know what you are doing!
 SP_LIT_ALGO_RITH_M = os.environ.get("SP_LIT_ALGO_RITH_M", "hjs")
-ARIA_TWO_STARTED_PORT = int(os.environ.get("ARIA_TWO_STARTED_PORT", "6800"))
-EDIT_SLEEP_TIME_OUT = int(os.environ.get("EDIT_SLEEP_TIME_OUT", "15"))
-MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START = int(
-    os.environ.get("MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START", 300)
-)
-MAX_TG_SPLIT_FILE_SIZE = int(os.environ.get("MAX_TG_SPLIT_FILE_SIZE", "2097152000"))
+ARIA_TWO_STARTED_PORT = (os.environ.get("ARIA_TWO_STARTED_PORT", 6800))
+EDIT_SLEEP_TIME_OUT = int(os.environ.get("EDIT_SLEEP_TIME_OUT", 15))
+MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START = int(os.environ.get("MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START", 300))
+MAX_TG_SPLIT_FILE_SIZE = int(os.environ.get("MAX_TG_SPLIT_FILE_SIZE", 2097152000))
+
 # add config vars for the display progress
 FINISHED_PROGRESS_STR = os.environ.get("FINISHED_PROGRESS_STR", "█")
 UN_FINISHED_PROGRESS_STR = os.environ.get("UN_FINISHED_PROGRESS_STR", "░")
+
 # add offensive API
 TG_OFFENSIVE_API = os.environ.get("TG_OFFENSIVE_API", None)
+
 CUSTOM_FILE_NAME = os.environ.get("CUSTOM_FILE_NAME", "")
 RCLONE_CONFIG = os.environ.get("RCLONE_CONFIG", "")
 UPTOBOX_TOKEN = os.environ.get("UPTOBOX_TOKEN", None)

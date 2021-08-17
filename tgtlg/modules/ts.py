@@ -5,6 +5,7 @@ import asyncio
 import aiohttp
 import json
 import feedparser
+from pyrogram.types.messages_and_media.message import Message
 import requests
 import itertools
 
@@ -170,6 +171,7 @@ class TorrentSearch:
 
         # unsure why this first app.add_handler doesn't want buname 
         # app.add_handler(MessageHandler(self.find, filters.command([command], f"{self.command}{buname}/")))
+        app.add_handler(MessageHandler(self.find, [command]))
         app.add_handler(CallbackQueryHandler(self.previous, filters.regex(f"{self.command}_previous")))
         app.add_handler(CallbackQueryHandler(self.delete, filters.regex(f"{self.command}_delete")))
         app.add_handler(CallbackQueryHandler(self.next, filters.regex(f"{self.command}_next")))
