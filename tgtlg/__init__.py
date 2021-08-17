@@ -7,6 +7,7 @@ import logging
 import os
 import time
 import dotenv
+import asyncio
 
 from logging.handlers import RotatingFileHandler
 from collections import defaultdict
@@ -98,34 +99,6 @@ UN_FINISHED_PROGRESS_STR = os.environ.get("UN_FINISHED_PROGRESS_STR", "░")
 # add offensive API
 TG_OFFENSIVE_API = os.environ.get("TG_OFFENSIVE_API", None)
 CUSTOM_FILE_NAME = os.environ.get("CUSTOM_FILE_NAME", "")
-# commands to be moved to tgtlg/bot_utils/bot_cmds.py. here to-
-'''
-LEECH_COMMAND = os.environ.get("LEECH_COMMAND", "leech")
-LEECH_UNZIP_COMMAND = os.environ.get("LEECH_UNZIP_COMMAND", "extract")
-LEECH_ZIP_COMMAND = os.environ.get("LEECH_ZIP_COMMAND", "archive")
-GLEECH_COMMAND = os.environ.get("GLEECH_COMMAND", "gleech")
-GLEECH_UNZIP_COMMAND = os.environ.get("GLEECH_UNZIP_COMMAND", "gextract")
-GLEECH_ZIP_COMMAND = os.environ.get("GLEECH_ZIP_COMMAND", "garchive")
-CLONE_COMMAND_G = os.environ.get("CLONE_COMMAND_G", "gclone")
-TELEGRAM_LEECH_COMMAND = os.environ.get("TELEGRAM_LEECH_COMMAND", "tleech")
-TELEGRAM_LEECH_UNZIP_COMMAND = os.environ.get("TELEGRAM_LEECH_UNZIP_COMMAND", "textract")
-CANCEL_COMMAND_G = os.environ.get("CANCEL_COMMAND_G", "cancel")
-YTDL_COMMAND = os.environ.get("YTDL_COMMAND", "ytdl")
-GYTDL_COMMAND = os.environ.get("GYTDL_COMMAND", "gytdl")
-PYTDL_COMMAND = os.environ.get("PYTDL_COMMAND", "pytdl")
-GPYTDL_COMMAND = os.environ.get("GPYTDL_COMMAND", "gpytdl")
-TOGGLE_VID = os.environ.get("TOGGLE_VID", "toggledvid")
-TOGGLE_DOC = os.environ.get("TOGGLE_DOC", "toggledoc")
-GET_SIZE_G = os.environ.get("GET_SIZE_G", "getsize")
-STATUS_COMMAND = os.environ.get("STATUS_COMMAND", "status")
-SAVE_THUMBNAIL = os.environ.get("SAVE_THUMBNAIL", "savethumb")
-CLEAR_THUMBNAIL = os.environ.get("CLEAR_THUMBNAIL", "clearthumb")
-LOG_COMMAND = os.environ.get("LOG_COMMAND", "log")
-UPLOAD_COMMAND = os.environ.get("UPLOAD_COMMAND", "upload")
-RENEWME_COMMAND = os.environ.get("RENEWME_COMMAND", "renewme")
-RENAME_COMMAND = os.environ.get("RENAME_COMMAND", "rename")
-'''
-# here
 RCLONE_CONFIG = os.environ.get("RCLONE_CONFIG", "")
 UPTOBOX_TOKEN = os.environ.get("UPTOBOX_TOKEN", None)
 DESTINATION_FOLDER = os.environ.get("DESTINATION_FOLDER", "")
@@ -138,6 +111,7 @@ gDict = defaultdict(lambda: [])
 # user settings dict #ToDo
 user_settings = defaultdict(lambda: {})
 gid_dict = defaultdict(lambda: [])
+_lock = asyncio.Lock()
 
 app = Client(
     ':memory:',
@@ -194,32 +168,3 @@ def bcmds(app):
     LOGGER.info("Added Bot CMDS!")
 
 multi_rclone_init()
-
-'''
-    BotCommand(f'/start','Get Start Msg'),
-    BotCommand(f'/help','Get Detailed Help'),
-    BotCommand(f'{LEECH_COMMAND}','Start Leeching'),
-    BotCommand(f'{LEECH_ZIP_COMMAND}','Archive Leech'),
-    BotCommand(f'{LEECH_UNZIP_COMMAND}','Extract Leech'),
-    BotCommand(f'{GLEECH_COMMAND}','Leech & Upload to Drive'),
-    BotCommand(f'{GLEECH_ZIP_COMMAND}','Leech, Archive, & Upload to Drive'),
-    BotCommand(f'{GLEECH_UNZIP_COMMAND}','Leech, Extract, & Upload to Drive'),
-    BotCommand(f'{CLONE_COMMAND_G}','Clone GDrive Files'),
-    BotCommand(f'{TELEGRAM_LEECH_COMMAND}','Leech Telegram Files & Upload to Drive'),
-    BotCommand(f'{TELEGRAM_LEECH_UNZIP_COMMAND}','Leech Telegram Files, Extract, & Upload to Drive'),
-    BotCommand(f'{CANCEL_COMMAND_G}','Cancel Leech'),
-    BotCommand(f'{YTDL_COMMAND}','Leech YT Videos, & supported Links'),
-    BotCommand(f'{PYTDL_COMMAND}','Leech YT Playlists'),
-    BotCommand(f'{GYTDL_COMMAND}','Leech YT Videos, supported Links, and Upload to Drive'),
-    BotCommand(f'{GPYTDL_COMMAND}','Leech YT Playlists, and Upload to Drive'),
-    BotCommand(f'{STATUS_COMMAND}','Check Status'),
-    BotCommand(f'{SAVE_THUMBNAIL}','Save Image for Thumbnail'),
-    BotCommand(f'{CLEAR_THUMBNAIL}','Clear Saved Thumbnail'),
-    BotCommand(f'{RENAME_COMMAND}','Rename Telegram Files'),
-    BotCommand(f'{RENEWME_COMMAND}','Clear bugged downloads'),
-    BotCommand(f'{TOGGLE_VID}','Upload as a Video'),
-    BotCommand(f'{TOGGLE_DOC}','Upload as a Document'),
-    BotCommand(f'/rclone','Change rclone Config'),
-    BotCommand(f'{GET_SIZE_G}','Start Leeching'),
-    BotCommand(f'{LOG_COMMAND}','Start Leeching')]
-'''

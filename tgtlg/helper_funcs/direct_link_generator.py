@@ -35,11 +35,12 @@ from ..helper_funcs.exceptions import DirectDownloadLinkException
 
 def direct_link_generator(text_url: str):
     """ direct links generator """
-#    if not text_url:
-#        raise DirectDownloadLinkException("No links found!")
-#    elif 'youtube.com' in text_url or 'youtu.be' in text_url:
-#        raise DirectDownloadLinkException(f"Use /{BotCommands.YoutubeDownloaderCommand} to leech YouTube link.\nUse /{BotCommands.PlaylistYoutubeDownloaderCommand} to leech YouTube playlist.")
-    if 'zippyshare.com' in text_url:
+    if not text_url:
+        raise DirectDownloadLinkException("No links found!")
+    elif 'youtube.com' in text_url or 'youtu.be' in text_url:
+    #    raise DirectDownloadLinkException(f"Can't this way.")
+        raise DirectDownloadLinkException(f"Use /{BotCommands.YoutubeDownloaderCommand} to leech YouTube link.\nUse /{BotCommands.PlaylistYoutubeDownloaderCommand} to leech YouTube playlist.")
+    elif 'zippyshare.com' in text_url:
         return zippy_share(text_url)
     elif 'yadi.sk' in text_url:
         return yandex_disk(text_url)
@@ -100,7 +101,7 @@ def direct_link_generator(text_url: str):
     else:
         raise DirectDownloadLinkException(f'No Direct link function found for {text_url}')
 
-def dl_list(text_url):    
+'''def dl_list(text_url):    
     dll = "zippyshare.com" in text_url \
     or 'yadi.sk' in text_url \
     or 'mediafire.com' in text_url \
@@ -130,7 +131,40 @@ def dl_list(text_url):
     or '1fichier.com' in text_url \
     or 'solidfiles.com' in text_url
 
-    return dll
+    return dll'''
+
+'''def dl_list(text_url):    
+    dll = [
+    "zippyshare.com",
+    'yadi.sk',
+    'mediafire.com',
+    'uptobox.com',
+    'osdn.net',
+    'github.com',
+    'hxfile.co',
+    'anonfiles.com',
+    'letsupload.io',
+    'fembed.net',
+    'fembed.com',
+    'femax20.com',
+    'fcdn.stream',
+    'feurl.com',
+    'naniplay.nanime.in',
+    'naniplay.nanime.biz',
+    'naniplay.com',
+    'layarkacaxxi.icu',
+    'streamsb.net',
+    'sbplay.org',
+    '1drv.ms',
+    'pixeldrain.com',
+    'antfiles.com',
+    'streamtape.com',
+    'bayfiles.com',
+    'racaty.net',
+    '1fichier.com',
+    'solidfiles.com'
+    ]
+    return dll'''
 
 def zippy_share(url: str) -> str:
     """ ZippyShare direct links generator

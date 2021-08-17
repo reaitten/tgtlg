@@ -14,7 +14,8 @@ from tgtlg.helper_funcs.download_aria_p_n import aria_start
 from tgtlg.helper_funcs.youtube.youtube_dl_button import youtube_dl_call_back
 from tgtlg.plugins.choose_rclone_config import rclone_button_callback
 from tgtlg.helper_funcs.fn.status_message_fn import cancel_message_f
-from tgtlg.modules.torrent import *
+# future import for ts module
+# from tgtlg.modules.ts import *
 
 
 async def button(bot, update: CallbackQuery):
@@ -41,7 +42,7 @@ async def button(bot, update: CallbackQuery):
         return
     if "|" in cb_data:
         await bot.answer_callback_query(
-            update.id, text="trying to download...", show_alert=False
+            update.id, text="Trying to download...", show_alert=False
         )
         await youtube_dl_call_back(bot, update)
         return

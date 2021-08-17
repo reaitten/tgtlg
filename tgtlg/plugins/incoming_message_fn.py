@@ -11,22 +11,6 @@ import requests
 from pathlib import Path
 import aria2p
 
-'''
-from tgtlg import (
-    DOWNLOAD_LOCATION,
-    GLEECH_COMMAND,
-    GLEECH_UNZIP_COMMAND,
-    GLEECH_ZIP_COMMAND,
-    LEECH_COMMAND,
-    LEECH_UNZIP_COMMAND,
-    LEECH_ZIP_COMMAND,
-    LOGGER,
-    YTDL_COMMAND,
-    GPYTDL_COMMAND,
-    PYTDL_COMMAND,
-)
-'''
-
 from tgtlg import (
     DOWNLOAD_LOCATION,
     LOGGER,
@@ -36,8 +20,8 @@ from tgtlg.bot_utils.bot_cmds import BotCommands
 
 from ..helper_funcs.admin_check import AdminCheck
 from ..helper_funcs.cloneHelper import CloneHelper
-from ..helper_funcs.download import download_tg
-from ..helper_funcs.download_aria_p_n import (aria_start, call_apropriate_function,)
+from ..helper_funcs.telegram_downloader import download_tg
+from ..helper_funcs.download_aria_p_n import aria_start, call_apropriate_function
 from ..helper_funcs.download_from_link import request_download
 from ..helper_funcs.extract_link_from_message import extract_link
 from ..helper_funcs.uploader import upload_to_tg
@@ -155,6 +139,10 @@ async def incoming_message_f(client, message):
 async def incoming_youtube_dl_f(client, message):
     """ /ytdl command """
     current_user_id = message.from_user.id
+    if message.from_user.username:
+        mplink = f"@{message.from_user.username}"
+    else:
+        mplink = f'<a href="tg://user?id={message.from_user.id}">{message.from_user.first_name}</a>'
     #u_men = message.from_user.mention
     #credit = await message.reply_text(
         #f"<b>⚙ Leeching For :</b> {u_men}",
@@ -262,6 +250,10 @@ async def g_clonee(client, message):
 
 async def rename_tg_file(client, message):
     usr_id = message.from_user.id
+    if message.from_user.username:
+        mplink = f"@{message.from_user.username}"
+    else:
+        mplink = f'<a href="tg://user?id={message.from_user.id}">{message.from_user.first_name}</a>'
     if not message.reply_to_message:
         await message.reply("<b>Reply with Telegram Media.</b>", quote=True)
         return
@@ -281,7 +273,7 @@ async def rename_tg_file(client, message):
             await message.reply_text("g_g")
         response = {}
         final_response = await upload_to_tg(
-            mess_age, new_name, usr_id, response, client
+            mess_age, new_name, usr_id, response, client, mplink
         )
         LOGGER.info(final_response)
         if not final_response:
@@ -301,7 +293,7 @@ async def rename_tg_file(client, message):
                 message_to_send += "\n"
             if message_to_send != "":
                 mention_req_user = (
-                    f"<a href='tg://user?id={usr_id}'>Your requested files:</a>\n\n"
+                    f"{mplink}: <b>Your requested files:</b>\n\n"
                 )
                 message_to_send = mention_req_user + message_to_send
                 message_to_send = message_to_send + "\n\n" + "<b>Enjoy.</b>"

@@ -135,5 +135,10 @@ log.txt
 
 # defualt download location
 Downloads/
+
 # rclone
 rclone.conf
+rclone_bak.conf
+
+# filters
+filter*.txt

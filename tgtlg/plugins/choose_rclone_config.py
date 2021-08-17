@@ -18,9 +18,11 @@ config = configparser.ConfigParser()
 async def rclone_command_f(client, message):
     """/rclone command"""
     LOGGER.info(
-        f"rclone command from chatid:{message.chat.id}, userid:{message.from_user.id}"
+        f"Recieved Rclone Command. Chat ID: {message.chat.id}, User ID: {message.from_user.id}"
     )
-    if message.from_user.id == OWNER_ID and message.chat.type == "private":
+    if message.from_user.id == OWNER_ID and message.chat.type == "private" and os.path.exists("rclone.conf"):
+        # make it so that it will check if rclone.conf and rclone_bak.conf exists,
+        # and if not, create them
         config.read("rclone_bak.conf")
         sections = list(config.sections())
         inline_keyboard = []
@@ -33,7 +35,7 @@ async def rclone_command_f(client, message):
             inline_keyboard.append(ikeyboard)
         config.read("rclone.conf")
         section = config.sections()[0]
-        msg_text = f"""Default section of rclone config is: **{section}**\n\n
+        msg_text = f"""Default section of rclone config is: **{section}**\n
 There are {len(sections)} sections in your rclone.conf file, 
 please choose which section you want to use:"""
         ikeyboard = [
@@ -47,7 +49,7 @@ please choose which section you want to use:"""
     else:
         await message.reply_text("You have no permission!")
         LOGGER.warning(
-            f"uid={message.from_user.id} have no permission to edit rclone config!"
+            f"UID = {message.from_user.id} have no permission to edit rclone config!"
         )
 
 

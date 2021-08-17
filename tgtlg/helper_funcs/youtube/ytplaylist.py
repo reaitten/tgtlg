@@ -14,6 +14,10 @@ from tgtlg.helper_funcs.uploader import upload_to_gdrive, upload_to_tg
 
 async def yt_playlist_downg(message, i_m_sefg, client, G_DRIVE):
     url = None
+    if message.from_user.username:
+        mplink = f"@{message.from_user.username}"
+    else:
+        mplink = f'<a href="tg://user?id={message.from_user.id}">{message.from_user.first_name}</a>'
     if message.reply_to_message:
         url = message.reply_to_message.text
     else:
@@ -50,9 +54,9 @@ async def yt_playlist_downg(message, i_m_sefg, client, G_DRIVE):
         get_g = os.listdir(fol_der)
         for ga_u in get_g:
             ta_m = os.path.join(fol_der, ga_u)
-            await upload_to_gdrive(ta_m, i_m_sefg, message, usr)
+            await upload_to_gdrive(ta_m, i_m_sefg, message, usr, mplink)
     else:
-        final_response = await upload_to_tg(i_m_sefg, fol_der, usr, {}, client)
+        final_response = await upload_to_tg(i_m_sefg, fol_der, usr, {}, client, mplink)
     try:
         shutil.rmtree(fol_der)
     except:

@@ -155,9 +155,13 @@ async def youtube_dl_call_back(bot, update):
         await update.message.edit_caption(caption=error_message)
         return False, None
     if t_response:
-        dir_contents = len(os.listdir(tmp_directory_for_each_user))
-        await update.message.edit_caption(caption=f"found {dir_contents} files")
         user_id = update.from_user.id
+        if update.from_user.username:
+            mplink = f"@{update.from_user.username}"
+        else:
+            mplink = f'<a href="tg://user?id={update.from_user.id}">{update.from_user.first_name}</a>'
+        dir_contents = len(os.listdir(tmp_directory_for_each_user))
+        await update.message.edit_caption(caption=f"Found {dir_contents} files.")
         #
         LOGGER.info(tmp_directory_for_each_user)
         for a, _, c in os.walk(tmp_directory_for_each_user):
@@ -174,19 +178,22 @@ async def youtube_dl_call_back(bot, update):
         comd = update.message.reply_to_message.text
         LOGGER.info(comd)
         user_command = comd.split()[0]
-        buname = "@" + app.get_me().username
-        if user_command == BotCommands.RcloneYoutubeDownloaderCommand or BotCommands.RcloneYoutubeDownloaderCommand + buname:
+        if user_command >= BotCommands.RcloneYoutubeDownloaderCommand or BotCommands.RcloneYoutubeDownloaderCommand:
             is_cloud = True
         if is_cloud:
+            # delete file if file already exists in destintation path
+            # as said in this Traceback:
+            # shutil.Error: Destination path './Rick_Astley_-_Never_Gonna_Give_You_Up_Official_Music_Video.webm' already exists
             shutil.move(fi_le, "./")
             final_response = await upload_to_gdrive(
-                gaut_am, update.message, update.message.reply_to_message, user_id
+                gaut_am, update.message, update.message.reply_to_message, user_id, mplink
             )
         else:
             final_response = await upload_to_tg(
                 update.message,
                 tmp_directory_for_each_user,
                 user_id,
+                mplink,
                 {},
                 bot,
                 True,

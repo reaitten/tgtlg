@@ -15,41 +15,6 @@ from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from pyrogram.raw.functions.bots import SetBotCommands
 from pyrogram.raw.base import BotCommand
 
-'''
-from tgtlg import (
-    API_HASH,
-    APP_ID,
-    AUTH_CHANNEL,
-    CANCEL_COMMAND_G,
-    CLEAR_THUMBNAIL,
-    CLONE_COMMAND_G,
-    DOWNLOAD_LOCATION,
-    GET_SIZE_G,
-    GLEECH_COMMAND,
-    GLEECH_UNZIP_COMMAND,
-    GLEECH_ZIP_COMMAND,
-    LEECH_COMMAND,
-    LEECH_UNZIP_COMMAND,
-    LEECH_ZIP_COMMAND,
-    LOG_COMMAND,
-    LOGGER,
-    PYTDL_COMMAND,
-    RENEWME_COMMAND,
-    RENAME_COMMAND,
-    SAVE_THUMBNAIL,
-    STATUS_COMMAND,
-    TELEGRAM_LEECH_UNZIP_COMMAND,
-    TELEGRAM_LEECH_COMMAND,
-    TG_BOT_TOKEN,
-    UPLOAD_COMMAND,
-    YTDL_COMMAND,
-    GYTDL_COMMAND,
-    GPYTDL_COMMAND,
-    TOGGLE_VID,
-    TOGGLE_DOC,
-)
-'''
-
 from tgtlg import (
     DOWNLOAD_LOCATION,
     LOGGER,
@@ -58,7 +23,7 @@ from tgtlg import (
 
 from tgtlg import bcmds
 from tgtlg.bot_utils.bot_cmds import BotCommands
-from tgtlg.helper_funcs.download import down_load_media_f
+from tgtlg.helper_funcs.telegram_downloader import down_load_media_f
 from tgtlg.plugins.call_back_button_handler import button
 
 # the logging things
@@ -85,7 +50,13 @@ from tgtlg.helper_funcs.fn.status_message_fn import (
     upload_as_doc,
     upload_as_video,
 )
-from tgtlg.modules.torrent import *
+# 
+
+from tgtlg.modules.ts import (
+    nyaa_search,
+    nyaa_search_sukebei,
+    searchhelp,
+)
 
 from tgtlg.helper_funcs.fn.nan_message_fn import (
     nan
@@ -238,7 +209,7 @@ if __name__ == "__main__":
         upload_as_video,
         filters=filters.command([f"{BotCommands.ToggleVideoCommand}", f"{BotCommands.ToggleVideoCommand}" + buname]) & filters.chat(chats=AUTH_CHANNEL), 
     )
-    # torrent.py
+    # ts.py
     nyaa_search_handler = MessageHandler(
         nyaa_search, filters=filters.command([f"{BotCommands.NyaasiCommand}", f"{BotCommands.NyaasiCommand}" + buname]) & filters.chat(chats=AUTH_CHANNEL)
     )
@@ -253,7 +224,7 @@ if __name__ == "__main__":
         searchhelp, filters=filters.command([f"{BotCommands.SearchHelpCommand}", f"{BotCommands.SearchHelpCommand}" + buname]) & filters.chat(chats=AUTH_CHANNEL)
     )
     app.add_handler(searchhelp_handler)
-    # to here
+    # end of ts.py
     app.add_handler(nan)
     nan_handler = MessageHandler(
         nan

@@ -33,9 +33,9 @@ from tgtlg.bot_utils.create_compressed_archive import (
 )
 from tgtlg.helper_funcs.extract_link_from_message import extract_link
 from tgtlg.helper_funcs.uploader import upload_to_gdrive, upload_to_tg
-from tgtlg.helper_funcs.direct_link_generator import direct_link_generator, dl_list
+from tgtlg.helper_funcs.direct_link_generator import direct_link_generator
 from tgtlg.helper_funcs.exceptions import DirectDownloadLinkException
-from tgtlg.helper_funcs.download import download_tg
+from tgtlg.helper_funcs.telegram_downloader import download_tg
 from ..bot_utils.conversion import convert_size, convert_to_bytes
 
 # unsure what this does
@@ -79,6 +79,7 @@ async def aria_start():
     # aria2_daemon_start_cmd.append(f"--dir={DOWNLOAD_LOCATION}")
     # TODO: this does not work, need to investigate this.
     # but for now, https://t.me/TrollVoiceBot?start=858
+    # reaitten note: i have no idea what this voice message says as I do not know this language
     aria2_daemon_start_cmd.append("--enable-rpc")
     aria2_daemon_start_cmd.append("--follow-torrent=mem")
     aria2_daemon_start_cmd.append("--max-connection-per-server=10")
@@ -88,12 +89,16 @@ async def aria_start():
     aria2_daemon_start_cmd.append("--rpc-max-request-size=1024M")
     aria2_daemon_start_cmd.append(f"--bt-tracker={sonstringtrckr}")
     aria2_daemon_start_cmd.append("--bt-max-peers=0")
-    aria2_daemon_start_cmd.append("--seed-time=0.01")
+    aria2_daemon_start_cmd.append("--seed-ratio=1.0")
+    aria2_daemon_start_cmd.append("--seed-time=0")
+    # using qbittorrent user and peer agent
+    aria2_daemon_start_cmd.append("--peer-id-prefix=-qB4360-")
+    aria2_daemon_start_cmd.append("--user-agent=qBittorrent/4.3.6")
+    aria2_daemon_start_cmd.append("--peer-agent=qBittorrent/4.3.6")
     aria2_daemon_start_cmd.append("--max-overall-upload-limit=1K")
     aria2_daemon_start_cmd.append("--split=10")
-    aria2_daemon_start_cmd.append(
-        f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}"
-    )
+    aria2_daemon_start_cmd.append(f"--bt-stop-timeout={MAX_TIME_TO_WAIT_FOR_TORRENTS_TO_START}")
+
     LOGGER.info("Started aria2c process.")
     LOGGER.debug(aria2_daemon_start_cmd)
     process = await asyncio.create_subprocess_exec(
@@ -161,35 +166,31 @@ def add_url(aria_instance, text_url, c_file_name):
     #     options = {
     #         "dir": c_file_name
     #     }
-    #
-    # or "cloud.mail.ru" in text_url \  doesnt work.
-    # or "github.com" in text_url \   doesnt work.
 
-    #LOGGER.debug(text_url)
-# moved to tgtlg/helper_funcs/direct_link_generator.py > dl_list
-#    if "zippyshare.com" in text_url \
-#        or "osdn.net" in text_url \
-#        or "mediafire.com" in text_url \
-#        or "yadi.sk" in text_url  \
-#        or "racaty.net" in text_url:
-#            try:
-#                urisitring = direct_link_generator(text_url)
-#                uris = [urisitring]
-#            except DirectDownloadLinkException as e:
-#                LOGGER.info(f'{text_url}: {e}')
-
+    # set uri var before checking link with dirlinkgen.py 
+    uris = [text_url]
+    # moved to tgtlg/helper_funcs/direct_link_generator.py
     # check link with direct link generator
-    # would be more efficient if used direct_link_generator(text_url) but needs more testing
-    # to do: handle DirectDownloadLinkException to telegram message.
-    if dl_list(text_url):
-        try:
-            urisitring = direct_link_generator(text_url)
-            uris = [urisitring]
-        except DirectDownloadLinkException as e:
-            LOGGER.info(f'{text_url}: {e}')
-    else:
-        uris = [text_url]
-
+    try:
+        urisitring = direct_link_generator(text_url)
+        uris = [urisitring]
+    except DirectDownloadLinkException as e:
+        if "YouTube" in str(e):
+            LOGGER.error(f'{text_url}: Someone tried to leech YouTube link via Leech Commands.')
+            return (
+                False,
+                str(e)
+            )
+        if "No links found!" or f"No Direct link function found" in str(e):
+            LOGGER.info(e)
+            pass
+        else: 
+            LOGGER.error(f'{text_url}: {e}')
+            return (
+                False,
+                "Failed to add the URI to download queue due to:\n\n" + str(e)
+            )
+    
     # Add URL Into Queue
     try:
         download = aria_instance.add_uris(uris, options=options)
@@ -295,17 +296,17 @@ async def call_apropriate_function(
     response = {}
     user_id = user_message.from_user.id
     if user_message.from_user.username:
-        uname = f"@{user_message.from_user.username}"
+        mplink = f"@{user_message.from_user.username}"
     else:
-        uname = f'<a href="tg://user?id={user_message.from_user.id}">{user_message.from_user.first_name}</a>'
+        mplink = f'<a href="tg://user?id={user_message.from_user.id}">{user_message.from_user.first_name}</a>'
     if com_g:
         if is_cloud:
             await upload_to_gdrive(
-                to_upload_file, sent_message_to_update_tg_p, user_message, user_id
+                to_upload_file, sent_message_to_update_tg_p, user_message, user_id, mplink
             )
         else:
             final_response = await upload_to_tg(
-                sent_message_to_update_tg_p, to_upload_file, user_id, response, client
+                sent_message_to_update_tg_p, to_upload_file, user_id, response, client, mplink
             )
             if not final_response:
                 return True, None
@@ -324,7 +325,7 @@ async def call_apropriate_function(
                     message_to_send += "\n"
                 if message_to_send != "":
                     mention_req_user = (
-                        f"<b><a href='tg://user?id={user_id}'>{uname}</a>\nYour requested files:</b>\n\n"
+                        f"<b>{mplink}:\nYour requested files:</b>\n\n"
                     )
                     message_to_send = mention_req_user + message_to_send
                     message_to_send = message_to_send + "\n" + "<b>Enjoy!</b>"
@@ -367,7 +368,7 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                 # await check_progress_for_dl(aria2, gid, event, previous_message)
             else:
                 LOGGER.info(
-                    f"Downloaded Successfully: `{file.name} ({file.total_length_string()})`"
+                    f"Downloaded Successfully: {file.name} ({file.total_length_string()})"
                 )
                 # await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
                 if not file.is_metadata:

@@ -150,6 +150,8 @@ async def nyaa_callback(client, callback_query):
 # Using upstream API based on: https://github.com/Ryuk-me/Torrents-Api
 # Implemented by https://github.com/jusidama18
 
+# reaitten notes: import this? https://github.com/hemantapkh/TorrentHunt
+
 class TorrentSearch:
     index = 0
     query = None
@@ -160,12 +162,13 @@ class TorrentSearch:
     RESULT_LIMIT = 4
     RESULT_STR = None
 
-    def __init__(self, command: str, source: str, result_str: str):
+    def __init__(self, command, source: str, result_str: str):
         self.command = command
         self.source = source.rstrip('/')
         self.RESULT_STR = result_str
 
-        app.add_handler(MessageHandler(self.find, filters.command([command, f'{self.command}'])))
+        #app.add_handler(MessageHandler(self.find, filters.command([command], f"{self.command}{buname}")))
+        app.add_handler(MessageHandler(self.find, filters.command([command])))
         app.add_handler(CallbackQueryHandler(self.previous, filters.regex(f"{self.command}_previous")))
         app.add_handler(CallbackQueryHandler(self.delete, filters.regex(f"{self.command}_delete")))
         app.add_handler(CallbackQueryHandler(self.next, filters.regex(f"{self.command}_next")))
@@ -220,7 +223,7 @@ class TorrentSearch:
 
     async def find(self, client, message):
         if len(message.command) < 2:
-            await message.reply_text(f"Usage: /{self.command} <i><query></i>")
+            await message.reply_text(f"Usage: /{self.command} <i>query</i>")
             return
 
         query = urlencode(message.text.split(None, 1)[1])
@@ -302,19 +305,15 @@ RESULT_STR_ALL = (
 )
 
 torrents_dict = {
-    '1337x': {'source': "https://slam-api.herokuapp.com/api/1337x/", 'result_str': RESULT_STR_1337},
-    'piratebay': {'source': "https://slam-api.herokuapp.com/api/piratebay/", 'result_str': RESULT_STR_PIRATEBAY},
-    'tgx': {'source': "https://slam-api.herokuapp.com/api/tgx/", 'result_str': RESULT_STR_TGX},
-    'yts': {'source': "https://slam-api.herokuapp.com/api/yts/", 'result_str': RESULT_STR_YTS},
-    'eztv': {'source': "https://slam-api.herokuapp.com/api/eztv/", 'result_str': RESULT_STR_EZTV},
-    'torlock': {'source': "https://slam-api.herokuapp.com/api/torlock/", 'result_str': RESULT_STR_TORLOCK},
-    'rarbg': {'source': "https://slam-api.herokuapp.com/api/rarbg/", 'result_str': RESULT_STR_RARBG},
-    'ts': {'source': "https://slam-api.herokuapp.com/api/all/", 'result_str': RESULT_STR_ALL}
+    '1337x': {'source': "https://torrenter-api.herokuapp.com/api/1337x/", 'result_str': RESULT_STR_1337},
+    'piratebay': {'source': "https://torrenter-api.herokuapp.com/api/piratebay/", 'result_str': RESULT_STR_PIRATEBAY},
+    'tgx': {'source': "https://torrenter-api.herokuapp.com/api/tgx/", 'result_str': RESULT_STR_TGX},
+    'yts': {'source': "https://torrenter-api.herokuapp.com/api/yts/", 'result_str': RESULT_STR_YTS},
+    'eztv': {'source': "https://torrenter-api.herokuapp.com/api/eztv/", 'result_str': RESULT_STR_EZTV},
+    'torlock': {'source': "https://torrenter-api.herokuapp.com/api/torlock/", 'result_str': RESULT_STR_TORLOCK},
+    'rarbg': {'source': "https://torrenter-api.herokuapp.com/api/rarbg/", 'result_str': RESULT_STR_RARBG},
+    'ts': {'source': "https://torrenter-api.herokuapp.com/api/all/", 'result_str': RESULT_STR_ALL}
 }
-
-torrent_handlers = []
-for command, value in torrents_dict.items():
-    torrent_handlers.append(TorrentSearch(command, value['source'], value['result_str']))
 
 #@app.on_message(filters.command(['tshelp', f'tshelp{buname}']))
 async def searchhelp(client, message):

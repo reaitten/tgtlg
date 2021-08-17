@@ -48,15 +48,7 @@ def getFolderSize(p):
     )
  
  
-async def upload_to_tg(
-    message,
-    local_file_name,
-    from_user,
-    dict_contatining_uploaded_files,
-    client,
-    edit_media=False,
-    yt_thumb=None,
-):
+async def upload_to_tg(message, local_file_name, from_user, dict_contatining_uploaded_files, client, mplink, edit_media=False, yt_thumb=None):
     base_file_name = os.path.basename(local_file_name)
     caption_str = ""
     caption_str += "<code>"
@@ -70,7 +62,7 @@ async def upload_to_tg(
         new_m_esg = message
         if not message.photo:
             new_m_esg = await message.reply_text(
-                f"Found {len(directory_contents)} files <a href='tg://user?id={from_user}'>!</a>",
+                f"{mplink}: Found {len(directory_contents)} files!",
                 quote=True
                 # reply_to_message_id=message.message_id
             )
@@ -84,10 +76,11 @@ async def upload_to_tg(
                 client,
                 edit_media,
                 yt_thumb,
+                mplink,
             )
     else:
         if os.path.getsize(local_file_name) > TG_MAX_FILE_SIZE:
-            LOGGER.info("TODO")
+            LOGGER.debug("TODO")
             d_f_s = humanbytes(os.path.getsize(local_file_name))
             i_m_s_g = await message.reply_text(
                 "Telegram does not support uploading this file.\n"
@@ -115,6 +108,7 @@ async def upload_to_tg(
                     client,
                     edit_media,
                     yt_thumb,
+                    mplink,
                 )
         else:
             sizze = os.path.getsize(local_file_name)
@@ -140,7 +134,7 @@ async def upload_to_tg(
 # © gautamajay52 thanks to Rclone team for this wonderful tool.
  
  
-async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
+async def upload_to_gdrive(file_upload, message, messa_ge, g_id, mplink):
     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
     del_it = await message.edit_text(
         f"<a href='tg://user?id={g_id}'>🔊</a> Uploading to Drive.."
@@ -152,10 +146,12 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         with open("rclone.conf", "r+") as file:
             con = file.read()
             gUP = re.findall("\[(.*)\]", con)[0]
-            LOGGER.info(gUP)
+            LOGGER.info(f"Selected Drive in Rclone Config: {gUP}")
     destination = f"{DESTINATION_FOLDER}"
+    fname = os.path.basename(file_upload)
+    #unhtml = f"<a href='tg://user?id={g_id}'>!</a>"
     file_upload = str(Path(file_upload).resolve())
-    LOGGER.info(file_upload)
+    LOGGER.info(f"Filepath to Upload: {file_upload}")
     if os.path.isfile(file_upload):
         g_au = [
             "rclone",
@@ -165,7 +161,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
             f"{gUP}:{destination}",
             "-v",
         ]
-        LOGGER.info(g_au)
+        LOGGER.debug(g_au)
         tmp = await asyncio.create_subprocess_exec(
             *g_au, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
@@ -173,58 +169,52 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         LOGGER.info(pro.decode("utf-8"))
         LOGGER.info(cess.decode("utf-8"))
         gk_file = re.escape(os.path.basename(file_upload))
-        LOGGER.info(gk_file)
+        LOGGER.debug(gk_file)
         with open("filter.txt", "w+", encoding="utf-8") as filter:
             print(f"+ {gk_file}\n- *", file=filter)
  
-        #t_a_m = [
-        #    "rclone",
-        #    "lsf",
-        #    "--config=rclone.conf",
-        #    "-F",
-        #    "i",
-        #    "--filter-from=filter.txt",
-        #    "--files-only",
-        #    f"{gUP}:{destination}",
-        #]
-        # experimenting with rclone link
-        t_a_m = [
+        fllinkc = [
             "rclone",
             "link", 
             "--config=rclone.conf",
-            f"{gUP}:{destination}",
+            f"{gUP}:{destination}/{fname}",
         ]
-        gau_tam = await asyncio.create_subprocess_exec(
-            *t_a_m, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+        LOGGER.debug(fllinkc)
+        fllinkp = await asyncio.create_subprocess_exec(
+            *fllinkc, 
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
         )
-        # os.remove("filter.txt")
-        gau = await gau_tam.communicate()
-        #gautam = gau.decode().strip()
-        LOGGER.info(gau)
-        # os.remove("filter.txt")
-        #gauti = f"https://drive.google.com/file/d/{gautam}/view?usp=drivesdk"
-        #gauti = f"{gau}"
+        fllinkd, stderr = await fllinkp.communicate()
+        LOGGER.error(stderr.decode().strip())
+        fllink = fllinkd.decode().strip()
+        LOGGER.debug(fllink)
         gjay = size(os.path.getsize(file_upload))
+        LOGGER.debug(gjay)
         button = []
         button.append(
-            [pyrogram.InlineKeyboardButton(text="Cloud URL", url=f"{gau}")]
+            [pyrogram.InlineKeyboardButton(text="Cloud URL", url=f"{fllink}")]
         )
         if INDEX_LINK:
-            indexurl = f"{INDEX_LINK}/{os.path.basename(file_upload)}"
-            tam_link = requests.utils.requote_uri(indexurl)
-            LOGGER.info(tam_link)
+            indexurl = f"{INDEX_LINK}/{fname}"
+            link = requests.utils.requote_uri(indexurl)
+            LOGGER.debug(link)
             button.append(
                 [
                     pyrogram.InlineKeyboardButton(
-                        text="Index URL", url=f"{tam_link}"
+                        text="Index URL", url=f"{link}"
                     )
                 ]
             )
         button_markup = pyrogram.InlineKeyboardMarkup(button)
-        await messa_ge.reply_text(
-            f"Uploaded successfully: `{os.path.basename(file_upload)}` <a href='tg://user?id={g_id}'>!</a>\nSize: {gjay}",
-            reply_markup=button_markup,
-        )
+        # lots of weird stuff
+        try:
+            if fllink is not None:
+                await messa_ge.reply_text(f"Uploaded successfully: `{fname}` {mplink}:\nSize: {gjay}", reply_markup=button_markup,)
+        except Exception as ex:
+            LOGGER.error(ex)
+            await messa_ge.reply_text(f"<b>Exception Caught:</b>\n\n {ex}\nLink Values:\n\nCloud URL: {fllink}\nIndex URL: {link}")
+
         os.remove(file_upload)
         await del_it.delete()
     else:
@@ -238,7 +228,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
             f"{gUP}:{tt}",
             "-v",
         ]
-        LOGGER.info(t_am)
+        LOGGER.debug(t_am)
         tmp = await asyncio.create_subprocess_exec(
             *t_am, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
@@ -246,65 +236,55 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id):
         LOGGER.info(pro.decode("utf-8"))
         LOGGER.info(cess.decode("utf-8"))
         g_file = re.escape(os.path.basename(file_upload))
-        LOGGER.info(g_file)
+        LOGGER.debug(g_file)
         with open("filter1.txt", "w+", encoding="utf-8") as filter1:
             print(f"+ {g_file}/\n- *", file=filter1)
  
-        #g_a_u = [
-        #    "rclone",
-        #    "lsf",
-        #    "--config=rclone.conf",
-        #    "-F",
-        #    "i",
-        #    "--filter-from=filter1.txt",
-        #    "--dirs-only",
-        #    f"{gUP}:{destination}",
-        #]
-        g_a_u = [
+        folinkc = [
             "rclone",
             "link",
             "--config=rclone.conf",
-            f"{gUP}:{destination}",
+            f"{gUP}:{destination}/{fname}",
         ]
-        gau_tam = await asyncio.create_subprocess_exec(
-            *g_a_u, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+        LOGGER.debug(folinkc)
+        folinkp = await asyncio.create_subprocess_exec(
+            *folinkc, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
-        # os.remove("filter1.txt")
-        gau = await gau_tam.communicate()
-        #gautam = gau.decode("utf-8")
-        LOGGER.info(gau)
-        #LOGGER.info(tam.decode("utf-8"))
-        # os.remove("filter1.txt")
-        #gautii = f"{gau}"
+        folink, stderr = await folinkp.communicate()
+        LOGGER.error(stderr.decode().strip())
+        LOGGER.debug(folink)
         gjay = size(getFolderSize(file_upload))
-        LOGGER.info(gjay)
+        LOGGER.debug(gjay)
         button = []
         button.append(
-            [pyrogram.InlineKeyboardButton(text="Cloud URL", url=f"{gau}")]
+            [pyrogram.InlineKeyboardButton(text="Cloud URL", url=f"{folink}")]
         )
         if INDEX_LINK:
             indexurl = f"{INDEX_LINK}/{os.path.basename(file_upload)}/"
-            tam_link = requests.utils.requote_uri(indexurl)
-            LOGGER.info(tam_link)
+            link = requests.utils.requote_uri(indexurl)
+            LOGGER.debug(link)
             button.append(
                 [
                     pyrogram.InlineKeyboardButton(
-                        text="Index URL", url=f"{tam_link}"
+                        text="Index URL", url=f"{link}"
                     )
                 ]
             )
         button_markup = pyrogram.InlineKeyboardMarkup(button)
-        await messa_ge.reply_text(
-            f"Uploaded successfully `{os.path.basename(file_upload)}` <a href='tg://user?id={g_id}'>!</a>\nSize: {gjay}",
-            reply_markup=button_markup,
-        )
+        # lots of weird stuff
+        try:
+            if folink is not None:
+                await messa_ge.reply_text(f"Uploaded successfully: `{fname}` {mplink}:\nSize: {gjay}", reply_markup=button_markup,)
+        except Exception as ex:
+            LOGGER.error(ex)
+            await messa_ge.reply_text(f"<b>Exception Caught:</b>\n\n {ex}\nLink Values:\n\nCloud URL: {folink}\nIndex URL: {link}")
+
+
         shutil.rmtree(file_upload)
         await del_it.delete()
  
- 
-#
- 
- 
+
+
 async def upload_single_file(
     message, local_file_name, caption_str, from_user, client, edit_media, yt_thumb
 ):
@@ -328,7 +308,7 @@ async def upload_single_file(
         message_for_progress_display = message
         if not edit_media:
             message_for_progress_display = await message.reply_text(
-                "<b>Trying to upload</b>\n\n<b> File Name</b>: <code>{}</code>".format(os.path.basename(local_file_name))
+                "<b>Trying to upload..</b>\n\n<b>Filename</b>: <code>{}</code>".format(os.path.basename(local_file_name))
             )
             prog = Progress(from_user, client, message_for_progress_display)
         sent_message = await message.reply_document(
@@ -358,7 +338,7 @@ async def upload_single_file(
             message_for_progress_display = message
             if not edit_media:
                 message_for_progress_display = await message.reply_text(
-                    "<b>Trying to upload</b>\n\n<b> File Name</b>: <code>{}</code>".format(os.path.basename(local_file_name))
+                    "<b>Trying to upload..</b>\n\n<b>Filename</b>: <code>{}</code>".format(os.path.basename(local_file_name))
                 )
                 prog = Progress(from_user, client, message_for_progress_display)
             if local_file_name.upper().endswith(("MKV", "MP4", "WEBM")):

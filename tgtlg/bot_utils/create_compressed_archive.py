@@ -73,10 +73,6 @@ async def unzip_me(input_directory):
             return_name = uncompressed_file_name
     return return_name
 
-
-#
-
-
 async def untar_me(input_directory):
     return_name = None
     if os.path.exists(input_directory):
@@ -111,10 +107,6 @@ async def untar_me(input_directory):
             return_name = uncompressed_file_name
             LOGGER.info(return_name)
     return return_name
-
-
-#
-
 
 async def unrar_me(input_directory):
     return_name = None
