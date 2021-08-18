@@ -1,4 +1,4 @@
-# This is code to clone the gdrive link using the gclone, all credit goes to the developer who has developed the rclone/glclone
+# This is code to clone the gdrive link using the gclone, all credit should go to the developer who has developed the rclone/gclone
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # (c) gautamajay52
@@ -12,7 +12,7 @@ import subprocess
 
 import pyrogram.types as pyrogram
 import requests
-from tgtlg import (
+from .. import (
     DESTINATION_FOLDER,
     DOWNLOAD_LOCATION,
     EDIT_SLEEP_TIME_OUT,
@@ -22,7 +22,6 @@ from tgtlg import (
     TG_MAX_FILE_SIZE,
     UPLOAD_AS_DOC,
 )
-
 
 class CloneHelper:
     def __init__(self, mess):

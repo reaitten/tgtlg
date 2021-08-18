@@ -29,9 +29,8 @@ from bs4 import BeautifulSoup
 from js2py import EvalJs
 from lk21.extractors.bypasser import Bypass
 from base64 import standard_b64encode
+from .exceptions import DirectDownloadLinkException
 from ..bot_utils.bot_cmds import BotCommands
-from ..helper_funcs.exceptions import DirectDownloadLinkException
-
 
 def direct_link_generator(text_url: str):
     """ direct links generator """

@@ -2,8 +2,8 @@ import logging
 import time
 import pyrogram
 
-from tgtlg import AUTH_CHANNEL, LOGGER, BOT_START_TIME
-from ..bot_utils.conversion import get_readable_time
+from ... import AUTH_CHANNEL, LOGGER, BOT_START_TIME
+from ...bot_utils.conversion import get_readable_time
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
@@ -21,7 +21,7 @@ async def new_join_f(client, message):
 async def start_message_f(client, message):
     uptime = get_readable_time((time.time() - BOT_START_TIME))
     await message.reply_text(
-        f"""Hi, I've been alive for `{uptime}`. \nTo see the list of available commands, send the command: /help.""")
+        f"Hi, I've been alive for `{uptime}`. \nTo see the list of available commands, send the command: /help.")
 
 async def help_message_f(client, message):
     # await message.reply_text("no one gonna help you 🤣🤣🤣🤣", quote=True)
@@ -29,8 +29,7 @@ async def help_message_f(client, message):
     # message_id = 99
     # display the /help
 
-    await message.reply_text(
-        """Available Commands:
+    help_msg = """Available Commands:
 /help: To get this message
 
 /leech: This command should be used as reply to a magnetic link, a torrent link, or a direct link. [this command will SPAM the chat and send the downloads a seperate files, if there is more than one file, in the specified torrent]
@@ -69,6 +68,9 @@ You have to pass link as www.download.me/gk.txt | new.txt
 the file will be uploaded as new.txt.
 
 Get started!
-Send any one of the available commands, as a reply to a valid link/magnet/torrent.""",
+Send any one of the available commands, as a reply to a valid link/magnet/torrent."""
+
+    await message.reply_text(
+        help_msg,
         disable_web_page_preview=True,
     )

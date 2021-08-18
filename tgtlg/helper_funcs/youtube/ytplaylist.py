@@ -8,8 +8,8 @@ import shutil
 import subprocess
 
 import requests
-from tgtlg import DOWNLOAD_LOCATION, LOGGER
-from tgtlg.helper_funcs.uploader import upload_to_gdrive, upload_to_tg
+from ... import DOWNLOAD_LOCATION, LOGGER
+from ...helper_funcs.uploader import upload_with_rclone, upload_to_tg
 
 
 async def yt_playlist_downg(message, i_m_sefg, client, G_DRIVE):
@@ -54,7 +54,7 @@ async def yt_playlist_downg(message, i_m_sefg, client, G_DRIVE):
         get_g = os.listdir(fol_der)
         for ga_u in get_g:
             ta_m = os.path.join(fol_der, ga_u)
-            await upload_to_gdrive(ta_m, i_m_sefg, message, usr, mplink)
+            await upload_with_rclone(ta_m, i_m_sefg, message, usr, mplink)
     else:
         final_response = await upload_to_tg(i_m_sefg, fol_der, usr, {}, client, mplink)
     try:

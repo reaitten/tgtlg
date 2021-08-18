@@ -6,14 +6,15 @@
 import logging
 import os
 import shutil
+import configparser
 
 from pyrogram.types import CallbackQuery
-from tgtlg import AUTH_CHANNEL, MAX_MESSAGE_LENGTH, LOGGER, gDict
-from tgtlg.helper_funcs.admin_check import AdminCheck
-from tgtlg.helper_funcs.download_aria_p_n import aria_start
-from tgtlg.helper_funcs.youtube.youtube_dl_button import youtube_dl_call_back
-from tgtlg.plugins.choose_rclone_config import rclone_button_callback
-from tgtlg.helper_funcs.fn.status_message_fn import cancel_message_f
+from .. import AUTH_CHANNEL, MAX_MESSAGE_LENGTH, LOGGER, gDict
+from ..helper_funcs.admin_check import AdminCheck
+from ..downloaders.download_aria_p_n import aria_start
+from ..helper_funcs.youtube.youtube_dl_button import youtube_dl_call_back
+#from ..rclone.choose_rclone_config import rclone_command_f, config
+from ..helper_funcs.fn.status_message_fn import cancel_message_f
 # future import for ts module
 # from tgtlg.modules.ts import *
 
@@ -143,3 +144,29 @@ async def button(bot, update: CallbackQuery):
             update.id, text="Trying to cancel..", show_alert=False
         )
         await update.message.edit_text("bruh. wtf just happened?")
+
+async def rclone_button_callback(bot, update: CallbackQuery):
+    """rclone button callback"""
+    config = configparser.ConfigParser()    
+    if update.data == "rcloneCancel":
+        config.read("rclone.conf")
+        section = config.sections()[0]
+        await update.message.edit_text(
+            f"Operation canceled! \n\nThe default section of rclone config is: **{section}**"
+        )
+        LOGGER.info(
+            f"Operation canceled! The default section of rclone config is: {section}"
+        )
+    else:
+        # this part removes all saved drives in rclone.conf except the one you chose as defualt
+        # when you do /rclone again, it will read from rclone_bak.conf, not rclone.conf
+        section = update.data.split("_", maxsplit=1)[1]
+        with open("rclone.conf", "w", newline="\n", encoding="utf-8") as f:
+            config.read("rclone_bak.conf")
+            temp = configparser.ConfigParser()
+            temp[section] = config[section]
+            temp.write(f)
+        await update.message.edit_text(
+            f"Default rclone config changed to **{section}**"
+        )
+        LOGGER.info(f"Default rclone config changed to {section}")

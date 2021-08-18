@@ -18,19 +18,20 @@ from pyrogram.raw.base import BotCommand
 from tgtlg import (
     DOWNLOAD_LOCATION,
     LOGGER,
+    AUTH_CHANNEL,
     app,
-    buname
+    buname,
 )
 
 from tgtlg import bcmds
 from tgtlg.bot_utils.bot_cmds import BotCommands
-from tgtlg.helper_funcs.telegram_downloader import down_load_media_f
-from tgtlg.plugins.call_back_button_handler import button
+from .downloaders.telegram_downloader import down_load_media_f
+from .plugins.call_back_button_handler import button
+from .helper_funcs.fn.nan_message_fn import nan
 
-# the logging things
-from tgtlg.plugins.choose_rclone_config import rclone_command_f
-from tgtlg.plugins.custom_thumbnail import clear_thumb_nail, save_thumb_nail
-from tgtlg.plugins.incoming_message_fn import (
+from .rclone.choose_rclone_config import rclone_command_f
+from .bot_utils.custom_thumbnail import clear_thumb_nail, save_thumb_nail
+from .plugins.incoming_message_fn import (
     g_clonee,
     g_yt_playlist,
     incoming_message_f,
@@ -39,9 +40,9 @@ from tgtlg.plugins.incoming_message_fn import (
     rename_tg_file,
 )
 
-from tgtlg.plugins.new_join_fn import *
-from tgtlg.plugins.rclone_size import check_size_g, g_clearme
-from tgtlg.helper_funcs.fn.status_message_fn import (
+from .helper_funcs.fn.new_join_fn import start_message_f, help_message_f
+from .rclone.rclone_size import check_size_g, g_clearme
+from .helper_funcs.fn.status_message_fn import (
     cancel_message_f,
     eval_message_f,
     exec_message_f,
@@ -51,16 +52,11 @@ from tgtlg.helper_funcs.fn.status_message_fn import (
     upload_as_doc,
     upload_as_video,
 )
-# 
 
-from tgtlg.modules.ts import (
+from .modules.ts import (
     nyaa_search,
     nyaa_search_sukebei,
     searchhelp,
-)
-
-from tgtlg.helper_funcs.fn.nan_message_fn import (
-    nan
 )
 
 if __name__ == "__main__":

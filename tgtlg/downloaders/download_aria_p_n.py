@@ -26,17 +26,15 @@ from tgtlg import (
     FINISHED_PROGRESS_STR,
     UN_FINISHED_PROGRESS_STR
 )
-from tgtlg.bot_utils.create_compressed_archive import (
-    create_archive,
-    get_base_name,
-    unzip_me,
-)
-from tgtlg.helper_funcs.extract_link_from_message import extract_link
-from tgtlg.helper_funcs.uploader import upload_to_gdrive, upload_to_tg
-from tgtlg.helper_funcs.direct_link_generator import direct_link_generator
-from tgtlg.helper_funcs.exceptions import DirectDownloadLinkException
-from tgtlg.helper_funcs.telegram_downloader import download_tg
+from ..bot_utils.create_compressed_archive import (create_archive, get_base_name, unzip_me)
 from ..bot_utils.conversion import convert_size, convert_to_bytes
+from ..helper_funcs.extract_link_from_message import extract_link
+from ..helper_funcs.uploader import upload_with_rclone, upload_to_tg
+
+from .exceptions import DirectDownloadLinkException
+from .direct_link_generator import direct_link_generator
+from .telegram_downloader import download_tg
+
 
 # unsure what this does
 def KopyasizListe(string):
@@ -196,10 +194,16 @@ def add_url(aria_instance, text_url, c_file_name):
         download = aria_instance.add_uris(uris, options=options)
     except Exception as e:
         LOGGER.error(e)
-        return (
-            False,
-            "**Failed.** \n" + str(e) + " \nTry again later.",
-        )
+        if uris.startswith("http", "https"): 
+            return (
+                False,
+                "**Failed.** \n" + str(e) + " \nTry again later.",
+            )
+        else:
+            return (
+                False,
+                f"**Failed**\n" + str(e) + "\nYour link needs to have http:// or https:// in the beginning of the link.",
+            )
     else:
         return True, "" + download.gid + ""
 
@@ -233,9 +237,7 @@ async def call_apropriate_function(
             aria_instance, err_message, sent_message_to_update_tg_p, None
         )
         if incoming_link.startswith("magnet:"):
-            #
             err_message = await check_metadata(aria_instance, err_message)
-            #
             await asyncio.sleep(1)
             if err_message is not None:
                 await check_progress_for_dl(
@@ -301,7 +303,7 @@ async def call_apropriate_function(
         mplink = f'<a href="tg://user?id={user_message.from_user.id}">{user_message.from_user.first_name}</a>'
     if com_g:
         if is_cloud:
-            await upload_to_gdrive(
+            await upload_with_rclone(
                 to_upload_file, sent_message_to_update_tg_p, user_message, user_id, mplink
             )
         else:
@@ -350,12 +352,10 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
             if not complete:
                 if not file.error_message:
                     if file.has_failed:
-                        LOGGER.info(
-                            f"Cancelling downloading of {file.name} may be due to slow torrent"
-                        )
-                        await event.reply(
-                            f"Download cancelled:\n<code>{file.name}</code>\n\n #MetaDataError", quote=True
-                        )
+                        # https://pastebin.com/raw/Y5SYsZfn
+                        # same reason :facepalm:
+                        LOGGER.info(f"Cancelling GID {gid}; failed to retrieve torrent metadata.")
+                        await event.reply(f"Download cancelled due to: <i>failed to retrieve torrent metadata.</i>\n\n #MetaDataError", quote=True)
                         file.remove(force=True, files=True)
                         return
                 else:
@@ -376,9 +376,9 @@ async def check_progress_for_dl(aria2, gid, event, previous_message):
                         f"Downloaded Successfully: `{file.name} ({file.total_length_string()})`"
                     )
                 return
-        except aria2p.client.ClientException:
+        except aria2p.client.ClientException as a2pe:
             await event.reply(
-                f"Download cancelled:\n<code>{file.name} ({file.total_length_string()})</code>", quote=True
+                f"Exception Occured:\n{a2pe}\n<code>{file.name} ({file.total_length_string()})</code>", quote=True
             )
             return
         except MessageNotModified as ep:

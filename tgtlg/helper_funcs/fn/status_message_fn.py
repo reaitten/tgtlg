@@ -15,7 +15,7 @@ import traceback
 import math
 import psutil
 
-from tgtlg import (
+from ... import (
     AUTH_CHANNEL, 
     BOT_START_TIME, 
     LOGGER, 
@@ -27,13 +27,15 @@ from tgtlg import (
     UN_FINISHED_PROGRESS_STR,
     _lock,
 )
-from tgtlg.helper_funcs.admin_check import AdminCheck
+from ...helper_funcs.admin_check import AdminCheck
 
 # the logging things
-from tgtlg.helper_funcs.display_progress import TimeFormatter, humanbytes
-from tgtlg.helper_funcs.download_aria_p_n import aria_start, call_apropriate_function
-from tgtlg.helper_funcs.uploader import upload_to_tg
-from tgtlg.UserDynaConfig import UserDynaConfig
+from ...status.display_progress import TimeFormatter, humanbytes
+from ...downloaders.download_aria_p_n import aria_start, call_apropriate_function
+from ...helper_funcs.uploader import upload_to_tg
+from ...bot_utils.conversion import convert_size, convert_to_bytes
+from ...UserDynaConfig import UserDynaConfig
+from ...bot_utils.bot_cmds import BotCommands
 from pyrogram.errors import FloodWait, MessageNotModified, MessageIdInvalid
 
 async def upload_as_doc(client, message):
@@ -49,7 +51,7 @@ async def upload_as_video(client, message):
 async def status_message_f(client, message):  # weird code but 'This is the way' @gautamajay52
     aria_i_p = await aria_start()
     # Show All Downloads
-    to_edit = await message.reply("Loading..")
+    to_edit = await message.reply("<b>Loading...</b>", quote=True)
     chat_id = int(message.chat.id)
     mess_id = int(to_edit.message_id)
     async with _lock:
@@ -62,12 +64,12 @@ async def status_message_f(client, message):  # weird code but 'This is the way'
                 gid_dict[chat_id].append(mess_id)
 
     prev_mess = "None"
-    await message.delete()
+    #await message.delete()
     while True:
         downloads = aria_i_p.get_downloads()
         msg = ""
         for file in downloads:
-            downloading_dir_name = "NA"
+            downloading_dir_name = "N/A"
             try:
                 downloading_dir_name = str(file.name)
             except:
@@ -91,6 +93,13 @@ async def status_message_f(client, message):  # weird code but 'This is the way'
                 msg += f"\n{msgg}"
                 msg += f"\n<b>GID:</b> <code>{file.gid}</code>\n"
 
+            # tried, just ends up with duplicated 'completed' downloads
+            # maybe need time to wait then remove "file.status == complete"
+            # but idk about the duplicated part
+            # if file.status == "complete":
+            #    msg += f"<b>Filename:</b> <code>{downloading_dir_name}</code>"
+            #    msg += f"\nDownloaded Sucessfully.\nWaiting for Upload Queue.\n"
+
         hr, mi, se = up_time(time.time() - BOT_START_TIME)
         total, used, free = shutil.disk_usage(".")
         ram = psutil.virtual_memory().percent
@@ -107,8 +116,8 @@ async def status_message_f(client, message):  # weird code but 'This is the way'
             f"<b><b>CPU:</b> <code>{cpu}%</code> | RAM:</b> <code>{ram}%</code> \n"
         )
         if msg == "":
-            msg = "No Active, Queued or Paused Torrents."
-            msg = ms_g + "\n" + msg
+            stmsg = "No Active, Queued or Paused Torrents."
+            msg = ms_g + "\n" + stmsg
             await to_edit.edit(msg)
             break
         msg = msg + "\n" + ms_g
@@ -137,28 +146,29 @@ async def status_message_f(client, message):  # weird code but 'This is the way'
 
 
 async def cancel_message_f(client, message):
+    i_m_s_e_g = await message.reply_text("Checking..", quote=True)
     if len(message.command) > 1:
         # /cancel command
-        i_m_s_e_g = await message.reply_text("Checking..?", quote=True)
         aria_i_p = await aria_start()
         g_id = message.command[1].strip()
         LOGGER.info(g_id)
         try:
-            downloads = aria_i_p.get_download(g_id)
-            name = downloads.name
-            size = downloads.total_length_string()
-            gid_list = downloads.followed_by_ids
-            downloads = [downloads]
+            tdownloads = aria_i_p.get_download(g_id)
+            name = tdownloads.name
+            size = tdownloads.total_length_string()
+            gid_list = tdownloads.followed_by_ids
+            downloads = [tdownloads]
             if len(gid_list) != 0:
                 downloads = aria_i_p.get_downloads(gid_list)
+            await i_m_s_e_g.edit_text(f"Download cancelled:\n<code>{name} ({size})</code> by <a href='tg://user?id={message.from_user.id}'>{message.from_user.first_name}</a>")
+            # fix fuckup in downloads
+            # https://pastebin.com/raw/Y5SYsZfn
             aria_i_p.remove(downloads=downloads, force=True, files=True, clean=True)
-            await i_m_s_e_g.edit_text(
-                f"Download cancelled:\n<code>{name} ({size})</code> by <a href='tg://user?id={message.from_user.id}'>{message.from_user.first_name}</a>"
-            )
         except Exception as e:
             await i_m_s_e_g.edit_text("<b>Failed.</b>\n\n" + str(e) + "\nAn error occured.")
     else:
-        await message.delete()
+        await i_m_s_e_g.edit_text(f"You have to enter a <code>GID</code> along with /{BotCommands.CancelCommand} in order to cancel a download.\nUsage: /{BotCommands.CancelCommand} <code>GID</code>")
+        #await message.delete()
 
 
 async def exec_message_f(client, message):
@@ -291,34 +301,4 @@ def up_time(time_taken):
 async def upload_log_file(client, message):
     g = await AdminCheck(client, message.chat.id, message.from_user.id)
     if g:
-        await message.reply_document("log.txt")
-
-
-# https://www.programcreek.com/python/?CodeExample=convert+bytes, Example 4
-
-def convert_to_bytes(size_str):
-
-    # Converts torrent sizes to a common count in bytes.
-
-    size_data = size_str.split()
-
-    multipliers = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB']
-
-    size_magnitude = float(size_data[0])
-    multiplier_exp = multipliers.index(size_data[1])
-    size_multiplier = 1024 ** multiplier_exp if multiplier_exp > 0 else 1
-
-    return size_magnitude * size_multiplier
-
-
-# https://stackoverflow.com/a/14822210/15410433
-# Requires, import math
-# convert B to KiB...
-def convert_size(size_bytes):
-   if size_bytes == 0:
-       return "0B"
-   size_name = ("B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB")
-   i = int(math.floor(math.log(size_bytes, 1024)))
-   p = math.pow(1024, i)
-   s = round(size_bytes / p, 2)
-   return "%s %s" % (s, size_name[i])
+        await message.reply_document("log.txt", quote=True)

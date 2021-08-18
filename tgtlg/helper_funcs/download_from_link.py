@@ -7,9 +7,9 @@ import logging
 import os
 import time
 
-from tgtlg import DOWNLOAD_LOCATION, LOGGER
+from .. import DOWNLOAD_LOCATION, LOGGER
 
-
+# reaitten note: have the user choose to download between wget and aria2
 async def request_download(url, file_name, r_user_id):
     directory_path = os.path.join(DOWNLOAD_LOCATION, str(r_user_id), str(time.time()))
     # create download directory, if not exist

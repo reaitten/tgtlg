@@ -10,16 +10,13 @@ import re
 
 import pyrogram.types as pyrogram
 from pyrogram.types import CallbackQuery
-from tgtlg import LOGGER, OWNER_ID
+from .. import LOGGER, OWNER_ID
 
 config = configparser.ConfigParser()
 
-
 async def rclone_command_f(client, message):
     """/rclone command"""
-    LOGGER.info(
-        f"Recieved Rclone Command. Chat ID: {message.chat.id}, User ID: {message.from_user.id}"
-    )
+    LOGGER.info(f"Recieved Rclone Command. Chat ID: {message.chat.id}, User ID: {message.from_user.id}")
     if message.from_user.id == OWNER_ID and message.chat.type == "private" and os.path.exists("rclone.conf"):
         # make it so that it will check if rclone.conf and rclone_bak.conf exists,
         # and if not, create them
@@ -49,29 +46,5 @@ please choose which section you want to use:"""
     else:
         await message.reply_text("You have no permission!")
         LOGGER.warning(
-            f"UID = {message.from_user.id} have no permission to edit rclone config!"
+            f"UID = {message.from_user.id} has no permission to edit rclone config!"
         )
-
-
-async def rclone_button_callback(bot, update: CallbackQuery):
-    """rclone button callback"""
-    if update.data == "rcloneCancel":
-        config.read("rclone.conf")
-        section = config.sections()[0]
-        await update.message.edit_text(
-            f"Operation canceled! \n\nThe default section of rclone config is: **{section}**"
-        )
-        LOGGER.info(
-            f"Operation canceled! The default section of rclone config is: {section}"
-        )
-    else:
-        section = update.data.split("_", maxsplit=1)[1]
-        with open("rclone.conf", "w", newline="\n", encoding="utf-8") as f:
-            config.read("rclone_bak.conf")
-            temp = configparser.ConfigParser()
-            temp[section] = config[section]
-            temp.write(f)
-        await update.message.edit_text(
-            f"Default rclone config changed to **{section}**"
-        )
-        LOGGER.info(f"Default rclone config changed to {section}")

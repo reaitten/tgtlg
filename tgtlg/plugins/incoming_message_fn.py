@@ -11,23 +11,20 @@ import requests
 from pathlib import Path
 import aria2p
 
-from tgtlg import (
-    DOWNLOAD_LOCATION,
-    LOGGER,
-)
+from .. import DOWNLOAD_LOCATION, LOGGER
 
-from tgtlg.bot_utils.bot_cmds import BotCommands
+from ..bot_utils.bot_cmds import BotCommands
 
 from ..helper_funcs.admin_check import AdminCheck
-from ..helper_funcs.cloneHelper import CloneHelper
-from ..helper_funcs.telegram_downloader import download_tg
-from ..helper_funcs.download_aria_p_n import aria_start, call_apropriate_function
+from ..rclone.cloneHelper import CloneHelper
 from ..helper_funcs.download_from_link import request_download
 from ..helper_funcs.extract_link_from_message import extract_link
 from ..helper_funcs.uploader import upload_to_tg
 from ..helper_funcs.youtube.youtube_dl_extractor import extract_youtube_dl_formats
 from ..helper_funcs.youtube.ytplaylist import yt_playlist_downg
-
+from ..helper_funcs.fn.status_message_fn import status_message_f
+from ..downloaders.telegram_downloader import download_tg
+from ..downloaders.download_aria_p_n import aria_start, call_apropriate_function
 
 async def incoming_purge_message_f(client, message):
     """/purge command"""
@@ -91,10 +88,14 @@ async def incoming_message_f(client, message):
             await i_m_sefg.edit_text("Extracting links...")
             # start the aria2c daemon
             aria_i_p = await aria_start()
-            # LOGGER.info(aria_i_p)
+            # LOGGER.debug(aria_i_p)
 
-        # reaitten to do: send the /status message along with i_m_sefg
-        await i_m_sefg.edit_text("<b>Added to Queue..\nSend /status for more info.</b>")
+        #await i_m_sefg.edit_text("<b>Added to Queue..\nSend /status for more info.</b>")
+        # reaitten note: maybe pass through call_apropriate_function with download status 'sucess or failed'
+        # this message below is just a placeholder until /status will hold all `download sucessfully` or `download failed due to x`\n\nthis message will be edited soon lol
+        await i_m_sefg.edit_text("placeholder, just passin' by")
+        #await i_m_sefg.delete()
+        await status_message_f(client, message)
         # try to download the "link"
         is_zip = False
         is_cloud = False

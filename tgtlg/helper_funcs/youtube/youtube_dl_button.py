@@ -15,7 +15,7 @@ from datetime import datetime
 import pyrogram
 from tgtlg import AUTH_CHANNEL, DOWNLOAD_LOCATION, LOGGER, app
 from tgtlg.bot_utils.bot_cmds import BotCommands
-from tgtlg.helper_funcs.uploader import upload_to_gdrive, upload_to_tg
+from tgtlg.helper_funcs.uploader import upload_with_rclone, upload_to_tg
 
 async def youtube_dl_call_back(bot, update):
     # LOGGER.info(update)
@@ -185,7 +185,7 @@ async def youtube_dl_call_back(bot, update):
             # as said in this Traceback:
             # shutil.Error: Destination path './Rick_Astley_-_Never_Gonna_Give_You_Up_Official_Music_Video.webm' already exists
             shutil.move(fi_le, "./")
-            final_response = await upload_to_gdrive(
+            final_response = await upload_with_rclone(
                 gaut_am, update.message, update.message.reply_to_message, user_id, mplink
             )
         else:

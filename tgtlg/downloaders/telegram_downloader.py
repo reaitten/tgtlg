@@ -14,11 +14,11 @@ from datetime import datetime
 from pathlib import Path
  
 from pyrogram import Client, filters
-from tgtlg import DOWNLOAD_LOCATION, LOGGER
-from tgtlg.bot_utils.bot_cmds import BotCommands
-from tgtlg.bot_utils.create_compressed_archive import unzip_me, get_base_name
-from tgtlg.helper_funcs.display_progress import Progress
-from tgtlg.helper_funcs.uploader import upload_to_gdrive
+from .. import DOWNLOAD_LOCATION, LOGGER
+from ..bot_utils.bot_cmds import BotCommands
+from ..bot_utils.create_compressed_archive import unzip_me, get_base_name
+from ..status.display_progress import Progress
+from ..helper_funcs.uploader import upload_with_rclone
  
  
 async def down_load_media_f(client, message):  # to be removed
@@ -43,7 +43,7 @@ async def down_load_media_f(client, message):  # to be removed
                 LOGGER.info(
                     f"Can't extract {os.path.basename(the_real_download_location)}, Uploading the same file.."
                 )
-        await upload_to_gdrive(the_real_download_location_g, mess_age, message, user_id, mplink)
+        await upload_with_rclone(the_real_download_location_g, mess_age, message, user_id, mplink)
     else:
         await message.reply_text("Reply to a Telegram Media, to upload to the Cloud Drive.", quote=True)
 
@@ -81,6 +81,6 @@ async def download_tg(client, message):
                 f"Downloaded Successfully:\nFilename: {file_name}.\nTo Path: <code>{the_real_download_location}</code>.\nTime Taken: <u>{ms}</u> seconds."
             )
         else:
-            await mess_age.edit_text("Download cancelled or an error occured.")
+            await mess_age.edit_text(f"Download cancelled or an error occured. Path to document: {the_real_download_location}")
             return None, mess_age
     return the_real_download_location, mess_age

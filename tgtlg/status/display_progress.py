@@ -8,12 +8,12 @@ import math
 import os
 import time
 
-from tgtlg import (
+from .. import (
     EDIT_SLEEP_TIME_OUT,
     FINISHED_PROGRESS_STR,
     UN_FINISHED_PROGRESS_STR,
-    gDict,
     LOGGER,
+    gDict,
 )
 
 from pyrogram import Client
@@ -50,7 +50,7 @@ class Progress:
             [
                 [
                     InlineKeyboardButton(
-                        "Cancel",
+                        "Cancel.",
                         callback_data=(
                             f"gUPcancel/{chat_id}/{mes_id}/{from_user}"
                         ).encode("UTF-8"),
@@ -59,7 +59,7 @@ class Progress:
             ]
         )
         if self.is_cancelled:
-            LOGGER.info("stopping ")
+            LOGGER.info("<b>Trying to stop...</b>")
             await self._mess.edit(
                 f"Cancelled/ERROR: `{ud_type}` ({humanbytes(total)})"
             )

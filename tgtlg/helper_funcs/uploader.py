@@ -23,7 +23,7 @@ from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from pyrogram.types import InputMediaAudio, InputMediaDocument, InputMediaVideo
 from requests.utils import requote_uri
-from tgtlg import (
+from .. import (
     DESTINATION_FOLDER,
     DOWNLOAD_LOCATION,
     EDIT_SLEEP_TIME_OUT,
@@ -34,8 +34,8 @@ from tgtlg import (
     UPLOAD_AS_DOC,
     gDict,
 )
-from tgtlg.helper_funcs.display_progress import humanbytes, Progress
-from tgtlg.bot_utils.utils import split_large_files, take_screen_shot, copy_file
+from ..status.display_progress import humanbytes, Progress
+from ..bot_utils.file_utils import split_large_files, take_screen_shot, copy_file
  
 # stackoverflow
 def getFolderSize(p):
@@ -46,7 +46,6 @@ def getFolderSize(p):
             for f in map(prepend, os.listdir(p))
         ]
     )
- 
  
 async def upload_to_tg(message, local_file_name, from_user, dict_contatining_uploaded_files, client, mplink, edit_media=False, yt_thumb=None):
     base_file_name = os.path.basename(local_file_name)
@@ -80,7 +79,7 @@ async def upload_to_tg(message, local_file_name, from_user, dict_contatining_upl
             )
     else:
         if os.path.getsize(local_file_name) > TG_MAX_FILE_SIZE:
-            LOGGER.debug("TODO")
+            LOGGER.debug("TO DO") # to do what?
             d_f_s = humanbytes(os.path.getsize(local_file_name))
             i_m_s_g = await message.reply_text(
                 "Telegram does not support uploading this file.\n"
@@ -134,44 +133,47 @@ async def upload_to_tg(message, local_file_name, from_user, dict_contatining_upl
 # © gautamajay52 thanks to Rclone team for this wonderful tool.
  
  
-async def upload_to_gdrive(file_upload, message, messa_ge, g_id, mplink):
+async def upload_with_rclone(file_upload, message, messa_ge, g_id, mplink):
     await asyncio.sleep(EDIT_SLEEP_TIME_OUT)
-    del_it = await message.edit_text(
-        f"<a href='tg://user?id={g_id}'>🔊</a> Uploading to Drive.."
-    )
-    if not os.path.exists("rclone.conf"):
+    del_it = await message.edit_text(f"{mplink}: 🔊 Uploading to Drive..")
+    if not os.path.exists("rclone.conf") and RCLONE_CONFIG is not None:
         with open("rclone.conf", "w+", newline="\n", encoding="utf-8") as fole:
             fole.write(f"{RCLONE_CONFIG}")
     if os.path.exists("rclone.conf"):
-        with open("rclone.conf", "r+") as file:
-            con = file.read()
-            gUP = re.findall("\[(.*)\]", con)[0]
-            LOGGER.info(f"Selected Drive in Rclone Config: {gUP}")
+        try:
+            with open("rclone.conf", "r+") as file:
+                con = file.read()
+                gUP = re.findall("\[(.*)\]", con)[0]
+                LOGGER.info(f"Selected Drive in Rclone Config: {gUP}")
+        except IndexError as ie:
+            LOGGER.error(f"Unable to select default Drive in Rclone Config. Traceback: {ie}")
+            await message.edit_text("Unable to select default Drive in Rclone Config.\nCheck Logs for more infomation.")
+    elif not os.path.exists("rclone.conf"):
+        await message.edit_text("The rclone configuration file `'rclone.conf'` doesn't exist and RCLONE_CONFIG variable is not setup.\nPlease configure them properly and try again.")
     destination = f"{DESTINATION_FOLDER}"
     fname = os.path.basename(file_upload)
-    #unhtml = f"<a href='tg://user?id={g_id}'>!</a>"
     file_upload = str(Path(file_upload).resolve())
     LOGGER.info(f"Filepath to Upload: {file_upload}")
-    if os.path.isfile(file_upload):
-        g_au = [
+    rclone_copy_command = [
             "rclone",
             "copy",
             "--config=rclone.conf",
             f"{file_upload}",
             f"{gUP}:{destination}",
-            "-v",
-        ]
-        LOGGER.debug(g_au)
+            "-v",     
+    ]
+    if os.path.isfile(file_upload):
+        #LOGGER.debug(g_au)
         tmp = await asyncio.create_subprocess_exec(
-            *g_au, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+            *rclone_copy_command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
         pro, cess = await tmp.communicate()
         LOGGER.info(pro.decode("utf-8"))
         LOGGER.info(cess.decode("utf-8"))
-        gk_file = re.escape(os.path.basename(file_upload))
-        LOGGER.debug(gk_file)
-        with open("filter.txt", "w+", encoding="utf-8") as filter:
-            print(f"+ {gk_file}\n- *", file=filter)
+        #gk_file = re.escape(os.path.basename(file_upload))
+        #LOGGER.debug(gk_file)
+        #with open("filter.txt", "w+", encoding="utf-8") as filter:
+        #    print(f"+ {gk_file}\n- *", file=filter)
  
         fllinkc = [
             "rclone",
@@ -210,7 +212,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id, mplink):
         # lots of weird stuff
         try:
             if fllink is not None:
-                await messa_ge.reply_text(f"Uploaded successfully: `{fname}` {mplink}:\nSize: {gjay}", reply_markup=button_markup,)
+                await messa_ge.reply_text(f"{mplink}: Uploaded successfully: `{fname}`\nSize: {gjay}", reply_markup=button_markup,)
         except Exception as ex:
             LOGGER.error(ex)
             await messa_ge.reply_text(f"<b>Exception Caught:</b>\n\n {ex}\nLink Values:\n\nCloud URL: {fllink}\nIndex URL: {link}")
@@ -218,14 +220,14 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id, mplink):
         os.remove(file_upload)
         await del_it.delete()
     else:
-        tt = os.path.join(destination, os.path.basename(file_upload))
-        LOGGER.info(tt)
+        fullfp = os.path.join(destination, os.path.basename(file_upload))
+        LOGGER.info(f"Folder path to Upload: {fullfp}")
         t_am = [
             "rclone",
             "copy",
             "--config=rclone.conf",
-            f"{file_upload}",
-            f"{gUP}:{tt}",
+            f"{fullfp}",
+            f"{gUP}:{fullfp}",
             "-v",
         ]
         LOGGER.debug(t_am)
@@ -235,10 +237,10 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id, mplink):
         pro, cess = await tmp.communicate()
         LOGGER.info(pro.decode("utf-8"))
         LOGGER.info(cess.decode("utf-8"))
-        g_file = re.escape(os.path.basename(file_upload))
-        LOGGER.debug(g_file)
-        with open("filter1.txt", "w+", encoding="utf-8") as filter1:
-            print(f"+ {g_file}/\n- *", file=filter1)
+        #g_file = re.escape(os.path.basename(file_upload))
+        #LOGGER.debug(g_file)
+        #with open("filter1.txt", "w+", encoding="utf-8") as filter1:
+        #    print(f"+ {g_file}/\n- *", file=filter1)
  
         folinkc = [
             "rclone",
@@ -274,7 +276,7 @@ async def upload_to_gdrive(file_upload, message, messa_ge, g_id, mplink):
         # lots of weird stuff
         try:
             if folink is not None:
-                await messa_ge.reply_text(f"Uploaded successfully: `{fname}` {mplink}:\nSize: {gjay}", reply_markup=button_markup,)
+                await messa_ge.reply_text(f"{mplink}: Uploaded successfully: `{fname}`\nSize: {gjay}", reply_markup=button_markup,)
         except Exception as ex:
             LOGGER.error(ex)
             await messa_ge.reply_text(f"<b>Exception Caught:</b>\n\n {ex}\nLink Values:\n\nCloud URL: {folink}\nIndex URL: {link}")
@@ -341,7 +343,7 @@ async def upload_single_file(
                     "<b>Trying to upload..</b>\n\n<b>Filename</b>: <code>{}</code>".format(os.path.basename(local_file_name))
                 )
                 prog = Progress(from_user, client, message_for_progress_display)
-            if local_file_name.upper().endswith(("MKV", "MP4", "WEBM")):
+            if local_file_name.upper().endswith(("MKV", "MP4", "WEBM", "M4V", "3GP")):
                 duration = 0
                 try:
                     metadata = extractMetadata(createParser(local_file_name))

@@ -9,7 +9,7 @@ import re
 import subprocess
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from tgtlg import DESTINATION_FOLDER, EDIT_SLEEP_TIME_OUT, LOGGER, RCLONE_CONFIG
+from .. import DESTINATION_FOLDER, EDIT_SLEEP_TIME_OUT, LOGGER, RCLONE_CONFIG
 
 
 async def check_size_g(client, message):
@@ -38,6 +38,7 @@ async def check_size_g(client, message):
     await message.reply_text(f"Cloud Info:\n\n{gautam}")
     await del_it.delete()
 
+# this should be somewhere else
 async def g_clearme(client, message):
     inline_keyboard = []
     ikeyboard = []
