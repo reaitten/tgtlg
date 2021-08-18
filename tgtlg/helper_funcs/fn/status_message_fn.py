@@ -158,8 +158,8 @@ async def cancel_message_f(client, message):
             size = tdownloads.total_length_string()
             gid_list = tdownloads.followed_by_ids
             downloads = [tdownloads]
-            if len(gid_list) != 0:
-                downloads = aria_i_p.get_downloads(gid_list)
+            #if len(gid_list) != 0:
+            #    downloads = aria_i_p.get_downloads(gid_list)
             await i_m_s_e_g.edit_text(f"Download cancelled:\n<code>{name} ({size})</code> by <a href='tg://user?id={message.from_user.id}'>{message.from_user.first_name}</a>")
             # fix fuckup in downloads
             # https://pastebin.com/raw/Y5SYsZfn
