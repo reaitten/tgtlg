@@ -3,7 +3,9 @@
   A Telegram Torrent (and youtube-dl) Leecher based on [Pyrogram](https://github.com/pyrogram/pyrogram)
   
   ## Notice
-  Please take into account that this branch is currently in development.
+  Please take into account that this branch is ~~currently in development.~~
+  
+  **Development has halted until further notice.**
   
   Everything in this branch subject to change.
   
