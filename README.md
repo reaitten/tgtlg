@@ -116,7 +116,7 @@
   Simply clone the repository and run the main file:
 
   ```
-  git clone -b 4forks https://github.com/reaitten/tgtlg
+  git clone -b 4forks https://github.com/MoneyEarnVip/tgtlg
   cd TorrentLeech-Gdrive
   python3 -m venv venv
   . ./venv/bin/activate
