@@ -1,24 +1,12 @@
 name: Docker Build CI
-
 on:
-
-  workflow_dispatch:
-
+workflow_dispatch:
 jobs:
-
-  Docker Build CI:
-
-    runs-on: ubuntu-latest
-
-    steps:
-
-    - name: Build the Docker image
-
-      run: |
-
-       echo "${{ secrets.DOCKERPASS }}" | docker login -u "${{ secrets.DOCKERUSER }}" --password-stdin
-
-       docker build -t reaitten/tk:latest .
-
-       docker push reaitten/tk:latest
-
+Docker Build CI:
+runs-on: ubuntu-latest
+steps:
+-name: Build the Docker image
+run: |
+echo "${{ secrets.DOCKERPASS }}" | docker login -u "${{ secrets.DOCKERUSER }}" --password-stdin
+docker build -t reaitten/tk:latest .
+docker push reaitten/tk:latest
